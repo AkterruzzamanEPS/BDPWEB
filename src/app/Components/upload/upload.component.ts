@@ -98,6 +98,14 @@ export class UploadComponent implements OnInit {
   }
 }
 ,
+    { field: 'FileData', width: 150, headerName: 'Preview URL', filter: true,
+      cellRenderer: (params: any) => {
+        return params.value
+          ? `<img src="${params.value}" alt="icon" width="40" height="40" style="object-fit: contain;" />`
+          : '';
+      }
+     },
+
     {
     headerName: 'Action',
     field: 'FileData',
@@ -132,6 +140,7 @@ export class UploadComponent implements OnInit {
         this.hasPreviousPage = res.HasPreviousPage;
         this.hasNextPage = res.HasNextPage;
         this.totalPageNumbers = CommonHelper.generateNumbers(this.pageIndex, this.totalPages);
+         this.UploadedFileGridApi.sizeColumnsToFit();
       },
       (err) => {
         this.toast.error(err?.ErrorMessage || "Something went wrong", "Error!!", { progressBar: true });

@@ -16,15 +16,15 @@ import { DistrictFilterDto } from '../../Models/RequestDto/District';
 import { ValueFormatterParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-complain',
+  selector: 'app-lost',
   standalone: true,
   imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent],
-  templateUrl: './complain.component.html',
-  styleUrl: './complain.component.scss',
+  templateUrl: './lost.component.html',
+  styleUrl: './lost.component.scss',
   providers: [DatePipe]
 })
-export class ComplainComponent {
-  private complainGridApi!: any;
+export class LostComponent {
+private complainGridApi!: any;
   public DeafultCol = AGGridHelper.DeafultCol;
   public rowData!: any[];
   public oComplainFilterDto = new ComplainFilterDto();
@@ -272,6 +272,7 @@ private GetComplainCategories() {
     // this.oComplainFilterDto.ToDate = new Date(this.toDate);
     this.oComplainFilterDto.Status = Number(this.oComplainFilterDto.Status);
     this.oComplainFilterDto.ComplainCatagoryType = Number(this.oComplainFilterDto.ComplainCatagoryType);
+   this.oComplainFilterDto.Type='2';
     this.oComplainFilterDto.IsActive = CommonHelper.booleanConvert(this.oComplainFilterDto.IsActive);
 
 
@@ -292,29 +293,8 @@ private GetComplainCategories() {
     );
   }
 
-  // private GetComplains() {
-  //   debugger
-  //   let currentUser = CommonHelper.GetUser();
-  //   this.oComplainFilterDto .IsActive = CommonHelper.booleanConvert(this.oComplainFilterDto.IsActive);
-  //   this.oComplainFilterDto.Type = (this.oComplainFilterDto.Type);
-  //   // After the hash is generated, proceed with the API call
-  //   this.http.Post(`Complain/GetComplains?pageNumber=${this.pageIndex}`, this.oComplainFilterDto).subscribe(
-  //     (res: any) => {
-  //       console.log(res);
-  //       this.rowData = res;
-  //        this.pageIndex = res.pageIndex;
-  //        this.totalPages = res.totalPages;
-  //        this.totalRecords = res.totalRecords;
-  //         this.hasPreviousPage = res.hasPreviousPage;
-  //        this.hasNextPage = res.hasNextPage;
-  //        this.totalPageNumbers = CommonHelper.generateNumbers(this.pageIndex, this.totalPages)
-  //     },
-  //     (err) => {
-  //       this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-  //     }
-  //   );
+  
 
-  // }
 
   public InsertService() {
 
@@ -398,80 +378,6 @@ private GetComplainCategories() {
       modal.show();
     }
   }
-
-
-  // edit() {
-  //   let getSelectedItem = AGGridHelper.GetSelectedRow(this.complainGridApi);
-  //   if (!getSelectedItem) {
-  //     this.toast.warning("Please select an item", "Warning!!", { progressBar: true });
-  //     return; // Add return to exit the function if no item is selected
-  //   }
-
-  //   this.ComplainId = Number(getSelectedItem.Id);
-
-  //   // Initialize a new ComplainRequestDto and populate it with selected item data
-  //   this.oComplainRequestDto = new ComplainRequestDto();
-
-  //   // Map the selected item properties to the request DTO
-  //   this.oComplainRequestDto.Id = this.ComplainId;
-  //   this.oComplainRequestDto.Name = getSelectedItem.name || '';
-  //   this.oComplainRequestDto.Type = getSelectedItem.type || '';
-  //   this.oComplainRequestDto.Description = getSelectedItem.description || '';
-  //   this.oComplainRequestDto.Remarks = getSelectedItem.remarks || '';
-  //   this.oComplainRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.isActive);
-  //   this.oComplainRequestDto.Date = new Date(getSelectedItem.date) || new Date();
-  //   this.oComplainRequestDto.FileId = getSelectedItem.fileId || 0;
-  //   this.oComplainRequestDto.ThanaId = getSelectedItem.thanaId || 0;
-  //   this.oComplainRequestDto.Status = getSelectedItem.status || 0;
-  //   this.oComplainRequestDto.ComplainCatagoryType = getSelectedItem.complainCatagoryType || 0;
-
-  //   // Get current user ID
-  //   let currentUser = CommonHelper.GetUser();
-  //   this.oComplainRequestDto.UserID = currentUser?.UserId || '';
-
-  //   CommonHelper.CommonButtonClick("openCommonModel");
-  // }
-
-
-  // edit() {
-  //   const getSelectedItem = AGGridHelper.GetSelectedRow(this.complainGridApi);
-  //   if (!getSelectedItem) {
-  //     this.toast.warning("Please select an item", "Warning!!", { progressBar: true });
-  //     return;
-  //   }
-
-  //   this.ComplainId = Number(getSelectedItem.Id);
-  //   this.oComplainRequestDto = new ComplainRequestDto();
-
-  //   this.oComplainRequestDto.Id = this.ComplainId;
-  //   this.oComplainRequestDto.Name = getSelectedItem.name || '';
-  //   this.oComplainRequestDto.Type = (getSelectedItem.type || ' ').toString(); // ✅ Cast to string
-  //   this.oComplainRequestDto.Description = getSelectedItem.description || '';
-  //   this.oComplainRequestDto.Remarks = getSelectedItem.remarks || '';
-  //   this.oComplainRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.isActive);
-  //   this.oComplainRequestDto.Date = new Date(getSelectedItem.date) || new Date();
-  //   this.oComplainRequestDto.FileId = getSelectedItem.fileId || 0;
-  //   this.oComplainRequestDto.ThanaId = getSelectedItem.thanaId || 0;
-  //   this.oComplainRequestDto.Status = getSelectedItem.status || 0;
-  //   this.oComplainRequestDto.ComplainCatagoryType = getSelectedItem.complainCatagoryType || 0;
-
-  //   // ✅ Fix: Assign DistrictId (for dropdown to show correct value)
-  //   this.oComplainRequestDto.DistrictId = getSelectedItem.districtId || getSelectedItem.DistrictId || 0;
-
-  //   // ✅ Load thanas under this district
-  //   this.districtChangeFrom();
-
-  //   const currentUser = CommonHelper.GetUser();
-  //   this.oComplainRequestDto.UserID = currentUser?.UserId || '';
-
-  //   // ✅ Show modal the correct way
-  //   const modalElement = document.getElementById('exampleModal');
-  //   if (modalElement) {
-  //     const modal = new (window as any).bootstrap.Modal(modalElement);
-  //     modal.show();
-  //   }
-  // }
-
 
   edit() {
     const getSelectedItem = AGGridHelper.GetSelectedRow(this.complainGridApi);

@@ -1,41 +1,33 @@
-<div class="container mt-3">
-  <div class="row">
-    <!-- File Upload -->
-    <div class="col-md-4">
-      <label for="uploadFile" class="form-label">File Upload</label>
-      <input type="file" class="form-control" id="uploadFile" (change)="onFileChange($event)"
-        placeholder="Select file to upload">
-    </div>
-  </div>
 
-  <!-- File Info Card -->
-  <div class="row mt-4" *ngIf="oFileResponseDto">
-    <div class="col-md-6">
-      <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-          <strong>File Info</strong>
-        </div>
-        <div class="card-body">
-          <div class="row mb-2">
-            <div class="col-4"><strong>Name:</strong></div>
-            <div class="col-8">{{ oFileResponseDto.FileName }}</div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-4"><strong>Size:</strong></div>
-            <div class="col-8">{{ oFileResponseDto.FileSize }} bytes</div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-4"><strong>Preview URL:</strong></div>
-            <div class="col-8 d-flex align-items-center">
-              <span class="me-2">{{ oFileResponseDto.FileData }}</span>
-              <button class="btn btn-sm btn-outline-primary" (click)="copyToClipboard(oFileResponseDto.FileData)">
-                Copy the URL
-              </button>
-            </div>
-          </div>
-        </div>
+<div class="card my-2">
+  <div class="card-header bg-primary text-white">
+    <strong>File Info</strong>
+  </div>
+  <div class="card-body">
+    <div class="row g-0">
+      <div class="col-md-3 px-2">
+        <label for="uploadFile" class="form-label mb-3">File Upload</label>
+        <input type="file" class="form-control" id="uploadFile" (change)="onFileChange($event)"
+          placeholder="Select file to upload">
+      </div>
+      <div class="col-md-3 px-2">
+        <label for="FileName" class="form-label mb-3">Name</label>
+        <input type="text" class="form-control" id="FileName" disabled="true" [(ngModel)]="oFileResponseDto.FileName">
+      </div>
+      <div class="col-md-3 px-2">
+        <label for="FileSize" class="form-label mb-3">File Size</label>
+        <input type="text" class="form-control" id="FileSize" disabled="true" [(ngModel)]="oFileResponseDto.FileSize">
+      </div>
+      <div class="col-md-3 px-2">
+        <label for="FileData" class="form-label">File URL <button class="btn btn-sm btn-outline-primary"
+            (click)="copyToClipboard(oFileResponseDto.FileData)">
+            Copy the URL
+          </button></label>
+        <input type="text" class="form-control" id="FileData" disabled="true" [(ngModel)]="oFileResponseDto.FileData">
       </div>
     </div>
+
+
   </div>
 </div>
 

@@ -18,6 +18,8 @@ import { ServiceDetailComponent } from './Components/service-detail/service-deta
 import { TouristSpotComponent } from './Components/tourist-spot/tourist-spot.component';
 import { UploadComponent } from './Components/upload/upload.component';
 import { TouristTripComponent } from './Components/tourist-trip/tourist-trip.component';
+import { FeedBacKComponent } from './Components/feed-bac-k/feed-bac-k.component';
+import { LostComponent } from './Components/lost/lost.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent, title: "Log in- BDP User Panel" },
@@ -26,7 +28,12 @@ export const routes: Routes = [
     { path: "fieldTypes", component: FieldTypeComponent, canActivate: [AuthGuard], title: "FieldType | BDP " },
     { path: "services", component: ServiceComponent, canActivate: [AuthGuard], title: "Service | BDP" },
     
-    { path: "complain", component: ComplainComponent, canActivate: [AuthGuard], title: "Complain | BDP" },
+    { path: "complain", component: ComplainComponent, canActivate: [AuthGuard], title: "Complain List| BDP" },
+    
+    //for the complan details and feedback
+    { path: "complain/id", component: FeedBacKComponent, canActivate: [AuthGuard], title: "Feed Back | BDP" },
+
+    { path: "lost", component: LostComponent, canActivate: [AuthGuard], title: "Lost List | BDP" },
     { path: "upload", component: UploadComponent, title:"Upload | BDP"},
     
     { path: "touristspot", component: TouristSpotComponent, canActivate: [AuthGuard], title: "Tourist Spot | BDP" },
