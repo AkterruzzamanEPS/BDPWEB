@@ -126,7 +126,8 @@ export class ComplainComponent {
 
         return `<span class="${colorClass}">${label}</span>`;
       }
-    }
+    },
+    { field: 'Details', headerName: 'Details', width: 100, pinned: "right", resizable: true, cellRenderer: this.detailToGrid.bind(this) },
 
 
     //{ field: 'Status', headerName: 'Status', cellRenderer: (params: any) => params.value ? 'Active' : 'Inactive' },
@@ -247,7 +248,7 @@ private GetComplainCategories() {
     const eDiv = document.createElement('div');
     eDiv.innerHTML = ' <button class="btn btn-success p-0 px-1"> <i class="bi bi-eye-fill"></i> Detail</button>'
     eDiv.addEventListener('click', () => {
-      this.router.navigateByUrl('transactions/' + params.data.transactionId)
+      this.router.navigateByUrl('complain/' + params.data.Id)
     });
     return eDiv;
   }
