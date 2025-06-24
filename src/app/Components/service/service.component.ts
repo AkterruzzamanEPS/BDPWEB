@@ -38,9 +38,28 @@ export class ServiceComponent implements OnInit {
 
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
-    { field: 'Name', width: 150, headerName: 'Service Name', filter: true },
-    { field: 'Icon', width: 150, headerName: 'Icon', filter: true },
+    { field: 'Name', width: 150, headerName: 'Name', filter: true },
+    { field: 'TypeName', width: 150, headerName: 'Type', filter: true },
+    {
+      field: 'Icon', width: 150, headerName: 'Icon', filter: true,
+      cellRenderer: (params: any) => {
+        return params.value
+          ? `<img src="${params.value}" alt="icon" width="20" height="20" style="object-fit: contain;" />`
+          : '';
+      }
+    },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
+    { field: 'SequenceNo', headerName: 'Sequence No' },
+    {
+      headerName: 'Actions',
+      cellRenderer: (params: any) => {
+        return `
+         <button class="btn btn-success p-0 px-1 btn-up"> <i class="bi bi-arrow-up"></i> Up</button>
+          <button class="btn btn-success p-0 px-1 btn-down"> <i class="bi bi-arrow-down"></i> Down</button>
+      `;
+      },
+      onCellClicked: this.handleRowAction.bind(this),
+    },
     { field: 'Remarks', headerName: 'Remarks' },
     { field: 'IsActive', headerName: 'Status' },
     { field: 'Details', headerName: 'Details', width: 100, pinned: "right", resizable: true, cellRenderer: this.detailToGrid.bind(this) },
@@ -64,7 +83,54 @@ export class ServiceComponent implements OnInit {
     this.rowData = [];
   }
 
-  detailToGrid(params: any) {
+  private handleRowAction(event: any) {
+    debugger
+    const rowIndex = event.rowIndex;
+    const api = event.api;
+    const action = event.event.target.className;
+
+    if (action.includes('btn-up') && rowIndex > 0) {
+      this.swapRows(api, rowIndex, rowIndex - 1);
+    }
+
+    if (action.includes('btn-down') && rowIndex < api.getDisplayedRowCount() - 1) {
+      this.swapRows(api, rowIndex, rowIndex + 1);
+    }
+  }
+
+  private swapRows(api: any, fromIndex: number, toIndex: number) {
+    const fromNode = api.getDisplayedRowAtIndex(fromIndex);
+    const toNode = api.getDisplayedRowAtIndex(toIndex);
+
+    if (fromNode && toNode) {
+      // Swap data in the grid (without changing SequenceNo yet)
+      const temp = { ...fromNode.data };
+      fromNode.setData(toNode.data);
+      toNode.setData(temp);
+
+      // Recalculate sequence numbers from visual order
+      const updatedRows: any[] = [];
+      api.forEachNode((node: any, index: number) => {
+        node.data.SequenceNo = index + 1; // 1-based sequence
+        updatedRows.push({
+          id: node.data.Id,
+          sequenceNo: node.data.SequenceNo
+        });
+      });
+
+      // Send updated list to backend
+      this.http.Post('Auth/UpdateSequence', {
+        tableName: 'Service',
+        updatedRows
+      }).subscribe(() => {
+        this.GetService();
+      }
+
+      );
+    }
+  }
+
+  private detailToGrid(params: any) {
     const eDiv = document.createElement('div');
     eDiv.innerHTML = ' <button class="btn btn-success p-0 px-1"> <i class="bi bi-eye-fill"></i> Detail</button>'
     eDiv.addEventListener('click', () => {
