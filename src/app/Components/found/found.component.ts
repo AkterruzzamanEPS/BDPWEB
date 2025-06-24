@@ -16,15 +16,16 @@ import { DistrictFilterDto } from '../../Models/RequestDto/District';
 import { ValueFormatterParams } from 'ag-grid-community';
 
 @Component({
-  selector: 'app-complain',
+  selector: 'app-found',
   standalone: true,
-  imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent],
-  templateUrl: './complain.component.html',
-  styleUrl: './complain.component.scss',
-  providers: [DatePipe]
+ imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent],
+  templateUrl: './found.component.html',
+  styleUrl: './found.component.scss',
+    providers: [DatePipe]
 })
-export class ComplainComponent {
-  private complainGridApi!: any;
+export class FoundComponent {
+
+   private complainGridApi!: any;
   public DeafultCol = AGGridHelper.DeafultCol;
   public rowData!: any[];
   public oComplainFilterDto = new ComplainFilterDto();
@@ -266,7 +267,7 @@ private GetComplainCategories() {
     this.oComplainFilterDto.Status = Number(this.oComplainFilterDto.Status);
     this.oComplainFilterDto.ComplainCatagoryType = Number(this.oComplainFilterDto.ComplainCatagoryType);
     this.oComplainFilterDto.IsActive = CommonHelper.booleanConvert(this.oComplainFilterDto.IsActive);
-    this.oComplainFilterDto.Type='3';
+    this.oComplainFilterDto.Type='1';
 
 
     this.http.Post(`Complain/GetComplains?pageNumber=${this.pageIndex}`, this.oComplainFilterDto).subscribe(
@@ -286,29 +287,7 @@ private GetComplainCategories() {
     );
   }
 
-  // private GetComplains() {
-  //   debugger
-  //   let currentUser = CommonHelper.GetUser();
-  //   this.oComplainFilterDto .IsActive = CommonHelper.booleanConvert(this.oComplainFilterDto.IsActive);
-  //   this.oComplainFilterDto.Type = (this.oComplainFilterDto.Type);
-  //   // After the hash is generated, proceed with the API call
-  //   this.http.Post(`Complain/GetComplains?pageNumber=${this.pageIndex}`, this.oComplainFilterDto).subscribe(
-  //     (res: any) => {
-  //       console.log(res);
-  //       this.rowData = res;
-  //        this.pageIndex = res.pageIndex;
-  //        this.totalPages = res.totalPages;
-  //        this.totalRecords = res.totalRecords;
-  //         this.hasPreviousPage = res.hasPreviousPage;
-  //        this.hasNextPage = res.hasNextPage;
-  //        this.totalPageNumbers = CommonHelper.generateNumbers(this.pageIndex, this.totalPages)
-  //     },
-  //     (err) => {
-  //       this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-  //     }
-  //   );
-
-  // }
+  
 
   public InsertService() {
 
@@ -319,7 +298,7 @@ private GetComplainCategories() {
     let currentUser = CommonHelper.GetUser();
     this.oComplainRequestDto.UserID = CommonHelper.GetUser()?.UserId ?? '';
     this.oComplainRequestDto.Status = 1;
-     this.oComplainRequestDto.Type='3';
+     this.oComplainRequestDto.Type='1';
 
     this.oComplainRequestDto.IsActive = CommonHelper.booleanConvert(this.oComplainRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
@@ -393,7 +372,6 @@ private GetComplainCategories() {
       modal.show();
     }
   }
-
 
 
 

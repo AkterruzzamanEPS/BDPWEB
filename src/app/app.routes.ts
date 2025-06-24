@@ -34,6 +34,7 @@ export const routes: Routes = [
     { path: "complain/id", component: FeedBacKComponent, canActivate: [AuthGuard], title: "Feed Back | BDP" },
 
     { path: "lost", component: LostComponent, canActivate: [AuthGuard], title: "Lost List | BDP" },
+    { path: "founds", component: LostComponent, canActivate: [AuthGuard], title: "Founds List | BDP" },
     { path: "upload", component: UploadComponent, title:"Upload | BDP"},
     
     { path: "touristspot", component: TouristSpotComponent, canActivate: [AuthGuard], title: "Tourist Spot | BDP" },
