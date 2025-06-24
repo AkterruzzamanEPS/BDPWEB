@@ -9,9 +9,9 @@
         <div class="col-2 px-1">
             <div class="mb-2">
                 <select class="form-select" [(ngModel)]="oTouristSpotFilterDto.Type" name="Type">
-                <option value="0">-- Select Type --</option>
-                <option value="1">Tourist Spot</option>
-                <option value="2">Police Station</option>
+                <option value="3">-- Select Type --</option>
+                <!-- <option value="1">Tourist Spot</option>
+                <option value="2">Police Station</option> -->
                 <option value="3">Guide</option>
                 </select>
             </div>
@@ -101,7 +101,7 @@
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
-                                <label for="Name" class="form-label">Name</label>
+                                <label for="Name" class="form-label"> Guide Name</label>
                                 <input type="text" class="form-control" [(ngModel)]="oTouristSpotRequestDto.Name"
                                     name="Name" placeholder="Please enter name">
                             </div>
@@ -109,14 +109,14 @@
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
-                                <label for="PhoneNo" class="form-label">PhoneNo</label>
+                                <label for="PhoneNo" class="form-label">Guide PhoneNo</label>
                                 <input type="text" class="form-control" [(ngModel)]="oTouristSpotRequestDto.PhoneNo"
                                     name="PhoneNo" placeholder="Please enter phone no">
                             </div>
                         </div>
                         <div class="col-4 px-1">
                             <div class="mb-2">
-                                <label for="TelePhone" class="form-label">TelePhone</label>
+                                <label for="TelePhone" class="form-label">Guide Telephone</label>
                                 <input type="text" class="form-control" [(ngModel)]="oTouristSpotRequestDto.TelePhone"
                                     name="TelePhone" placeholder="Please enter telephone no">
                             </div>
@@ -130,14 +130,14 @@
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
-                                <label for="Lat" class="form-label">Lat</label>
+                                <label for="Lat" class="form-label">Latitude</label>
                                 <input type="text" class="form-control" [(ngModel)]="oTouristSpotRequestDto.Lat"
                                     name="Lat" placeholder="Please enter Lat ">
                             </div>
                         </div>
                         <div class="col-4 px-1">
                             <div class="mb-2">
-                                <label for="Long" class="form-label">Long</label>
+                                <label for="Long" class="form-label">Longititude</label>
                                 <input type="text" class="form-control" [(ngModel)]="oTouristSpotRequestDto.Long"
                                     name="Long" placeholder="Please enter long ">
                             </div>
@@ -190,8 +190,8 @@
   <div class="mb-2">
     <label for="Type" class="form-label">Type</label>
     <select class="form-select" [(ngModel)]="oTouristSpotRequestDto.Type" name="Type">
-      <option value="1">Tourist Spot</option>
-      <option value="2">Police Station</option>
+      <!-- <option value="1">Tourist Spot</option>
+      <option value="2">Police Station</option> -->
       <option value="3">Guide</option>
     </select>
   </div>
