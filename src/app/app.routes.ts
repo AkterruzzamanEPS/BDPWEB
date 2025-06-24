@@ -20,6 +20,7 @@ import { UploadComponent } from './Components/upload/upload.component';
 import { TouristTripComponent } from './Components/tourist-trip/tourist-trip.component';
 import { FeedBacKComponent } from './Components/feed-bac-k/feed-bac-k.component';
 import { LostComponent } from './Components/lost/lost.component';
+import { ServiceTypeComponent } from './Components/service-type/service-type.component';
 import { FoundComponent } from './Components/found/found.component';
 import { GuideComponent } from './Components/guide/guide.component';
 import { PoliceStationComponent } from './Components/police-station/police-station.component';
@@ -48,6 +49,7 @@ export const routes: Routes = [
     { path: "touristtrip", component: TouristTripComponent, canActivate: [AuthGuard], title: "Tourist Trip | BDP" },
 
     { path: "services/:id", component: ServiceDetailComponent, canActivate: [AuthGuard], title: "Service Detail | BDP" },
+    { path: "service-type/:id", component: ServiceTypeComponent, canActivate: [AuthGuard], title: "Service Type | BDP" },
     { path: "response", component: ResponseComponent, title: "Response | BDP " },
     { path: "menu", component: MenuComponent, canActivate: [AuthGuard], title: "Menu | BDP " },
     { path: "menuPermission", component: MenuPermissionComponent, canActivate: [AuthGuard], title: "MenuPermission | BDP " },
