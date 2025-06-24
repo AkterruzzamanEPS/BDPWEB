@@ -43,7 +43,7 @@ export class ServiceComponent implements OnInit {
     { field: 'Icon', width: 150, headerName: 'Icon', filter: true,
       cellRenderer: (params: any) => {
       return params.value
-        ? `<img src="${params.value}" alt="icon" width="30" height="30" style="object-fit: contain;" />`
+        ? `<img src="${params.value}" alt="icon" width="20" height="20" style="object-fit: contain;" />`
         : '';
     }
      },
