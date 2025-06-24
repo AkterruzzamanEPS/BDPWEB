@@ -37,8 +37,19 @@ export class UploadComponent implements OnInit {
     private http: HttpHelperService) {
 
   }
+  previewImageUrl: string = '';
   ngOnInit(): void {
     this.GetUploadedFiles();
+
+    window.addEventListener('openImageModal', (event: any) => {
+    this.previewImageUrl = event.detail.imageUrl;
+
+    const modalEl = document.getElementById('imageModal');
+    if (modalEl) {
+      const modal = new (window as any).bootstrap.Modal(modalEl);
+      modal.show();
+    }
+  });
   }
 
   Filter() {
@@ -66,7 +77,27 @@ export class UploadComponent implements OnInit {
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
     { field: 'FileName', width: 150, headerName: 'File Name', filter: true },
     { field: 'FileSize', width: 150, headerName: 'File Size', filter: true },
-    { field: 'FileData', width: 150, headerName: 'Preview URL', filter: true },
+    // { field: 'FileData', width: 150, headerName: 'Preview URL', filter: true },
+    {
+  headerName: 'Preview URL',
+  field: 'FileData',
+  width: 200,
+  cellRenderer: (params: { value: string }) => {
+    const link = document.createElement('a');
+    link.href = 'javascript:void(0)';
+    link.innerText = params.value;
+    link.style.color = 'red';
+    link.style.textDecoration = 'underline';
+    link.addEventListener('click', () => {
+      const event = new CustomEvent('openImageModal', {
+        detail: { imageUrl: params.value }
+      });
+      window.dispatchEvent(event);
+    });
+    return link;
+  }
+}
+,
     {
     headerName: 'Action',
     field: 'FileData',
@@ -83,6 +114,7 @@ export class UploadComponent implements OnInit {
     width: 100
   }
   ];
+
 
   PageChange(event: any) {
     this.pageIndex = Number(event);

@@ -67,3 +67,18 @@
   <app-pagination [pageSize]="20" [currentPage]="pageIndex" [totalItems]="totalRecords"
     (pageChange)="PageChange($event)"></app-pagination>
 </div>
+
+<!-- Image Preview Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Image Preview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img [src]="previewImageUrl" alt="Preview" class="img-fluid" *ngIf="previewImageUrl" />
+      </div>
+    </div>
+  </div>
+</div>
