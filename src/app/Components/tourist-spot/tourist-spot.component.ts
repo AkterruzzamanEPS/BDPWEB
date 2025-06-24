@@ -85,7 +85,7 @@ export class TouristSpotComponent implements OnInit {
         return `<span class="${colorClass}" style="font-size: 0.9rem; padding: 6px 10px;">${label}</span>`;
       }
     },
-    { field: 'Name', width: 150, headerName: 'TouristSpot Name', filter: true },
+    { field: 'Name', width: 150, headerName: 'Tourist Spot Name', filter: true },
     { field: 'PhoneNo', width: 150, headerName: 'PhoneNo', filter: true },
     { field: 'TelePhone', width: 150, headerName: 'TelePhone', filter: true },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
@@ -251,6 +251,7 @@ export class TouristSpotComponent implements OnInit {
     this.oTouristSpotRequestDto.DistictId = Number(this.oTouristSpotRequestDto.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(this.oTouristSpotRequestDto.ThanaId);
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotRequestDto.IsActive);
+    this.oTouristSpotRequestDto.Type=1;
 
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristSpot/InsertTouristSpot`, this.oTouristSpotRequestDto).subscribe(

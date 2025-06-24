@@ -57,7 +57,7 @@ export class FoundComponent {
 
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
-    { field: 'Name', width: 150, headerName: 'Complain Name', filter: true },
+    { field: 'Name', width: 150, headerName: 'Title', filter: true },
     {
       field: 'Type', width: 150, headerName: 'Type', filter: true, cellRenderer: (params: any) => {
         let color = '';
