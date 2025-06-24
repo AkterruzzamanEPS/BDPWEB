@@ -66,7 +66,14 @@ export class UploadComponent implements OnInit {
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
     { field: 'FileName', width: 150, headerName: 'File Name', filter: true },
     { field: 'FileSize', width: 150, headerName: 'File Size', filter: true },
-    { field: 'FileData', width: 150, headerName: 'Preview URL', filter: true },
+    { field: 'FileData', width: 150, headerName: 'Preview URL', filter: true,
+      cellRenderer: (params: any) => {
+        return params.value
+          ? `<img src="${params.value}" alt="icon" width="40" height="40" style="object-fit: contain;" />`
+          : '';
+      }
+     },
+    
     {
     headerName: 'Action',
     field: 'FileData',
@@ -100,6 +107,7 @@ export class UploadComponent implements OnInit {
         this.hasPreviousPage = res.HasPreviousPage;
         this.hasNextPage = res.HasNextPage;
         this.totalPageNumbers = CommonHelper.generateNumbers(this.pageIndex, this.totalPages);
+         this.UploadedFileGridApi.sizeColumnsToFit();
       },
       (err) => {
         this.toast.error(err?.ErrorMessage || "Something went wrong", "Error!!", { progressBar: true });
