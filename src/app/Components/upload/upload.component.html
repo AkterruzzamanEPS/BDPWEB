@@ -1,16 +1,44 @@
-<div class="col-4 px-1">
-  <label for="uploadFile" class="form-label">File Upload</label>
-  <input type="file" class="form-control" id="uploadFile" (change)="onFileChange($event)"
-    placeholder="select uploadFile Font">
+<div class="container mt-3">
+  <div class="row">
+    <!-- File Upload -->
+    <div class="col-md-4">
+      <label for="uploadFile" class="form-label">File Upload</label>
+      <input type="file" class="form-control" id="uploadFile" (change)="onFileChange($event)"
+        placeholder="Select file to upload">
+    </div>
+  </div>
+
+  <!-- File Info Card -->
+  <div class="row mt-4" *ngIf="oFileResponseDto">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+          <strong>File Info</strong>
+        </div>
+        <div class="card-body">
+          <div class="row mb-2">
+            <div class="col-4"><strong>Name:</strong></div>
+            <div class="col-8">{{ oFileResponseDto.FileName }}</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4"><strong>Size:</strong></div>
+            <div class="col-8">{{ oFileResponseDto.FileSize }} bytes</div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-4"><strong>Preview URL:</strong></div>
+            <div class="col-8 d-flex align-items-center">
+              <span class="me-2">{{ oFileResponseDto.FileData }}</span>
+              <button class="btn btn-sm btn-outline-primary" (click)="copyToClipboard(oFileResponseDto.FileData)">
+                Copy the URL
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-
-<div *ngIf="oFileResponseDto">
-  <h3>File Info: {{ oFileResponseDto.Id }}</h3>
-  <p><strong>Name:</strong> {{ oFileResponseDto.FileName }}</p>
-  <p><strong>Size:</strong> {{ oFileResponseDto.FileSize }} bytes</p>
-  <p><strong>Preview URL:</strong> {{ oFileResponseDto.FileData }}</p>
-</div>
 
 
 <div class="row g-0">

@@ -67,9 +67,22 @@ export class UploadComponent implements OnInit {
     { field: 'FileName', width: 150, headerName: 'File Name', filter: true },
     { field: 'FileSize', width: 150, headerName: 'File Size', filter: true },
     { field: 'FileData', width: 150, headerName: 'Preview URL', filter: true },
-    { field: 'Remarks', headerName: 'Remarks' }
+    {
+    headerName: 'Action',
+    field: 'FileData',
+    cellRenderer: (params: { value: any; }) => {
+      const button = document.createElement('button');
+      button.innerText = 'Copy the URL';
+      button.classList.add('btn', 'btn-sm', 'btn-primary');
+      button.addEventListener('click', () => {
+        navigator.clipboard.writeText(params.value || '');
+        // alert('Preview URL copied: ' + (params.value || ''));
+      });
+      return button;
+    },
+    width: 100
+  }
   ];
-
 
   PageChange(event: any) {
     this.pageIndex = Number(event);
@@ -98,4 +111,14 @@ export class UploadComponent implements OnInit {
     this.UploadedFileGridApi = params.api;
     this.rowData = [];
   }
+
+  copyToClipboard(text: string) {
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    console.log('Copied to clipboard:', text);
+  }).catch(err => {
+    console.error('Clipboard copy failed:', err);
+  });
+}
+
 }
