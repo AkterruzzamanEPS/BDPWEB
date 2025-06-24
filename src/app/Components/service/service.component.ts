@@ -40,13 +40,14 @@ export class ServiceComponent implements OnInit {
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
     { field: 'Name', width: 150, headerName: 'Name', filter: true },
     { field: 'TypeName', width: 150, headerName: 'Type', filter: true },
-    { field: 'Icon', width: 150, headerName: 'Icon', filter: true,
+    {
+      field: 'Icon', width: 150, headerName: 'Icon', filter: true,
       cellRenderer: (params: any) => {
-      return params.value
-        ? `<img src="${params.value}" alt="icon" width="20" height="20" style="object-fit: contain;" />`
-        : '';
-    }
-     },
+        return params.value
+          ? `<img src="${params.value}" alt="icon" width="20" height="20" style="object-fit: contain;" />`
+          : '';
+      }
+    },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
     { field: 'SequenceNo', headerName: 'Sequence No' },
     {
@@ -121,7 +122,11 @@ export class ServiceComponent implements OnInit {
       this.http.Post('Auth/UpdateSequence', {
         tableName: 'Service',
         updatedRows
-      }).subscribe(() => console.log('Sequence updated'));
+      }).subscribe(() => {
+        this.GetService();
+      }
+
+      );
     }
   }
 
