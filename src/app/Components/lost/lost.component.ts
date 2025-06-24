@@ -84,15 +84,7 @@ private complainGridApi!: any;
       }
     },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
-   {
-  field: 'StartDate', 
-  width: 150, 
-  headerName: 'Date', 
-  filter: true,
-  valueFormatter: (params: ValueFormatterParams) => {
-    return this.datePipe.transform(params.value, 'MMM d, y, h:mm:ss a');
-  }
-},
+ 
     { field: 'Remarks', headerName: 'Remarks' },
     {
       field: 'Status',
@@ -272,7 +264,7 @@ private GetComplainCategories() {
     // this.oComplainFilterDto.ToDate = new Date(this.toDate);
     this.oComplainFilterDto.Status = Number(this.oComplainFilterDto.Status);
     this.oComplainFilterDto.ComplainCatagoryType = Number(this.oComplainFilterDto.ComplainCatagoryType);
-   this.oComplainFilterDto.Type='2';
+    this.oComplainFilterDto.Type='2';
     this.oComplainFilterDto.IsActive = CommonHelper.booleanConvert(this.oComplainFilterDto.IsActive);
 
 
@@ -305,6 +297,7 @@ private GetComplainCategories() {
     let currentUser = CommonHelper.GetUser();
     this.oComplainRequestDto.UserID = CommonHelper.GetUser()?.UserId ?? '';
     this.oComplainRequestDto.Status = 1;
+    this.oComplainRequestDto.Type='2';
 
     this.oComplainRequestDto.IsActive = CommonHelper.booleanConvert(this.oComplainRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
