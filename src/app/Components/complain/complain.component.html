@@ -19,9 +19,9 @@
         <div class="mb-2">
             <select class="form-select" [(ngModel)]="oComplainFilterDto.Type" name="Type"
                 aria-label="Default select example">
-                <option value="">Select Type</option>
-                <option value="1">Found</option>
-                <option value="2">Lost</option>
+                <option value="3">Select Type</option>
+                <!-- <option value="1">Found</option>
+                <option value="2">Lost</option> -->
                 <option value="3">Complain</option>
             </select>
         </div>
@@ -84,7 +84,7 @@
             </div>
             <div class="modal-body">
                 <div class="row g-0">
-                    <div class="col-md-6 px-1" >
+                    <!-- <div class="col-md-6 px-1" >
                         <div class="mb-2">
                             <label for="Status" class="form-label">Complain Type</label>
                             <select class="form-select" [(ngModel)]="oComplainRequestDto.Type" name="Type"
@@ -95,7 +95,7 @@
                                 <option value="3">Complain</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                      <!-- <div class="col-md-6 px-1" >
                             <div class="mb-2">
                                 <label for="ComplainCatagoryType" class="form-label">Complaint Category</label>
@@ -220,13 +220,13 @@
                         </div>
                     </div>
 
-                    <div class="col-12 px-1" *ngIf="!isComplainType">
+                    <!-- <div class="col-12 px-1" *ngIf="!isComplainType">
                         <div class="mb-2">
                             <label for="Remarks" class="form-label">Remarks</label>
                             <textarea class="form-control" [(ngModel)]="oComplainRequestDto.Remarks"
                                 name="Remarks" placeholder="Enter remarks" rows="2"></textarea>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="col-md-6 px-1">
                         <div class="mb-2">

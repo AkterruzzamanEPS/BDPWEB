@@ -84,15 +84,7 @@ export class ComplainComponent {
       }
     },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
-   {
-  field: 'StartDate', 
-  width: 150, 
-  headerName: 'Date', 
-  filter: true,
-  valueFormatter: (params: ValueFormatterParams) => {
-    return this.datePipe.transform(params.value, 'MMM d, y, h:mm:ss a');
-  }
-},
+   
     { field: 'Remarks', headerName: 'Remarks' },
     {
       field: 'Status',
@@ -210,6 +202,7 @@ private GetComplainCategories() {
     this.oThanaFilterDtoFrom.IsActive = CommonHelper.booleanConvert(this.oThanaFilterDtoFrom.IsActive);
     this.oThanaFilterDtoFrom.Type = Number(this.oThanaFilterDtoFrom.Type);
     this.oThanaFilterDtoFrom.DistinctId = Number(this.oThanaFilterDtoFrom.DistinctId);
+
     // After the hash is generated, proceed with the API call
     this.http.Post(`DistrictThana/GetThanasByDistrict`, this.oThanaFilterDtoFrom).subscribe(
       (res: any) => {
@@ -273,6 +266,7 @@ private GetComplainCategories() {
     this.oComplainFilterDto.Status = Number(this.oComplainFilterDto.Status);
     this.oComplainFilterDto.ComplainCatagoryType = Number(this.oComplainFilterDto.ComplainCatagoryType);
     this.oComplainFilterDto.IsActive = CommonHelper.booleanConvert(this.oComplainFilterDto.IsActive);
+    this.oComplainFilterDto.Type='3';
 
 
     this.http.Post(`Complain/GetComplains?pageNumber=${this.pageIndex}`, this.oComplainFilterDto).subscribe(
@@ -325,6 +319,7 @@ private GetComplainCategories() {
     let currentUser = CommonHelper.GetUser();
     this.oComplainRequestDto.UserID = CommonHelper.GetUser()?.UserId ?? '';
     this.oComplainRequestDto.Status = 1;
+     this.oComplainRequestDto.Type='2';
 
     this.oComplainRequestDto.IsActive = CommonHelper.booleanConvert(this.oComplainRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
