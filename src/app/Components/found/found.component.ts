@@ -221,7 +221,9 @@ private GetComplainCategories() {
   public districtChangeFrom() {
 
     this.oThanaFilterDtoFrom.DistinctId = this.oComplainRequestDto.DistrictId;
-    this.GetThanasFrom();
+    if(this.oComplainRequestDto.DistrictId>0){
+      this.GetThanasFrom();
+    }
   }
 
 
