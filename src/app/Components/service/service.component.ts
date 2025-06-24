@@ -63,6 +63,7 @@ export class ServiceComponent implements OnInit {
     { field: 'Remarks', headerName: 'Remarks' },
     { field: 'IsActive', headerName: 'Status' },
     { field: 'Details', headerName: 'Details', width: 100, pinned: "right", resizable: true, cellRenderer: this.detailToGrid.bind(this) },
+    { field: 'Details', headerName: 'Details', width: 100, pinned: "right", resizable: true, cellRenderer: this.detailTypeToGrid.bind(this) },
   ];
   trackByFn: TrackByFunction<any> | any;
   constructor(
@@ -135,6 +136,14 @@ export class ServiceComponent implements OnInit {
     eDiv.innerHTML = ' <button class="btn btn-success p-0 px-1"> <i class="bi bi-eye-fill"></i> Detail</button>'
     eDiv.addEventListener('click', () => {
       this.router.navigateByUrl('services/' + params.data.Id)
+    });
+    return eDiv;
+  }
+  private detailTypeToGrid(params: any) {
+    const eDiv = document.createElement('div');
+    eDiv.innerHTML = ' <button class="btn btn-success p-0 px-1"> <i class="bi bi-eye-fill"></i> Type </button>'
+    eDiv.addEventListener('click', () => {
+      this.router.navigateByUrl('service-type/' + params.data.Id)
     });
     return eDiv;
   }

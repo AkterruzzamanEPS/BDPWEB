@@ -82,15 +82,6 @@ export class ServiceTypeComponent implements OnInit {
     this.rowData = [];
   }
 
-  detailToGrid(params: any) {
-    const eDiv = document.createElement('div');
-    eDiv.innerHTML = ' <button class="btn btn-success p-0 px-1"> <i class="bi bi-eye-fill"></i> Detail</button>'
-    eDiv.addEventListener('click', () => {
-      this.router.navigateByUrl('transactions/' + params.data.transactionId)
-    });
-    return eDiv;
-  }
-
   Filter() {
     this.GetServiceType();
   }
