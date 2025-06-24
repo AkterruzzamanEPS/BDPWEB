@@ -24,6 +24,7 @@ import { ServiceTypeComponent } from './Components/service-type/service-type.com
 import { FoundComponent } from './Components/found/found.component';
 import { GuideComponent } from './Components/guide/guide.component';
 import { PoliceStationComponent } from './Components/police-station/police-station.component';
+import { NewsComponent } from './Components/news/news.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent, title: "Log in- BDP User Panel" },
@@ -33,6 +34,7 @@ export const routes: Routes = [
     { path: "services", component: ServiceComponent, canActivate: [AuthGuard], title: "Service | BDP" },
     
     { path: "complain", component: ComplainComponent, canActivate: [AuthGuard], title: "Complain List| BDP" },
+    { path: "news", component: NewsComponent, canActivate: [AuthGuard], title: "News & Alert | BDP" },
     
     //for the complan details and feedback
     { path: "complain/id", component: FeedBacKComponent, canActivate: [AuthGuard], title: "Feed Back | BDP" },
