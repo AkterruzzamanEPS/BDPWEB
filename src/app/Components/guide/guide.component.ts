@@ -142,6 +142,7 @@ export class GuideComponent {
     this.oTouristSpotFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotFilterDto.IsActive);
     this.oTouristSpotFilterDto.DistictId = Number(this.oTouristSpotFilterDto.DistictId);
     this.oTouristSpotFilterDto.ThanaId = Number(this.oTouristSpotFilterDto.ThanaId);
+    this.oTouristSpotFilterDto.Type=3;
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristSpot/GetTouristSpot?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oTouristSpotFilterDto).subscribe(
       (res: any) => {

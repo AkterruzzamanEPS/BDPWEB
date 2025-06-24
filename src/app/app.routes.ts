@@ -45,6 +45,7 @@ export const routes: Routes = [
 
     { path: "guide", component: GuideComponent, canActivate: [AuthGuard], title: "Guide List | BDP" },
     { path: "policestation", component: PoliceStationComponent, canActivate: [AuthGuard], title: "Police Station Spot | BDP" },
+    
     { path: "touristtrip", component: TouristTripComponent, canActivate: [AuthGuard], title: "Tourist Trip | BDP" },
 
     { path: "services/:id", component: ServiceDetailComponent, canActivate: [AuthGuard], title: "Service Detail | BDP" },
