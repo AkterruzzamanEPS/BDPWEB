@@ -1,26 +1,48 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../Shared/Services/auth.service';
 import { HttpHelperService } from '../../Shared/Services/http-helper.service';
 import { FileResponseDto } from '../../Models/RequestDto/FileResponseDto';
+import { AgGridAngular } from 'ag-grid-angular';
+import { AGGridHelper } from '../../Shared/Services/AGGridHelper';
+import { PaginationComponent } from "../../Shared/pagination/pagination.component";
+import { CommonHelper } from '../../Shared/Services/CommonHelper';
+import { UploadedFileFilterDto, UploadedFileRequestDto } from '../../Models/RequestDto/UploadedFile';
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss'
 })
-export class UploadComponent {
+export class UploadComponent implements OnInit {
+  private UploadedFileGridApi!: any;
+  public DeafultCol = AGGridHelper.DeafultCol;
+  public rowData!: any[];
+  public pageIndex: number = 1;
+  public totalRecords: number = 0;
+  public totalPages: number = 0;
+  public hasPreviousPage: boolean = false;
+  public hasNextPage: boolean = false;
+  public totalPageNumbers: number[] = [];
 
+  public oUploadedFileFilterDto = new UploadedFileFilterDto();
 
   public oFileResponseDto = new FileResponseDto();
   constructor(public authService: AuthService,
     private toast: ToastrService,
     private http: HttpHelperService) {
 
+  }
+  ngOnInit(): void {
+    this.GetUploadedFiles();
+  }
+
+  Filter() {
+    this.GetUploadedFiles();
   }
 
   public onFileChange(event: any): void {
@@ -30,6 +52,7 @@ export class UploadComponent {
       this.http.UploadFile(`UploadedFile/Upload`, file).subscribe(
         (res: any) => {
           this.oFileResponseDto = res;
+          this.GetUploadedFiles();
         },
         (err) => {
           console.log(err.ErrorMessage);
@@ -39,5 +62,40 @@ export class UploadComponent {
 
   }
 
+  public colDefsFileUpdload: any[] = [
+    { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
+    { field: 'FileName', width: 150, headerName: 'File Name', filter: true },
+    { field: 'FileSize', width: 150, headerName: 'File Size', filter: true },
+    { field: 'FileData', width: 150, headerName: 'Preview URL', filter: true },
+    { field: 'Remarks', headerName: 'Remarks' }
+  ];
 
+
+  PageChange(event: any) {
+    this.pageIndex = Number(event);
+    this.GetUploadedFiles();
+  }
+
+  private GetUploadedFiles() {
+    let currentUser = CommonHelper.GetUser();
+    this.http.Post(`UploadedFile/GetUploadedFile?pageNumber=${this.pageIndex}`, this.oUploadedFileFilterDto).subscribe(
+      (res: any) => {
+        this.rowData = res.Items;
+        this.pageIndex = res.PageIndex;
+        this.totalPages = res.TotalPages;
+        this.totalRecords = res.TotalRecords;
+        this.hasPreviousPage = res.HasPreviousPage;
+        this.hasNextPage = res.HasNextPage;
+        this.totalPageNumbers = CommonHelper.generateNumbers(this.pageIndex, this.totalPages);
+      },
+      (err) => {
+        this.toast.error(err?.ErrorMessage || "Something went wrong", "Error!!", { progressBar: true });
+      }
+    );
+  }
+
+  onGridReadyTransection(params: any) {
+    this.UploadedFileGridApi = params.api;
+    this.rowData = [];
+  }
 }
