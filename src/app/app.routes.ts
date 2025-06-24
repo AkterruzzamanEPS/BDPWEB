@@ -21,6 +21,9 @@ import { TouristTripComponent } from './Components/tourist-trip/tourist-trip.com
 import { FeedBacKComponent } from './Components/feed-bac-k/feed-bac-k.component';
 import { LostComponent } from './Components/lost/lost.component';
 import { ServiceTypeComponent } from './Components/service-type/service-type.component';
+import { FoundComponent } from './Components/found/found.component';
+import { GuideComponent } from './Components/guide/guide.component';
+import { PoliceStationComponent } from './Components/police-station/police-station.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent, title: "Log in- BDP User Panel" },
@@ -35,10 +38,13 @@ export const routes: Routes = [
     { path: "complain/id", component: FeedBacKComponent, canActivate: [AuthGuard], title: "Feed Back | BDP" },
 
     { path: "lost", component: LostComponent, canActivate: [AuthGuard], title: "Lost List | BDP" },
-    { path: "founds", component: LostComponent, canActivate: [AuthGuard], title: "Founds List | BDP" },
+    { path: "founds", component: FoundComponent, canActivate: [AuthGuard], title: "Founds List | BDP" },
     { path: "upload", component: UploadComponent, title:"Upload | BDP"},
     
     { path: "touristspot", component: TouristSpotComponent, canActivate: [AuthGuard], title: "Tourist Spot | BDP" },
+
+    { path: "guide", component: GuideComponent, canActivate: [AuthGuard], title: "Guide List | BDP" },
+    { path: "policestation", component: PoliceStationComponent, canActivate: [AuthGuard], title: "Police Station Spot | BDP" },
     { path: "touristtrip", component: TouristTripComponent, canActivate: [AuthGuard], title: "Tourist Trip | BDP" },
 
     { path: "services/:id", component: ServiceDetailComponent, canActivate: [AuthGuard], title: "Service Detail | BDP" },
