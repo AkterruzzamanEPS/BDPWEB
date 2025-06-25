@@ -62,6 +62,7 @@ export const routes: Routes = [
     { path: "menu", component: MenuComponent, canActivate: [AuthGuard], title: "Menu | BDP " },
     { path: "menuPermission", component: MenuPermissionComponent, canActivate: [AuthGuard], title: "MenuPermission | BDP " },
     { path: "users", component: AspNetUsersComponent, canActivate: [AuthGuard], title: "Users | BDP " },
+   
     { path: "red-marked-spots/:id", component: RedMarkedSpotsComponent, canActivate: [AuthGuard], title: "Red Marked Spot | BDP " },
     { path: "find-transport/:id", component: FindTransportComponent, canActivate: [AuthGuard], title: "Find Transport | BDP " },
     { path: "religious-community/:id", component: ReligiousCommunityComponent, canActivate: [AuthGuard], title: "Religious Community | BDP " },
@@ -72,6 +73,7 @@ export const routes: Routes = [
     { path: "atm-locations/:id", component: ATMLocationsComponent, canActivate: [AuthGuard], title: "ATM Locations | BDP " },
     { path: "food-dine/:id", component: FoodDineComponent, canActivate: [AuthGuard], title: "FoodDine | BDP " },
     { path: "nearby-rides/:id", component: NearbyRidesComponent, canActivate: [AuthGuard], title: "Nearby Rides | BDP " },
+  
     { path: "editor", component: EditorComponent, title: "Editor | BDP " },
     // Lazy loading the standalone component for transaction details
     { path: 'access-denied', component: AccessDeniedComponent, title: 'Access Denied' },
