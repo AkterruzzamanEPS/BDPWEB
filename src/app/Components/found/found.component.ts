@@ -328,6 +328,8 @@ private GetComplainCategories() {
       return;
     }
     this.oComplainRequestDto.IsActive = CommonHelper.booleanConvert(this.oComplainRequestDto.IsActive);
+     
+     this.oComplainRequestDto.Type='1';
     // After the hash is generated, proceed with the API call
     this.http.Post(`Complain/UpdateComplain/${this.ComplainId}`, this.oComplainRequestDto).subscribe(
       (res: any) => {
