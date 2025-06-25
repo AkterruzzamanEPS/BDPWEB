@@ -49,7 +49,7 @@ export class ComplainComponent {
   public hasNextPage: boolean = false;
   public totalPageNumbers: number[] = [];
 
-  public complainCategories: any[] = []; 
+  public complainCategories: any[] = [];
 
   public fromDate: any;
   public toDate: any;
@@ -84,7 +84,7 @@ export class ComplainComponent {
       }
     },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
-   
+
     { field: 'Remarks', headerName: 'Remarks' },
     {
       field: 'Status',
@@ -135,14 +135,21 @@ export class ComplainComponent {
     this.toDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
-private GetComplainCategories() {
-  debugger
-  this.http.Get(`Complain/GetComplaincategory`).subscribe(
-    (res: any) => {
-      this.complainCategories = res;
-    }
-  );
-}
+  ngOnInit(): void {
+    this.GetComplains();
+    this.GetDistricts();
+    this.GetComplainCategories();
+
+  }
+
+  private GetComplainCategories() {
+    debugger
+    this.http.Get(`Complain/GetComplaincategory`).subscribe(
+      (res: any) => {
+        this.complainCategories = res;
+      }
+    );
+  }
 
   private GetDistricts() {
     this.oDistrictFilterDto.IsActive = CommonHelper.booleanConvert(this.oDistrictFilterDto.IsActive);
@@ -220,19 +227,12 @@ private GetComplainCategories() {
   public districtChangeFrom() {
 
     this.oThanaFilterDtoFrom.DistinctId = this.oComplainRequestDto.DistrictId;
-    if(this.oComplainRequestDto.DistrictId>0){
+    if (this.oComplainRequestDto.DistrictId > 0) {
       this.GetThanasFrom();
     }
   }
 
 
-
-  ngOnInit(): void {
-    this.GetComplains();
-    this.GetDistricts();
-    this.GetComplainCategories();
-
-  }
 
   onGridReadyTransection(params: any) {
     this.complainGridApi = params.api;
@@ -268,7 +268,7 @@ private GetComplainCategories() {
     this.oComplainFilterDto.Status = Number(this.oComplainFilterDto.Status);
     this.oComplainFilterDto.ComplainCatagoryType = Number(this.oComplainFilterDto.ComplainCatagoryType);
     this.oComplainFilterDto.IsActive = CommonHelper.booleanConvert(this.oComplainFilterDto.IsActive);
-    this.oComplainFilterDto.Type='3';
+    this.oComplainFilterDto.Type = '3';
 
 
     this.http.Post(`Complain/GetComplains?pageNumber=${this.pageIndex}`, this.oComplainFilterDto).subscribe(
@@ -321,7 +321,7 @@ private GetComplainCategories() {
     let currentUser = CommonHelper.GetUser();
     this.oComplainRequestDto.UserID = CommonHelper.GetUser()?.UserId ?? '';
     this.oComplainRequestDto.Status = 1;
-     this.oComplainRequestDto.Type='3';
+    this.oComplainRequestDto.Type = '3';
 
     this.oComplainRequestDto.IsActive = CommonHelper.booleanConvert(this.oComplainRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
@@ -416,10 +416,10 @@ private GetComplainCategories() {
         // Make sure dates are converted properly if needed, e.g.
         this.oComplainRequestDto.Date = new Date(this.oComplainRequestDto.Date);
 
-           // Set the category ID from the response
-            if (res.ComplainCatagoryType) {
-                this.oComplainRequestDto.ComplainCatagoryType = res.ComplainCatagoryType;
-            }
+        // Set the category ID from the response
+        if (res.ComplainCatagoryType) {
+          this.oComplainRequestDto.ComplainCatagoryType = res.ComplainCatagoryType;
+        }
 
         // Load dependent dropdowns based on DistrictId
         this.districtChangeFrom();

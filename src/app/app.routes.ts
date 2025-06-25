@@ -37,7 +37,7 @@ export const routes: Routes = [
     { path: "news", component: NewsComponent, canActivate: [AuthGuard], title: "News & Alert | BDP" },
     
     //for the complan details and feedback
-    { path: "complain/id", component: FeedBacKComponent, canActivate: [AuthGuard], title: "Feed Back | BDP" },
+    { path: "complain/:id", component: FeedBacKComponent, canActivate: [AuthGuard], title: "Feed Back | BDP" },
 
     { path: "lost", component: LostComponent, canActivate: [AuthGuard], title: "Lost List | BDP" },
     { path: "founds", component: FoundComponent, canActivate: [AuthGuard], title: "Founds List | BDP" },
