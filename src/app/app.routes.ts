@@ -25,6 +25,16 @@ import { FoundComponent } from './Components/found/found.component';
 import { GuideComponent } from './Components/guide/guide.component';
 import { PoliceStationComponent } from './Components/police-station/police-station.component';
 import { NewsComponent } from './Components/news/news.component';
+import { NearbyRidesComponent } from './Components/nearby-rides/nearby-rides.component';
+import { ATMLocationsComponent } from './Components/atmlocations/atmlocations.component';
+import { FindTransportComponent } from './Components/find-transport/find-transport.component';
+import { FoodDineComponent } from './Components/food-dine/food-dine.component';
+import { HealthcareServicesComponent } from './Components/healthcare-services/healthcare-services.component';
+import { HotelsComponent } from './Components/hotels/hotels.component';
+import { RefuelingStationsComponent } from './Components/refueling-stations/refueling-stations.component';
+import { ReligiousCommunityComponent } from './Components/religious-community/religious-community.component';
+import { MobileInternetComponent } from './Components/mobile-internet/mobile-internet.component';
+import { RedMarkedSpotsComponent } from './Components/red-marked-spots/red-marked-spots.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent, title: "Log in- BDP User Panel" },
@@ -56,6 +66,16 @@ export const routes: Routes = [
     { path: "menu", component: MenuComponent, canActivate: [AuthGuard], title: "Menu | BDP " },
     { path: "menuPermission", component: MenuPermissionComponent, canActivate: [AuthGuard], title: "MenuPermission | BDP " },
     { path: "users", component: AspNetUsersComponent, canActivate: [AuthGuard], title: "Users | BDP " },
+    { path: "red-marked-spots/:id", component: RedMarkedSpotsComponent, canActivate: [AuthGuard], title: "Red Marked Spot | BDP " },
+    { path: "find-transport/:id", component: FindTransportComponent, canActivate: [AuthGuard], title: "Find Transport | BDP " },
+    { path: "religious-community/:id", component: ReligiousCommunityComponent, canActivate: [AuthGuard], title: "Religious Community | BDP " },
+    { path: "healthcare-services/:id", component: HealthcareServicesComponent, canActivate: [AuthGuard], title: "Healthcare Services | BDP " },
+    { path: "hotels/:id", component: HotelsComponent, canActivate: [AuthGuard], title: "Hotels | BDP " },
+    { path: "refueling-stations/:id", component: RefuelingStationsComponent, canActivate: [AuthGuard], title: "Refueling Stations | BDP " },
+    { path: "mobile-internet/:id", component: MobileInternetComponent, canActivate: [AuthGuard], title: "Mobile Intern | BDP " },
+    { path: "atm-locations/:id", component: ATMLocationsComponent, canActivate: [AuthGuard], title: "ATM Locations | BDP " },
+    { path: "food-dine/:id", component: FoodDineComponent, canActivate: [AuthGuard], title: "FoodDine | BDP " },
+    { path: "nearby-rides/:id", component: NearbyRidesComponent, canActivate: [AuthGuard], title: "Nearby Rides | BDP " },
     { path: "editor", component: EditorComponent, title: "Editor | BDP " },
     // Lazy loading the standalone component for transaction details
     { path: 'access-denied', component: AccessDeniedComponent, title: 'Access Denied' },
