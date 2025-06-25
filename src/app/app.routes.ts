@@ -52,14 +52,10 @@ export const routes: Routes = [
     { path: "lost", component: LostComponent, canActivate: [AuthGuard], title: "Lost List | BDP" },
     { path: "founds", component: FoundComponent, canActivate: [AuthGuard], title: "Founds List | BDP" },
     { path: "upload", component: UploadComponent, title:"Upload | BDP"},
-    
     { path: "touristspot", component: TouristSpotComponent, canActivate: [AuthGuard], title: "Tourist Spot | BDP" },
-
     { path: "guide", component: GuideComponent, canActivate: [AuthGuard], title: "Guide List | BDP" },
     { path: "policestation", component: PoliceStationComponent, canActivate: [AuthGuard], title: "Police Station Spot | BDP" },
-    
     { path: "touristtrip", component: TouristTripComponent, canActivate: [AuthGuard], title: "Tourist Trip | BDP" },
-
     { path: "services/:id", component: ServiceDetailComponent, canActivate: [AuthGuard], title: "Service Detail | BDP" },
     { path: "service-type/:id", component: ServiceTypeComponent, canActivate: [AuthGuard], title: "Service Type | BDP" },
     { path: "response", component: ResponseComponent, title: "Response | BDP " },
