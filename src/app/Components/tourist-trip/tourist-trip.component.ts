@@ -14,6 +14,8 @@ import { DistrictFilterDto } from '../../Models/RequestDto/District';
 import { TouristTripFilterDto, TouristTripRequestDto } from '../../Models/RequestDto/TouristTrip';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { ValueFormatterParams } from 'ag-grid-community';
+import { ICellRendererParams } from 'ag-grid-community';
+
 @Component({
   selector: 'app-tourist-trip',
   standalone: true,
@@ -56,7 +58,22 @@ export class TouristTripComponent {
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
    { field: 'FullName', headerName: 'User Name', width: 150 },
-  { field: 'TouristPlace', headerName: 'Tourist Place', width: 150 },
+  // { field: 'TouristPlace', headerName: 'Tourist Place', width: 150 },
+ {
+  headerName: 'Tourist Places',
+  field: 'TouristPlaces',
+  cellRenderer: (params: ICellRendererParams) => {
+    if (Array.isArray(params.value)) {
+      return params.value.map((place: string) =>
+        `<button class="btn btn-success btn-sm m-1">${place}</button>`
+      ).join('');
+    }
+    return '';
+  }
+  ,width: 200
+}
+
+,
   {
     field: 'StartDate', 
     width: 150, 
@@ -67,6 +84,7 @@ export class TouristTripComponent {
   { field: 'NoOfTourist', headerName: 'Number of Tourist', width: 120 },
   // { field: 'ServiceDetailId', headerName: 'Service Detail ID', width: 140 },
   { field: 'Remarks', headerName: 'Remarks', width: 150 },
+  { field: 'HotelName', headerName: 'Hotel', width: 150 },
   ];
 
   trackByFn: TrackByFunction<any> | any;

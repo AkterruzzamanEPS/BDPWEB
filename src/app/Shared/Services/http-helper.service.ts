@@ -9,7 +9,7 @@ import { CurrentUseerResponseDto } from '../../Models/ResponseDto/CurrentUseerRe
 export class HttpHelperService {
 
   appUrl = "https://localhost:5001/v1/";
-  // appUrl = "http://103.192.159.61:8021/v1/";
+   //appUrl = "http://103.192.159.61:8021/v1/";
 
   constructor(private http: HttpClient) { }
 
