@@ -166,7 +166,7 @@ export class TouristSpotComponent implements OnInit {
     this.oDistrictFilterDto.IsActive = CommonHelper.booleanConvert(this.oDistrictFilterDto.IsActive);
     this.oDistrictFilterDto.Type = Number(this.oDistrictFilterDto.Type);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`DistrictThana/GetDistricts`, this.oDistrictFilterDto).subscribe(
+    this.http.Post(`DistrictThana/GetAllDistricts`, this.oDistrictFilterDto).subscribe(
       (res: any) => {
         this.districtList = res;
         this.districtFromList = res;
@@ -182,7 +182,7 @@ export class TouristSpotComponent implements OnInit {
     this.oThanaFilterDto.Type = Number(this.oThanaFilterDto.Type);
     this.oThanaFilterDto.DistinctId = Number(this.oThanaFilterDto.DistinctId);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`DistrictThana/GetThanasByDistrict`, this.oThanaFilterDto).subscribe(
+    this.http.Post(`DistrictThana/GetAllThanas`, this.oThanaFilterDto).subscribe(
       (res: any) => {
         this.thanaList = res;
       },
@@ -198,7 +198,7 @@ export class TouristSpotComponent implements OnInit {
     this.oThanaFilterDtoFrom.Type = Number(this.oThanaFilterDtoFrom.Type);
     this.oThanaFilterDtoFrom.DistinctId = Number(this.oThanaFilterDtoFrom.DistinctId);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`DistrictThana/GetThanasByDistrict`, this.oThanaFilterDtoFrom).subscribe(
+    this.http.Post(`DistrictThana/GetAllThanas`, this.oThanaFilterDtoFrom).subscribe(
       (res: any) => {
         this.thanaFromList = res;
       },
