@@ -242,7 +242,7 @@ export class FindTransportComponent  implements OnInit {
   }
 
   public UpdateServiceDetail() {
-
+debugger
     if (this.oServiceDetailRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
