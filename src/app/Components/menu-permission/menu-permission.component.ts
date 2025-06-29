@@ -131,7 +131,7 @@ export class MenuPermissionComponent implements OnInit {
   }
   private GetAllMenues() {
 
-    this.http.Get(`Menu/GetAllMenues`).subscribe(
+    this.http.Get(`Menu/GetMenus`).subscribe(
       (res: any) => {
         this.manuList = res;
       },

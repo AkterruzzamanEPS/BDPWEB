@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit, TrackByFunction } from '@angular/core';
+import { Component, OnInit, TrackByFunction, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ToastrService } from 'ngx-toastr';
@@ -18,7 +18,8 @@ import { MenuPerRequestDto } from '../../Models/RequestDto/MenuPermission';
   imports: [CommonModule, FormsModule, AgGridAngular],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
-  providers: [DatePipe]
+  providers: [DatePipe],  
+  encapsulation: ViewEncapsulation.None,
 })
 export class MenuComponent implements OnInit {
 
@@ -50,16 +51,16 @@ export class MenuComponent implements OnInit {
   public totalPageNumbers: number[] = [];
 
   public colDefsTransection: any[] = [
-    { valueGetter: "node.rowIndex + 1", headername: 'SL', width: 90, editable: false, checkboxSelection: true, headerCheckboxSelection: true },
-    { field: 'name', width: 150, headername: 'Menu name', filter: true },
-    { field: 'shortName', width: 150, headername: 'Short name', filter: true },
-    { field: 'routingPath', width: 150, headername: 'RoutingPath', filter: true },
-    { field: 'isActive', headername: 'Status' },
-    { field: 'remarks', headername: 'Remarks' },
+    { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: true, headerCheckboxSelection: true },
+    { field: 'Name', width: 150, headerName: 'Menu name', filter: true },
+    { field: 'ShortName', width: 150, headerName: 'Short name', filter: true },
+    { field: 'RoutingPath', width: 150, headerName: 'RoutingPath', filter: true },
+    { field: 'IsActive', headerName: 'Status' },
+    { field: 'Remarks', headerName: 'Remarks' },
   ];
   public colDefsMenuPermission: any[] = [
-    { valueGetter: "node.rowIndex + 1", headername: 'SL', width: 90, editable: false, checkboxSelection: false, headerCheckboxSelection: false },
-    { field: 'name', width: 150, headername: 'Menu name', filter: true, editable: true },
+    { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false, headerCheckboxSelection: false },
+    { field: 'name', width: 150, headerName: 'Menu name', filter: true, editable: true },
   ];
   trackByFn: TrackByFunction<any> | any;
   constructor(
@@ -100,6 +101,7 @@ export class MenuComponent implements OnInit {
 
   }
   private GetAllUsers() {
+    debugger;
     this.userList = [];
     this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPerRequestDto.companyId)).subscribe(
       (res: any) => {
@@ -126,13 +128,13 @@ export class MenuComponent implements OnInit {
     this.GetMenu();
   }
   private GetMenu() {
-
+debugger
     let currentUser = CommonHelper.GetUser();
     this.oMenuFilterRequestDto.name = (this.oMenuFilterRequestDto.name);
     this.oMenuFilterRequestDto.shortName = (this.oMenuFilterRequestDto.shortName);
     this.oMenuFilterRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuFilterRequestDto.isActive);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`Menu/GetMenues?pageNumber=${this.pageIndex}`, this.oMenuFilterRequestDto).subscribe(
+    this.http.Post(`Menu/GetMenus?pageNumber=${this.pageIndex}`, this.oMenuFilterRequestDto).subscribe(
       (res: any) => {
         console.log(res);
         this.rowData = res.items;
@@ -152,7 +154,7 @@ export class MenuComponent implements OnInit {
   }
 
   public InsertMenu() {
-
+  debugger;
     if (this.oMenuRequestDto.name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
@@ -181,7 +183,7 @@ export class MenuComponent implements OnInit {
     );
   }
   public UpdateMenu() {
-
+    debugger;
     if (this.oMenuRequestDto.name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
@@ -270,7 +272,7 @@ export class MenuComponent implements OnInit {
 
 
   public InsertMenuPermission() {
-
+    debugger;
     if (this.oMenuPerRequestDto.userID == "") {
       this.toast.warning("Please select user", "Warning!!", { progressBar: true });
       return;
