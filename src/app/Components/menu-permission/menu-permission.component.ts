@@ -131,7 +131,7 @@ export class MenuPermissionComponent implements OnInit {
   }
   private GetAllMenues() {
 
-    this.http.Get(`Menu/GetMenus`).subscribe(
+    this.http.Get(`Menu/GetAllMenus`).subscribe(
       (res: any) => {
         this.manuList = res;
       },
@@ -149,7 +149,7 @@ export class MenuPermissionComponent implements OnInit {
     this.oMenuPermissionFilterRequestDto.userID =(this.oMenuPermissionFilterRequestDto.userID);
     this.oMenuPermissionFilterRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionFilterRequestDto.isActive);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`MenuPermission/GetMenuPermissiones?pageNumber=${this.pageIndex}`, this.oMenuPermissionFilterRequestDto).subscribe(
+    this.http.Post(`MenuPermission/GetMenuPermissions?pageNumber=${this.pageIndex}`, this.oMenuPermissionFilterRequestDto).subscribe(
       (res: any) => {
         console.log(res);
         this.rowData = res.items;
