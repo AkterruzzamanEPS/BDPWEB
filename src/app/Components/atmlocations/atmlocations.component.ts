@@ -291,6 +291,15 @@ export class ATMLocationsComponent implements OnInit {
     CommonHelper.CommonButtonClick("openCommonModel");
     this.oServiceDetailRequestDto = new ServiceDetailRequestDto();
     this.servicedetailId = 0;
+
+    const today = new Date();
+    // Set 08:00:00 AM
+    const startTimeDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 10, 0, 0);
+    // Set 08:00:00 PM (20:00:00)
+    const endTimeDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 0, 0);
+
+    this.oServiceDetailRequestDto.StartTime = this.datePipe.transform(this.oServiceDetailRequestDto.StartTime, 'HH:mm:ss') || '08:00:00';
+    this.oServiceDetailRequestDto.EndTime = this.datePipe.transform(this.oServiceDetailRequestDto.EndTime, 'HH:mm:ss') || '10:00:00';
   }
 
   edit() {

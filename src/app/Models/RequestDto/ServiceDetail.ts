@@ -14,7 +14,11 @@ export class ServiceDetailRequestDto {
         this.Long = "";
         this.Remarks = "";
         this.IsActive = true;
-        this.UserID = ""
+        this.UserID = "",
+        this.Address="",
+        this.StartTime="",
+        this.EndTime=""
+
     }
     public Name: string;
     public ServiceId: number;
@@ -29,6 +33,9 @@ export class ServiceDetailRequestDto {
     public Remarks: string;
     public IsActive: boolean;
     public UserID: string;
+    public Address : string;
+    public StartTime: string;
+    public EndTime: string;
 }
 
 export class ServiceDetailFilterDto {
