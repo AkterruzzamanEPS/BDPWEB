@@ -4,6 +4,8 @@ export class TouristZoneRequestDto {
     this.FileId = 0;
     this.DistictId = 0;
     this.Description = '';
+    this.Lat = '';
+    this.Long = '';
     this.Remarks = '';
     this.IsActive = true;
   }
@@ -12,6 +14,8 @@ export class TouristZoneRequestDto {
   public FileId: number;
   public DistictId: number;
   public Description: string;
+  public Lat: string;
+  public Long: string;
   public Remarks: string;
   public IsActive: boolean;
 }

@@ -54,6 +54,7 @@ export class TouristZoneComponent implements OnInit {
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
     { field: 'Name', width: 150, headerName: 'Tourist Spot Name', filter: true },
+    { field: 'Description', width: 150, headerName: 'District', filter: true },
     { field: 'District', width: 150, headerName: 'District', filter: true },
     { field: 'Remarks', headerName: 'Remarks' },
     { field: 'IsActive', headerName: 'Status' },
