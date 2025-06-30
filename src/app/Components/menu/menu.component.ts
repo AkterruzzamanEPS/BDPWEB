@@ -128,7 +128,7 @@ export class MenuComponent implements OnInit {
     this.GetMenu();
   }
   private GetMenu() {
-debugger
+
     let currentUser = CommonHelper.GetUser();
     this.oMenuFilterRequestDto.name = (this.oMenuFilterRequestDto.name);
     this.oMenuFilterRequestDto.shortName = (this.oMenuFilterRequestDto.shortName);
@@ -137,7 +137,8 @@ debugger
     this.http.Post(`Menu/GetMenus?pageNumber=${this.pageIndex}`, this.oMenuFilterRequestDto).subscribe(
       (res: any) => {
         console.log(res);
-        this.rowData = res.items;
+        debugger
+        this.rowData = res.Items;
         this.pageIndex = res.pageIndex;
         this.totalPages = res.totalPages;
         this.totalRecords = res.totalRecords;
