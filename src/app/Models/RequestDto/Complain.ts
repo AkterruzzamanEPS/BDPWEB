@@ -14,6 +14,7 @@ export class ComplainRequestDto {
         this.IsActive = true;
         this.UserID = '';
         this.ComplainCatagoryType = 0;
+   
     }
 
     public Id: number;
@@ -29,6 +30,7 @@ export class ComplainRequestDto {
     public IsActive: boolean;
     public UserID: string;
     public ComplainCatagoryType: number;
+  
 }
 
 export class ComplainFilterDto {
