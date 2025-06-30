@@ -12,6 +12,8 @@ export class TouristSpotRequestDto {
     this.Long = '';
     this.Remarks = '';
     this.IsActive = true;
+    this.InchargeName= '';
+    this.Address= '';
   }
 
   public Name: string;
@@ -26,6 +28,8 @@ export class TouristSpotRequestDto {
   public Long: string;
   public Remarks: string;
   public IsActive: boolean;
+  public InchargeName : string;
+  public Address : string;
 }
 
 
