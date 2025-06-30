@@ -35,6 +35,7 @@ import { RefuelingStationsComponent } from './Components/refueling-stations/refu
 import { ReligiousCommunityComponent } from './Components/religious-community/religious-community.component';
 import { MobileInternetComponent } from './Components/mobile-internet/mobile-internet.component';
 import { RedMarkedSpotsComponent } from './Components/red-marked-spots/red-marked-spots.component';
+import { TouristZoneComponent } from './Components/tourist-zone/tourist-zone.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent, title: "Log in- BDP User Panel" },
@@ -53,6 +54,7 @@ export const routes: Routes = [
     { path: "founds", component: FoundComponent, canActivate: [AuthGuard], title: "Founds List | BDP" },
     { path: "upload", component: UploadComponent, title:"Upload | BDP"},
     { path: "touristspot", component: TouristSpotComponent, canActivate: [AuthGuard], title: "Tourist Spot | BDP" },
+    { path: "touristzone", component: TouristZoneComponent, canActivate: [AuthGuard], title: "Tourist Zone | BDP" },
     { path: "guide", component: GuideComponent, canActivate: [AuthGuard], title: "Guide List | BDP" },
     { path: "policestation", component: PoliceStationComponent, canActivate: [AuthGuard], title: "Police Station Spot | BDP" },
     { path: "touristtrip", component: TouristTripComponent, canActivate: [AuthGuard], title: "Tourist Trip | BDP" },
