@@ -84,6 +84,7 @@ export class ComplainComponent {
       }
     },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
+    { field: 'Address', width: 150, headerName: 'Address', filter: true },
 
     { field: 'Remarks', headerName: 'Remarks' },
     {
@@ -288,29 +289,6 @@ export class ComplainComponent {
     );
   }
 
-  // private GetComplains() {
-  //   debugger
-  //   let currentUser = CommonHelper.GetUser();
-  //   this.oComplainFilterDto .IsActive = CommonHelper.booleanConvert(this.oComplainFilterDto.IsActive);
-  //   this.oComplainFilterDto.Type = (this.oComplainFilterDto.Type);
-  //   // After the hash is generated, proceed with the API call
-  //   this.http.Post(`Complain/GetComplains?pageNumber=${this.pageIndex}`, this.oComplainFilterDto).subscribe(
-  //     (res: any) => {
-  //       console.log(res);
-  //       this.rowData = res;
-  //        this.pageIndex = res.pageIndex;
-  //        this.totalPages = res.totalPages;
-  //        this.totalRecords = res.totalRecords;
-  //         this.hasPreviousPage = res.hasPreviousPage;
-  //        this.hasNextPage = res.hasNextPage;
-  //        this.totalPageNumbers = CommonHelper.generateNumbers(this.pageIndex, this.totalPages)
-  //     },
-  //     (err) => {
-  //       this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-  //     }
-  //   );
-
-  // }
 
   public InsertService() {
 
@@ -419,7 +397,7 @@ export class ComplainComponent {
 
         // Set the category ID from the response
         if (res.ComplainCatagoryType) {
-          this.oComplainRequestDto.ComplainCatagoryType = res.ComplainCatagoryType;
+          this.oComplainRequestDto.ComplainCatagoryType = Number(res.ComplainCatagoryType);
         }
 
         // Load dependent dropdowns based on DistrictId

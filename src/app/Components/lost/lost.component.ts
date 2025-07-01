@@ -84,6 +84,7 @@ private complainGridApi!: any;
       }
     },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
+    { field: 'Address', width: 150, headerName: 'Address', filter: true },
  
     { field: 'Remarks', headerName: 'Remarks' },
     {

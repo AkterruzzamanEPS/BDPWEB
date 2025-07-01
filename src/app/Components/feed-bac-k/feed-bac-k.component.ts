@@ -85,7 +85,7 @@ export class FeedBacKComponent implements OnInit {
     this.oFeedBacKFilterDto.IsActive = CommonHelper.booleanConvert(this.oFeedBacKFilterDto.IsActive);
     this.oFeedBacKFilterDto.ReferanceTypeID = Number(this.oFeedBacKFilterDto.ReferanceTypeID);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`FeedBacK/GetFeedBacK?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oFeedBacKFilterDto).subscribe(
+    this.http.Post(`FeedBacK/GetFeedBacks?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oFeedBacKFilterDto).subscribe(
       (res: any) => {
         console.log(res);
         this.rowData = res.Items;
@@ -116,13 +116,11 @@ export class FeedBacKComponent implements OnInit {
     // After the hash is generated, proceed with the API call
     this.http.Post(`FeedBacK/InsertFeedBacK`, this.oFeedBacKRequestDto).subscribe(
       (res: any) => {
-        if (res.StatusCode != 200) {
-          this.toast.warning(res.message, "Warning!!", { progressBar: true });
-        } else {
-          CommonHelper.CommonButtonClick("closeCommonModel");
-          this.GetFeedBacK();
-          this.toast.success("Data Save Successfully!!", "Success!!", { progressBar: true });
-        }
+
+        CommonHelper.CommonButtonClick("closeCommonModel");
+        this.GetFeedBacK();
+        this.toast.success("Data Save Successfully!!", "Success!!", { progressBar: true });
+
       },
       (err) => {
         this.toast.error(err.message, "Error!!", { progressBar: true });
@@ -143,14 +141,9 @@ export class FeedBacKComponent implements OnInit {
     // After the hash is generated, proceed with the API call
     this.http.Post(`FeedBacK/UpdateFeedBacK/${this.feedbackId}`, this.oFeedBacKRequestDto).subscribe(
       (res: any) => {
-        if (res.StatusCode != 200) {
-          this.toast.warning(res.message, "Warning!!", { progressBar: true });
-        }
-        else {
-          CommonHelper.CommonButtonClick("closeCommonModel");
-          this.GetFeedBacK();
-          this.toast.success("Data Update Successfully!!", "Success!!", { progressBar: true });
-        }
+        CommonHelper.CommonButtonClick("closeCommonModel");
+        this.GetFeedBacK();
+        this.toast.success("Data Update Successfully!!", "Success!!", { progressBar: true });
       },
       (err) => {
         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });

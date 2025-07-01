@@ -15,17 +15,7 @@
                 placeholder="Search by name...">
         </div>
     </div>
-    <!-- <div class="col-2 px-1">
-        <div class="mb-2">
-            <select class="form-select" [(ngModel)]="oComplainFilterDto.Type" name="Type"
-                aria-label="Default select example">
-                <option value="3">Select Type</option>
-                <option value="1">Found</option>
-                <option value="2">Lost</option>
-                <option value="3">Complain</option>
-            </select>
-        </div>
-    </div> -->
+
     <div class="col-2 px-1">
         <div class="mb-2">
             <select class="form-select" [(ngModel)]="oComplainFilterDto.Status" name="Status"
@@ -144,18 +134,6 @@
                                 name="Date">
                         </div>
                     </div>
-
-                    <!-- <div class="col-md-6 px-1" hidden>
-                        <div class="mb-2">
-                            <label for="Status" class="form-label">Status</label>
-                            <select class="form-select" [(ngModel)]="oComplainRequestDto.Status" name="Status"
-                                aria-label="Default select example">
-                                <option value="1">Pending</option>
-                                <option value="2">In Progress</option>
-                                <option value="3">Resolved</option>
-                            </select>
-                        </div>
-                    </div> -->
                      
 
                     <div class="col-md-6 px-1" hidden>
@@ -219,14 +197,14 @@
                                 name="Description" placeholder="Enter description" rows="3"></textarea>
                         </div>
                     </div>
-
-                    <!-- <div class="col-12 px-1" *ngIf="!isComplainType">
+                    <div class="col-12 px-1">
                         <div class="mb-2">
-                            <label for="Remarks" class="form-label">Remarks</label>
-                            <textarea class="form-control" [(ngModel)]="oComplainRequestDto.Remarks"
-                                name="Remarks" placeholder="Enter remarks" rows="2"></textarea>
+                            <label for="Address" class="form-label">Address</label>
+                            <textarea class="form-control" [(ngModel)]="oComplainRequestDto.Address"
+                                name="Address" placeholder="Enter address" rows="3"></textarea>
                         </div>
-                    </div> -->
+                    </div>
+
 
                     <div class="col-md-6 px-1">
                         <div class="mb-2">

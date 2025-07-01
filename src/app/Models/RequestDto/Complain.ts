@@ -10,6 +10,7 @@ export class ComplainRequestDto {
         this.DistrictId= 0; 
         this.Status = 0;
         this.Description = '';
+        this.Address = '';
         this.Remarks = '';
         this.IsActive = true;
         this.UserID = '';
@@ -26,6 +27,7 @@ export class ComplainRequestDto {
     public DistrictId: number; 
     public Status: number;
     public Description: string;
+    public Address: string;
     public Remarks: string;
     public IsActive: boolean;
     public UserID: string;
