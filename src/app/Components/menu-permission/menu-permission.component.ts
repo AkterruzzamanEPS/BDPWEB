@@ -158,7 +158,7 @@ export class MenuPermissionComponent implements OnInit {
     // let currentUser = CommonHelper.GetUser();
     // this.oMenuPermissionFilterRequestDto.companyId = Number(this.oMenuPermissionFilterRequestDto.companyId);
     this.oMenuPermissionFilterRequestDto.userID =(this.oMenuPermissionFilterRequestDto.userID);
-    this.oMenuPermissionFilterRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionFilterRequestDto.isActive);
+    this.oMenuPermissionFilterRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuPermissionFilterRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`MenuPermission/GetMenuPermissions?pageNumber=${this.pageIndex}`, this.oMenuPermissionFilterRequestDto).subscribe(
       (res: any) => {
@@ -197,7 +197,7 @@ export class MenuPermissionComponent implements OnInit {
     this.oMenuPermissionRequestDto.menuId = Number(this.oMenuPermissionRequestDto.menuId);
     // this.oMenuPermissionRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
     this.oMenuPermissionRequestDto.name = (this.oMenuPermissionRequestDto.name);
-    this.oMenuPermissionRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.isActive);
+    this.oMenuPermissionRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.IsActive);
     this.oMenuPermissionRequestDto.remarks = (this.oMenuPermissionRequestDto.remarks);
 
     // After the hash is generated, proceed with the API call
@@ -231,7 +231,7 @@ export class MenuPermissionComponent implements OnInit {
     this.oMenuPermissionRequestDto.menuId = Number(this.oMenuPermissionRequestDto.menuId);
     // this.oMenuPermissionRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
     this.oMenuPermissionRequestDto.name = (this.oMenuPermissionRequestDto.name);
-    this.oMenuPermissionRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.isActive);
+    this.oMenuPermissionRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.IsActive);
     this.oMenuPermissionRequestDto.remarks = (this.oMenuPermissionRequestDto.remarks);
     // After the hash is generated, proceed with the API call
     this.http.Post(`MenuPermission/UpdateMenuPermission/${this.MenuPermissionId}`, this.oMenuPermissionRequestDto).subscribe(
@@ -255,7 +255,7 @@ export class MenuPermissionComponent implements OnInit {
   public DeleteMenuPermission() {
     let currentUser = CommonHelper.GetUser();
 
-    this.oMenuPermissionRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.isActive);
+    this.oMenuPermissionRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`MenuPermission/DeleteMenuPermission/${this.MenuPermissionId}`, this.oMenuPermissionRequestDto).subscribe(
       (res: any) => {
@@ -292,7 +292,7 @@ export class MenuPermissionComponent implements OnInit {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
     }
     this.MenuPermissionId = Number(getSelectedItem.id);
-    this.oMenuPermissionRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.isActive);
+    this.oMenuPermissionRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.IsActive);
     this.oMenuPermissionRequestDto.remarks = (this.oMenuPermissionRequestDto.remarks);
 
     CommonHelper.CommonButtonClick("openCommonDelete");

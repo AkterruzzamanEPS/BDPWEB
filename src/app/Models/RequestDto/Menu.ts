@@ -1,31 +1,31 @@
 export class MenuFilterRequestDto {
 
     constructor() {
-        this.name = '';
-        this.shortName = '';
-        this.isActive=true;
+        this.Name = '';
+        this.ShortName = '';
+        this.IsActive=true;
     }
-    public name: string;
-    public shortName: string;
-    public isActive: boolean;
+    public Name: string;
+    public ShortName: string;
+    public IsActive: boolean;
 }
 
 export class MenuRequestDto {
 
     constructor() {
-        this.name = '';
-        this.shortName = '';
-        this.routingPath = '';
-        this.isActive = true;
-        this.remarks = '';
-        this.iPAddress = '';
+        this.Name = '';
+        this.ShortName = '';
+        this.RoutingPath = '';
+        this.IsActive = true;
+        this.Remarks = '';
+        this.IPAddress = '';
         
       
     }
-    public name: string;
-    public shortName: string;
-    public routingPath: string;
-    public isActive: boolean;
-    public remarks: string;
-    public iPAddress: string;
+    public Name: string;
+    public ShortName: string;
+    public RoutingPath: string;
+    public IsActive: boolean;
+    public Remarks: string;
+    public IPAddress: string;
 }

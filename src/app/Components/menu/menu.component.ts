@@ -36,7 +36,7 @@ export class MenuComponent implements OnInit {
   public MenuId = 0;
 
   userList: any[] = [];
-  CompanyList: any[] = [];
+  // CompanyList: any[] = [];
 
   trackByCompany: TrackByFunction<any> | any;
   trackByUser: TrackByFunction<any> | any;
@@ -84,9 +84,9 @@ export class MenuComponent implements OnInit {
     this.rowDataMenuPermission = [];
   }
 
-  public companyChange() {
-    this.GetAllUsers();
-  }
+  // public companyChange() {
+  //   this.GetAllUsers();
+  // }
 
   // private GetAllCompanies() {
 
@@ -130,14 +130,16 @@ export class MenuComponent implements OnInit {
   private GetMenu() {
 
     let currentUser = CommonHelper.GetUser();
-    this.oMenuFilterRequestDto.name = (this.oMenuFilterRequestDto.name);
-    this.oMenuFilterRequestDto.shortName = (this.oMenuFilterRequestDto.shortName);
-    this.oMenuFilterRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuFilterRequestDto.isActive);
+    this.oMenuFilterRequestDto.Name = (this.oMenuFilterRequestDto.Name);
+    this.oMenuFilterRequestDto.ShortName = (this.oMenuFilterRequestDto.ShortName);
+    this.oMenuFilterRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuFilterRequestDto.IsActive);
+
+    const pageNumber = this.pageIndex ?? 1; // fallback to 1 if undefined
+
     // After the hash is generated, proceed with the API call
-    this.http.Post(`Menu/GetMenus?pageNumber=${this.pageIndex}`, this.oMenuFilterRequestDto).subscribe(
+    this.http.Post(`Menu/GetMenus?pageNumber=${pageNumber}`, this.oMenuFilterRequestDto).subscribe(
       (res: any) => {
         console.log(res);
-        debugger
         this.rowData = res.Items;
         this.pageIndex = res.pageIndex;
         this.totalPages = res.totalPages;
@@ -156,15 +158,15 @@ export class MenuComponent implements OnInit {
 
   public InsertMenu() {
   debugger;
-    if (this.oMenuRequestDto.name == "") {
+    if (this.oMenuRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
     }
     let currentUser = CommonHelper.GetUser();
-    this.oMenuRequestDto.shortName = (this.oMenuRequestDto.shortName);
-    this.oMenuRequestDto.routingPath = (this.oMenuRequestDto.routingPath);
-    this.oMenuRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuRequestDto.isActive);
-    this.oMenuRequestDto.remarks = (this.oMenuRequestDto.remarks);
+    this.oMenuRequestDto.ShortName = (this.oMenuRequestDto.ShortName);
+    this.oMenuRequestDto.RoutingPath = (this.oMenuRequestDto.RoutingPath);
+    this.oMenuRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuRequestDto.IsActive);
+    this.oMenuRequestDto.Remarks = (this.oMenuRequestDto.Remarks);
 
     // After the hash is generated, proceed with the API call
     this.http.Post(`Menu/InsertMenu`, this.oMenuRequestDto).subscribe(
@@ -184,15 +186,15 @@ export class MenuComponent implements OnInit {
     );
   }
   public UpdateMenu() {
-    debugger;
-    if (this.oMenuRequestDto.name == "") {
+    debugger
+    if (this.oMenuRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
     }
-    this.oMenuRequestDto.shortName = (this.oMenuRequestDto.shortName);
-    this.oMenuRequestDto.routingPath = (this.oMenuRequestDto.routingPath);
-    this.oMenuRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuRequestDto.isActive);
-    this.oMenuRequestDto.remarks = (this.oMenuRequestDto.remarks);
+    this.oMenuRequestDto.ShortName = (this.oMenuRequestDto.ShortName);
+    this.oMenuRequestDto.RoutingPath = (this.oMenuRequestDto.RoutingPath);
+    this.oMenuRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuRequestDto.IsActive);
+    this.oMenuRequestDto.Remarks = (this.oMenuRequestDto.Remarks);
 
     // After the hash is generated, proceed with the API call
     this.http.Post(`Menu/UpdateMenu/${this.MenuId}`, this.oMenuRequestDto).subscribe(
@@ -208,22 +210,30 @@ export class MenuComponent implements OnInit {
     );
 
   }
-  public DeleteMenu() {
-    debugger
-    this.oMenuRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuRequestDto.isActive);
-    // After the hash is generated, proceed with the API call
-    this.http.Post(`Menu/DeleteMenu/${this.MenuId}`, this.oMenuRequestDto).subscribe(
-      (res: any) => {
-        CommonHelper.CommonButtonClick("closeCommonDelete");
-        this.GetMenu();
-        this.toast.success("Data Delete Successfully!!", "Success!!", { progressBar: true });
-      },
-      (err) => {
-        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-      }
-    );
+public DeleteMenu(): void {
+  debugger;
 
+  if (!this.MenuId) {
+    this.toast.error("Invalid Menu ID", "Error!!", { progressBar: true });
+    return;
   }
+
+  // Convert isActive to backend-friendly format
+  this.oMenuRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuRequestDto.IsActive);
+
+  this.http.Post(`Menu/DeleteMenu/${this.MenuId}`, this.oMenuRequestDto).subscribe(
+    (res: any) => {
+      CommonHelper.CommonButtonClick("closeCommonDelete"); // Close the delete modal
+      this.GetMenu(); // Refresh list
+      this.toast.success(res?.message || "Data deleted successfully!", "Success!!", { progressBar: true });
+    },
+    (err) => {
+      this.toast.error(err?.error?.message || "Failed to delete data", "Error!!", { progressBar: true });
+    }
+  );
+}
+
+
   add() {
     CommonHelper.CommonButtonClick("openCommonModel");
     this.oMenuRequestDto = new MenuRequestDto();
@@ -243,29 +253,31 @@ export class MenuComponent implements OnInit {
   }
 
   edit() {
+    debugger
     let getSelectedItem = AGGridHelper.GetSelectedRow(this.MenuGridApi);
     if (getSelectedItem == null) {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
     }
-    this.MenuId = Number(getSelectedItem.id);
-    this.oMenuRequestDto.name = getSelectedItem.name;
-    this.oMenuRequestDto.shortName = getSelectedItem.shortName;
-    this.oMenuRequestDto.routingPath = getSelectedItem.routingPath;
-    this.oMenuRequestDto.isActive = CommonHelper.booleanConvert(getSelectedItem.isActive);
-    this.oMenuRequestDto.remarks = getSelectedItem.remarks;
+    this.MenuId = Number(getSelectedItem.Id);
+    this.oMenuRequestDto.Name = getSelectedItem.Name;
+    this.oMenuRequestDto.ShortName = getSelectedItem.ShortName;
+    this.oMenuRequestDto.RoutingPath = getSelectedItem.RoutingPath;
+    this.oMenuRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
+    this.oMenuRequestDto.Remarks = getSelectedItem.Remarks;
 
     CommonHelper.CommonButtonClick("openCommonModel");
   }
 
   delete() {
+    debugger
     let getSelectedItem = AGGridHelper.GetSelectedRow(this.MenuGridApi);
     if (getSelectedItem == null) {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
     }
-    this.MenuId = Number(getSelectedItem.id);
-    this.oMenuRequestDto.name = getSelectedItem.name;
-    this.oMenuRequestDto.isActive = getSelectedItem.isActive;
-    this.oMenuRequestDto.remarks = getSelectedItem.remarks;
+     this.MenuId = Number(getSelectedItem.Id );
+    this.oMenuRequestDto.Name = getSelectedItem.Name;
+    this.oMenuRequestDto.IsActive = getSelectedItem.IsActive;
+    this.oMenuRequestDto.Remarks = getSelectedItem.Remarks;
 
     CommonHelper.CommonButtonClick("openCommonDelete");
 
@@ -283,7 +295,7 @@ export class MenuComponent implements OnInit {
     this.oMenuPerRequestDto.menues = AGGridHelper.GetRows(this.MenuPermissionGridApi);
     this.oMenuPerRequestDto.userID = (this.oMenuPerRequestDto.userID);
   
-    this.oMenuPerRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPerRequestDto.isActive);
+    this.oMenuPerRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuPerRequestDto.IsActive);
     this.oMenuPerRequestDto.remarks = (this.oMenuPerRequestDto.remarks);
 
     // After the hash is generated, proceed with the API call
