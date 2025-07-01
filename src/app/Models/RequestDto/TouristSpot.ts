@@ -2,6 +2,7 @@ export class TouristSpotRequestDto {
   constructor() {
     this.Name = '';
     this.FileId = 0;
+    this.TouristZoneId = 0;
     this.DistictId = 0;
     this.Type = 0;
     this.ThanaId = 0;
@@ -18,6 +19,7 @@ export class TouristSpotRequestDto {
 
   public Name: string;
   public FileId: number;
+  public TouristZoneId: number;
   public DistictId: number;
   public Type: number;
   public ThanaId: number;
@@ -37,6 +39,7 @@ export class TouristSpotRequestDto {
 export class TouristSpotFilterDto {
   constructor() {
     this.Name = '';
+    this.TouristZoneId = 0;
     this.DistictId = 0;
     this.Type = 0;
     this.ThanaId = 0;
@@ -47,6 +50,7 @@ export class TouristSpotFilterDto {
   }
 
   public Name: string;
+  public TouristZoneId: number;
   public DistictId: number;
   public Type: number;
   public ThanaId: number;

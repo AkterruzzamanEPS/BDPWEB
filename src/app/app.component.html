@@ -1,6 +1,6 @@
 <div class="row g-0">
   @if (authService.isLogin()) {
-  <div class="col-2 border" style="background-color: rgb(255 255 255);" [style.height.px]="leftSideHeight">
+  <div class="col-2 border" style="background-color: rgb(255 255 255); overflow-y: auto;" [style.height.px]="leftSideHeight">
     <app-left-side-bar></app-left-side-bar>
   </div>
   }
