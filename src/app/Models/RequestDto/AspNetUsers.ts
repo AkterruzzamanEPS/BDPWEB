@@ -2,12 +2,15 @@ export class AspNetUsersFilterRequestDto {
     constructor() {
         this.Name = '';
         this.Email = '';
+        this.UserType = 0;
         this.IsActive = true;
     }
     public Name: string;
     public Email: string;
+    public UserType: number;
     public IsActive: boolean;
 }
+
 
 export class AspNetUsersRequestDto {
 

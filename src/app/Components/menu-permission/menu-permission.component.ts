@@ -9,6 +9,8 @@ import { CommonHelper } from '../../Shared/Services/CommonHelper';
 import { HttpHelperService } from '../../Shared/Services/http-helper.service';
 import { Router } from '@angular/router';
 import { MenuPermissionFilterRequestDto, MenuPermissionRequestDto } from '../../Models/RequestDto/MenuPermission';
+import { AspNetUsersFilterRequestDto } from '../../Models/RequestDto/AspNetUsers';
+import { DropdownMenu } from '../../Models/RequestDto/DropdownMenu';
 
 @Component({
   selector: 'app-menu-permission',
@@ -25,6 +27,8 @@ export class MenuPermissionComponent implements OnInit {
   public rowData!: any[];
   public oMenuPermissionFilterRequestDto = new MenuPermissionFilterRequestDto();
   public oMenuPermissionRequestDto = new MenuPermissionRequestDto();
+  public oAspNetUsersFilterRequestDto = new AspNetUsersFilterRequestDto();
+  public oDropdownMenu = new DropdownMenu();
   userList: any[] = [];
   menuList: any[] = [];
   // CompanyList: any[] = [];
@@ -89,13 +93,14 @@ export class MenuPermissionComponent implements OnInit {
   // public onFiltercompanyChange() {
   //   this.GetAllfilterUser();
   // }
- public userchange() {
+  public userchange() {
     this.GetAllUsers();
   }
 
   private GetAllUsers() {
+    this.oAspNetUsersFilterRequestDto.IsActive = CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.IsActive);
     this.userList = [];
-    this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPermissionRequestDto.userID)).subscribe(
+    this.http.Post(`AspNetUsers/GetAllAspNetUsers`, this.oAspNetUsersFilterRequestDto).subscribe(
       (res: any) => {
         this.userList = res;
       },
@@ -129,35 +134,28 @@ export class MenuPermissionComponent implements OnInit {
   //   );
 
   // }
- private GetAllMenues(): void {
-  debugger;
-  const pageNumber = 1;
-  const searchModel = {
-    name: '',
-    isActive: true // or false depending on what you want to filter
-  };
+  private GetAllMenues(): void {
+    debugger;
+    this.oDropdownMenu.IsActive = CommonHelper.booleanConvert(this.oDropdownMenu.IsActive);
+    this.menuList = [];
 
-  this.http.Post(`Menu/GetMenus?pageNumber=${pageNumber}`, searchModel).subscribe(
-    (res: any) => {
-      if (res && res.Items) {
-        this.menuList = res.Items;  // assign only the menu array, not the full response
-      } else {
-        this.menuList = [];
-        this.toast.error("No menus found", "Info", { progressBar: true });
+    this.http.Post(`Menu/GetDistinctMenus`, this.oDropdownMenu).subscribe(
+      (res: any) => {
+        this.menuList = res;
+
+      },
+      (err) => {
+        this.toast.error(err?.error?.message || "Something went wrong", "Error!!", { progressBar: true });
       }
-    },
-    (err) => {
-      this.toast.error(err?.error?.message || "Something went wrong", "Error!!", { progressBar: true });
-    }
-  );
-}
+    );
+  }
 
 
   private GetMenuPermission() {
 
     // let currentUser = CommonHelper.GetUser();
     // this.oMenuPermissionFilterRequestDto.companyId = Number(this.oMenuPermissionFilterRequestDto.companyId);
-    this.oMenuPermissionFilterRequestDto.userID =(this.oMenuPermissionFilterRequestDto.userID);
+    this.oMenuPermissionFilterRequestDto.userID = (this.oMenuPermissionFilterRequestDto.userID);
     this.oMenuPermissionFilterRequestDto.IsActive = CommonHelper.booleanConvert(this.oMenuPermissionFilterRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`MenuPermission/GetMenuPermissions?pageNumber=${this.pageIndex}`, this.oMenuPermissionFilterRequestDto).subscribe(
@@ -180,7 +178,7 @@ export class MenuPermissionComponent implements OnInit {
   }
 
   public InsertMenuPermission() {
- 
+
     if (this.oMenuPermissionRequestDto.userID == "") {
       this.toast.warning("Please select user", "Warning!!", { progressBar: true });
       return;
@@ -250,7 +248,7 @@ export class MenuPermissionComponent implements OnInit {
   defaultDataGet() {
     // this.oMenuPermissionFilterRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
     this.oMenuPermissionFilterRequestDto.userID = this.oMenuPermissionRequestDto.userID;
-   
+
   }
   public DeleteMenuPermission() {
     let currentUser = CommonHelper.GetUser();
