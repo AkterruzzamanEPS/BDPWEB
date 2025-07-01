@@ -135,7 +135,6 @@ export class MenuPermissionComponent implements OnInit {
 
   // }
   private GetAllMenues(): void {
-    debugger;
     this.oDropdownMenu.IsActive = CommonHelper.booleanConvert(this.oDropdownMenu.IsActive);
     this.menuList = [];
 
@@ -152,7 +151,7 @@ export class MenuPermissionComponent implements OnInit {
 
 
   private GetMenuPermission() {
-
+   
     // let currentUser = CommonHelper.GetUser();
     // this.oMenuPermissionFilterRequestDto.companyId = Number(this.oMenuPermissionFilterRequestDto.companyId);
     this.oMenuPermissionFilterRequestDto.userID = (this.oMenuPermissionFilterRequestDto.userID);
@@ -161,6 +160,7 @@ export class MenuPermissionComponent implements OnInit {
     this.http.Post(`MenuPermission/GetMenuPermissions?pageNumber=${this.pageIndex}`, this.oMenuPermissionFilterRequestDto).subscribe(
       (res: any) => {
         console.log(res);
+        debugger
         this.rowData = res.Items;
         this.pageIndex = res.pageIndex;
         this.totalPages = res.totalPages;
