@@ -26,8 +26,8 @@ export class MenuPermissionComponent implements OnInit {
   public oMenuPermissionFilterRequestDto = new MenuPermissionFilterRequestDto();
   public oMenuPermissionRequestDto = new MenuPermissionRequestDto();
   userList: any[] = [];
-  manuList: any[] = [];
-  CompanyList: any[] = [];
+  menuList: any[] = [];
+  // CompanyList: any[] = [];
   public MenuPermissionId = 0;
 
   // pagination setup
@@ -40,12 +40,12 @@ export class MenuPermissionComponent implements OnInit {
 
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headername: 'SL', width: 90, editable: false, checkboxSelection: false },
-    { field: 'userName', width: 150, headername: 'User Name', filter: true },
-    { field: 'menuName', width: 150, headername: 'Menu Name', filter: true },
-    { field: 'companyName', width: 150, headername: 'Company Name', filter: true },
-    { field: 'name', headername: 'Name', filter: true },
-    { field: 'isActive', headername: 'IsActive', filter: true },
-    { field: 'remarks', headername: 'Remarks', filter: true },
+    { field: 'UserName', width: 150, headername: 'User Name', filter: true },
+    { field: 'MenuName', width: 150, headername: 'Menu Name', filter: true },
+    { field: 'CompanyName', width: 150, headername: 'Company Name', filter: true },
+    { field: 'Name', headername: 'Name', filter: true },
+    { field: 'IsActive', headername: 'IsActive', filter: true },
+    { field: 'Remarks', headername: 'Remarks', filter: true },
   ];
   trackByCompany: TrackByFunction<any> | any;
   trackByUser: TrackByFunction<any> | any;
@@ -61,7 +61,7 @@ export class MenuPermissionComponent implements OnInit {
   ngOnInit(): void {
     this.GetMenuPermission();
     this.GetAllMenues();
-    this.GetAllCompanies();
+    // this.GetAllCompanies();
     this.GetAllUsers();
   }
 
@@ -83,19 +83,19 @@ export class MenuPermissionComponent implements OnInit {
     this.GetMenuPermission();
   }
 
-  public companyChange() {
-    this.GetAllUsers();
-  }
-  public onFiltercompanyChange() {
-    this.GetAllfilterUser();
-  }
+  // public companyChange() {
+  //   this.GetAllUsers();
+  // }
+  // public onFiltercompanyChange() {
+  //   this.GetAllfilterUser();
+  // }
  public userchange() {
     this.GetAllUsers();
   }
 
   private GetAllUsers() {
     this.userList = [];
-    this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPermissionRequestDto.companyId)).subscribe(
+    this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPermissionRequestDto.userID)).subscribe(
       (res: any) => {
         this.userList = res;
       },
@@ -107,7 +107,7 @@ export class MenuPermissionComponent implements OnInit {
   }
   private GetAllfilterUser() {
     this.userList = [];
-    this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPermissionFilterRequestDto.companyId)).subscribe(
+    this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPermissionFilterRequestDto.userID)).subscribe(
       (res: any) => {
         this.userList = res;
       },
@@ -117,42 +117,53 @@ export class MenuPermissionComponent implements OnInit {
     );
 
   }
-  private GetAllCompanies() {
+  // private GetAllCompanies() {
 
-    this.http.Get(`Company/GetAllCompanies`).subscribe(
-      (res: any) => {
-        this.CompanyList = res;
-      },
-      (err) => {
-        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+  //   this.http.Get(`Company/GetAllCompanies`).subscribe(
+  //     (res: any) => {
+  //       this.CompanyList = res;
+  //     },
+  //     (err) => {
+  //       this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+  //     }
+  //   );
+
+  // }
+ private GetAllMenues(): void {
+  debugger;
+  const pageNumber = 1;
+  const searchModel = {
+    name: '',
+    isActive: true // or false depending on what you want to filter
+  };
+
+  this.http.Post(`Menu/GetMenus?pageNumber=${pageNumber}`, searchModel).subscribe(
+    (res: any) => {
+      if (res && res.Items) {
+        this.menuList = res.Items;  // assign only the menu array, not the full response
+      } else {
+        this.menuList = [];
+        this.toast.error("No menus found", "Info", { progressBar: true });
       }
-    );
+    },
+    (err) => {
+      this.toast.error(err?.error?.message || "Something went wrong", "Error!!", { progressBar: true });
+    }
+  );
+}
 
-  }
-  private GetAllMenues() {
-
-    this.http.Get(`Menu/GetAllMenus`).subscribe(
-      (res: any) => {
-        this.manuList = res;
-      },
-      (err) => {
-        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-      }
-    );
-
-  }
 
   private GetMenuPermission() {
 
-    let currentUser = CommonHelper.GetUser();
-    this.oMenuPermissionFilterRequestDto.companyId = Number(this.oMenuPermissionFilterRequestDto.companyId);
+    // let currentUser = CommonHelper.GetUser();
+    // this.oMenuPermissionFilterRequestDto.companyId = Number(this.oMenuPermissionFilterRequestDto.companyId);
     this.oMenuPermissionFilterRequestDto.userID =(this.oMenuPermissionFilterRequestDto.userID);
     this.oMenuPermissionFilterRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionFilterRequestDto.isActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`MenuPermission/GetMenuPermissions?pageNumber=${this.pageIndex}`, this.oMenuPermissionFilterRequestDto).subscribe(
       (res: any) => {
         console.log(res);
-        this.rowData = res.items;
+        this.rowData = res.Items;
         this.pageIndex = res.pageIndex;
         this.totalPages = res.totalPages;
         this.totalRecords = res.totalRecords;
@@ -184,7 +195,7 @@ export class MenuPermissionComponent implements OnInit {
     }
     this.oMenuPermissionRequestDto.userID = (this.oMenuPermissionRequestDto.userID);
     this.oMenuPermissionRequestDto.menuId = Number(this.oMenuPermissionRequestDto.menuId);
-    this.oMenuPermissionRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
+    // this.oMenuPermissionRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
     this.oMenuPermissionRequestDto.name = (this.oMenuPermissionRequestDto.name);
     this.oMenuPermissionRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.isActive);
     this.oMenuPermissionRequestDto.remarks = (this.oMenuPermissionRequestDto.remarks);
@@ -218,7 +229,7 @@ export class MenuPermissionComponent implements OnInit {
     }
     this.oMenuPermissionRequestDto.userID = (this.oMenuPermissionRequestDto.userID);
     this.oMenuPermissionRequestDto.menuId = Number(this.oMenuPermissionRequestDto.menuId);
-    this.oMenuPermissionRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
+    // this.oMenuPermissionRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
     this.oMenuPermissionRequestDto.name = (this.oMenuPermissionRequestDto.name);
     this.oMenuPermissionRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPermissionRequestDto.isActive);
     this.oMenuPermissionRequestDto.remarks = (this.oMenuPermissionRequestDto.remarks);
@@ -237,7 +248,7 @@ export class MenuPermissionComponent implements OnInit {
 
   }
   defaultDataGet() {
-    this.oMenuPermissionFilterRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
+    // this.oMenuPermissionFilterRequestDto.companyId = Number(this.oMenuPermissionRequestDto.companyId);
     this.oMenuPermissionFilterRequestDto.userID = this.oMenuPermissionRequestDto.userID;
    
   }
