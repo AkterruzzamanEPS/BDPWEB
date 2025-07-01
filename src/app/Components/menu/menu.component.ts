@@ -10,6 +10,7 @@ import { HttpHelperService } from '../../Shared/Services/http-helper.service';
 import { Router } from '@angular/router';
 import { MenuFilterRequestDto, MenuRequestDto } from '../../Models/RequestDto/Menu';
 import { MenuPerRequestDto } from '../../Models/RequestDto/MenuPermission';
+import { AspNetUsersFilterRequestDto } from '../../Models/RequestDto/AspNetUsers';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class MenuComponent implements OnInit {
   public rowDataMenuPermission!: any[];
   public oMenuFilterRequestDto = new MenuFilterRequestDto();
   public oMenuRequestDto = new MenuRequestDto();
+  public oAspNetUsersFilterRequestDto = new AspNetUsersFilterRequestDto
 
   public MenuId = 0;
 
@@ -100,20 +102,19 @@ export class MenuComponent implements OnInit {
   //   );
 
   // }
-  private GetAllUsers() {
-    debugger;
-    this.userList = [];
-    this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPerRequestDto.userID)).subscribe(
-      (res: any) => {
-        this.userList = res;
-      },
-      (err) => {
-        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-      }
-    );
-
-  }
-
+ private GetAllUsers() {
+     this.oAspNetUsersFilterRequestDto.IsActive = CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.IsActive);
+     this.userList = [];
+     this.http.Post(`AspNetUsers/GetAllAspNetUsers`, this.oAspNetUsersFilterRequestDto).subscribe(
+       (res: any) => {
+         this.userList = res;
+       },
+       (err) => {
+         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+       }
+     );
+ 
+   }
 
   detailToGrid(params: any) {
     const eDiv = document.createElement('div');
@@ -157,7 +158,6 @@ export class MenuComponent implements OnInit {
   }
 
   public InsertMenu() {
-  debugger;
     if (this.oMenuRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
@@ -186,7 +186,6 @@ export class MenuComponent implements OnInit {
     );
   }
   public UpdateMenu() {
-    debugger
     if (this.oMenuRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
@@ -211,7 +210,6 @@ export class MenuComponent implements OnInit {
 
   }
 public DeleteMenu(): void {
-  debugger;
 
   if (!this.MenuId) {
     this.toast.error("Invalid Menu ID", "Error!!", { progressBar: true });
@@ -248,7 +246,7 @@ public DeleteMenu(): void {
     this.rowDataMenuPermission = [];
     let getSelectedRow = AGGridHelper.GetSelectedRows(this.MenuGridApi);
     getSelectedRow.forEach(element => {
-      this.rowDataMenuPermission.push({ id: element.id, name: element.name });
+      this.rowDataMenuPermission.push({ id: element.Id, name: element.Name });
     });
 
   }

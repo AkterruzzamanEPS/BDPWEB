@@ -222,8 +222,8 @@
                             <select class="form-select" [(ngModel)]="oMenuPerRequestDto.userID" name="userID"
                                 aria-label="Default select example">
                                 <option value="">-- select user name --</option>
-                                <option *ngFor="let item of userList; trackBy: trackByUser" [value]="item.id">
-                                    {{ item.fullName }}
+                                <option *ngFor="let item of userList; trackBy: trackByUser" [value]="item.Id">
+                                    {{ item.FullName }}
                                 </option>
                             </select>
                         </div>
