@@ -59,7 +59,6 @@ export class AspNetUsersComponent implements OnInit {
   ngOnInit(): void {
     this.Roles();
     this.GetAspNetUsers();
-    this.GetAllCompanies();
   }
   PageChange(event: any) {
     this.pageIndex = Number(event);
@@ -85,18 +84,7 @@ export class AspNetUsersComponent implements OnInit {
 
 
   }
-  private GetAllCompanies() {
 
-    this.http.Get(`Company/GetAllCompanies`).subscribe(
-      (res: any) => {
-        this.CompanyList = res;
-      },
-      (err) => {
-        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-      }
-    );
-
-  }
   private Roles() {
 
     this.http.Get(`AspNetUsers/Roles`).subscribe(
@@ -112,7 +100,6 @@ export class AspNetUsersComponent implements OnInit {
 
   private GetAspNetUsers() {
 
-    this.oAspNetUsersFilterRequestDto.companyId = Number(this.oAspNetUsersFilterRequestDto.companyId);
     this.oAspNetUsersFilterRequestDto.isActive = CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.isActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/GetAspNetUsers?pageNumber=${this.pageIndex}`, this.oAspNetUsersFilterRequestDto).subscribe(
@@ -162,7 +149,6 @@ export class AspNetUsersComponent implements OnInit {
     }
 
     let currentUser = CommonHelper.GetUser();
-    this.oAspNetUsersRequestDto.companyId = Number(0);
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/InsertAspNetUsers`, this.oAspNetUsersRequestDto).subscribe(
       (res: any) => {

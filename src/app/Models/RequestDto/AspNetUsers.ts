@@ -1,10 +1,8 @@
 export class AspNetUsersFilterRequestDto {
     constructor() {
         this.name = '';
-        this.companyId = 0;
         this.isActive = true;
     }
-    public companyId: number;
     public name: string;
     public isActive: boolean;
 }
@@ -17,7 +15,7 @@ export class AspNetUsersRequestDto {
         this.phoneNumber = '';
         this.password = '';
         this.confirmPassword = '';
-        this.companyId = 0;
+        this.Type = 0;
         this.ipAddress = "";
         this.roleId = "";
     }
@@ -26,7 +24,7 @@ export class AspNetUsersRequestDto {
     public phoneNumber: string;
     public password: string;
     public confirmPassword: string;
-    public companyId: number;
+    public Type: number;
     public ipAddress: string;
     public roleId: string
 }

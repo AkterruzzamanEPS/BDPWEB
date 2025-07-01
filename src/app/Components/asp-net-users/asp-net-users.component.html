@@ -9,17 +9,6 @@
 
     <div class="col-2 px-1">
         <div class="mb-2">
-            <select class="form-select" [(ngModel)]="oAspNetUsersFilterRequestDto.companyId" name="companyId"
-                aria-label="Default select example">
-                <option value="0">-- select company --</option>
-                <option *ngFor="let item of CompanyList; trackBy: trackByCompany" [value]="item.id">
-                    {{ item.name }}
-                </option>
-            </select>
-        </div>
-    </div>
-    <div class="col-2 px-1">
-        <div class="mb-2">
             <select class="form-select" [(ngModel)]="oAspNetUsersFilterRequestDto.isActive" name="isActive"
                 aria-label="Default select example">
                 <option value="true">Active</option>
