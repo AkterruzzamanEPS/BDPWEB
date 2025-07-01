@@ -1,10 +1,12 @@
 export class AspNetUsersFilterRequestDto {
     constructor() {
-        this.name = '';
-        this.isActive = true;
+        this.Name = '';
+        this.Email = '';
+        this.IsActive = true;
     }
-    public name: string;
-    public isActive: boolean;
+    public Name: string;
+    public Email: string;
+    public IsActive: boolean;
 }
 
 export class AspNetUsersRequestDto {

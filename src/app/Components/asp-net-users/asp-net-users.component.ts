@@ -99,7 +99,7 @@ export class AspNetUsersComponent implements OnInit {
   }
 
   private GetAspNetUsers() {
-    this.oAspNetUsersFilterRequestDto.isActive = CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.isActive);
+    this.oAspNetUsersFilterRequestDto.IsActive = CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/GetAspNetUsers?pageNumber=${this.pageIndex}`, this.oAspNetUsersFilterRequestDto).subscribe(
       (res: any) => {
