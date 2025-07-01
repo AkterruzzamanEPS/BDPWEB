@@ -9,12 +9,11 @@ import { AuthService } from '../../Shared/Services/auth.service';
 import { CommonHelper } from '../../Shared/Services/CommonHelper';
 import { HttpHelperService } from '../../Shared/Services/http-helper.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceFilterDto, ServiceRequestDto } from '../../Models/RequestDto/Service';
-import { ComplainFilterDto, ComplainRequestDto } from '../../Models/RequestDto/Complain';
 import { ThanaFilterDto } from '../../Models/RequestDto/Thana';
 import { DistrictFilterDto } from '../../Models/RequestDto/District';
 import { TouristSpotFilterDto, TouristSpotRequestDto } from '../../Models/RequestDto/TouristSpot';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+import { TouristZoneFilterDto } from '../../Models/RequestDto/TouristZone';
 @Component({
   selector: 'app-tourist-spot',
   standalone: true,
@@ -31,10 +30,13 @@ export class TouristSpotComponent implements OnInit {
   public rowData!: any[];
   public districtList: any[] = [];
   public districtFromList: any[] = [];
+  public touristZoneList: any[] = [];
+  public touristZoneFromList: any[] = [];
   public thanaList: any[] = [];
   public thanaFromList: any[] = [];
 
   public oThanaFilterDto = new ThanaFilterDto();
+  public oTouristZoneFilterDto = new TouristZoneFilterDto();
   public oThanaFilterDtoFrom = new ThanaFilterDto();
   public oDistrictFilterDto = new DistrictFilterDto();
 
@@ -88,7 +90,9 @@ export class TouristSpotComponent implements OnInit {
     { field: 'Name', width: 150, headerName: 'Tourist Spot Name', filter: true },
     { field: 'PhoneNo', width: 150, headerName: 'PhoneNo', filter: true },
     { field: 'TelePhone', width: 150, headerName: 'TelePhone', filter: true },
+    { field: 'InchargeName', width: 150, headerName: 'Incharge', filter: true },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
+    { field: 'Address', width: 150, headerName: 'Address', filter: true },
     { field: 'Division', width: 150, headerName: 'Division', filter: true },
     { field: 'District', width: 150, headerName: 'District', filter: true },
     { field: 'Thana', width: 150, headerName: 'Thana', filter: true },
@@ -103,6 +107,8 @@ export class TouristSpotComponent implements OnInit {
   trackByDistrictFrom: TrackByFunction<any> | any;
   trackByThana: TrackByFunction<any> | any;
   trackByThanaFrom: TrackByFunction<any> | any;
+  trackByTouristZone: TrackByFunction<any> | any;
+  trackByTouristZoneFrom: TrackByFunction<any> | any;
   constructor(
     public authService: AuthService,
     private toast: ToastrService,
@@ -115,6 +121,7 @@ export class TouristSpotComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.GttTouristZones();
     this.GetDistricts();
     this.GetTouristSpot();
   }
@@ -141,7 +148,7 @@ export class TouristSpotComponent implements OnInit {
     this.oTouristSpotFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotFilterDto.IsActive);
     this.oTouristSpotFilterDto.DistictId = Number(this.oTouristSpotFilterDto.DistictId);
     this.oTouristSpotFilterDto.ThanaId = Number(this.oTouristSpotFilterDto.ThanaId);
-    this.oTouristSpotFilterDto.Type=1;
+    this.oTouristSpotFilterDto.Type = 1;
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristSpot/GetTouristSpot?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oTouristSpotFilterDto).subscribe(
       (res: any) => {
@@ -170,6 +177,20 @@ export class TouristSpotComponent implements OnInit {
       (res: any) => {
         this.districtList = res;
         this.districtFromList = res;
+      },
+      (err) => {
+        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+      }
+    );
+  }
+
+
+  private GttTouristZones() {
+    this.oTouristZoneFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristZoneFilterDto.IsActive);
+    this.http.Post(`TouristZone/GetAllTouristZones`, this.oTouristZoneFilterDto).subscribe(
+      (res: any) => {
+        this.touristZoneList = res;
+        this.touristZoneFromList = res;
       },
       (err) => {
         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
@@ -250,8 +271,9 @@ export class TouristSpotComponent implements OnInit {
     this.oTouristSpotRequestDto.FileId = Number(this.oTouristSpotRequestDto.FileId);
     this.oTouristSpotRequestDto.DistictId = Number(this.oTouristSpotRequestDto.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(this.oTouristSpotRequestDto.ThanaId);
+    this.oTouristSpotRequestDto.TouristZoneId = Number(this.oTouristSpotRequestDto.TouristZoneId);
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotRequestDto.IsActive);
-    this.oTouristSpotRequestDto.Type=1;
+    this.oTouristSpotRequestDto.Type = 1;
 
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristSpot/InsertTouristSpot`, this.oTouristSpotRequestDto).subscribe(
@@ -281,8 +303,9 @@ export class TouristSpotComponent implements OnInit {
     this.oTouristSpotRequestDto.FileId = Number(this.oTouristSpotRequestDto.FileId);
     this.oTouristSpotRequestDto.DistictId = Number(this.oTouristSpotRequestDto.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(this.oTouristSpotRequestDto.ThanaId);
+    this.oTouristSpotRequestDto.TouristZoneId = Number(this.oTouristSpotRequestDto.TouristZoneId);
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotRequestDto.IsActive);
-     this.oTouristSpotRequestDto.Type=1;
+    this.oTouristSpotRequestDto.Type = 1;
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristSpot/UpdateTouristSpot/${this.touristspotId}`, this.oTouristSpotRequestDto).subscribe(
       (res: any) => {
@@ -332,6 +355,7 @@ export class TouristSpotComponent implements OnInit {
     this.oTouristSpotRequestDto.FileId = Number(getSelectedItem.FileId);
     this.oTouristSpotRequestDto.DistictId = Number(getSelectedItem.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(getSelectedItem.ThanaId);
+    this.oTouristSpotRequestDto.TouristZoneId = Number(getSelectedItem.TouristZoneId);
     this.oTouristSpotRequestDto.PhoneNo = getSelectedItem.PhoneNo;
     this.oTouristSpotRequestDto.TelePhone = getSelectedItem.TelePhone;
     this.oTouristSpotRequestDto.Description = getSelectedItem.Description;
@@ -339,6 +363,7 @@ export class TouristSpotComponent implements OnInit {
     this.oTouristSpotRequestDto.Long = getSelectedItem.Long;
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
     this.oTouristSpotRequestDto.Remarks = getSelectedItem.Remarks;
+    this.GetThanasFrom();
     CommonHelper.CommonButtonClick("openCommonModel");
   }
 
@@ -353,6 +378,7 @@ export class TouristSpotComponent implements OnInit {
     this.oTouristSpotRequestDto.FileId = Number(getSelectedItem.FileId);
     this.oTouristSpotRequestDto.DistictId = Number(getSelectedItem.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(getSelectedItem.ThanaId);
+    this.oTouristSpotRequestDto.TouristZoneId = Number(getSelectedItem.TouristZoneId);
     this.oTouristSpotRequestDto.PhoneNo = getSelectedItem.PhoneNo;
     this.oTouristSpotRequestDto.TelePhone = getSelectedItem.TelePhone;
     this.oTouristSpotRequestDto.Description = getSelectedItem.Description;
