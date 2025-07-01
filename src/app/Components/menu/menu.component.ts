@@ -235,6 +235,7 @@ public DeleteMenu(): void {
 
 
   add() {
+    debugger
     CommonHelper.CommonButtonClick("openCommonModel");
     this.oMenuRequestDto = new MenuRequestDto();
     this.MenuId = 0;
