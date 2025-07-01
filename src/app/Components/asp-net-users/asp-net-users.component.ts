@@ -26,7 +26,7 @@ export class AspNetUsersComponent implements OnInit {
   public rowData!: any[];
   public oAspNetUsersFilterRequestDto = new AspNetUsersFilterRequestDto();
   public oAspNetUsersRequestDto = new AspNetUsersRequestDto();
-  CompanyList: any[] = [];
+  // CompanyList: any[] = [];
   roleList: any[] = [];
   public aspnetusersId = "";
   // pagination setup
@@ -39,11 +39,11 @@ export class AspNetUsersComponent implements OnInit {
 
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
-    { field: 'fullName', width: 150, headerName: 'Full Name', filter: true },
-    { field: 'userName', headerName: 'User Name' },
+    { field: 'FullName', width: 150, headerName: 'Full Name', filter: true },
+    { field: 'UserName', headerName: 'User Name' },
     { field: 'email', headerName: 'Email Address' },
-    { field: 'phoneNumber', headerName: 'Phone Number' },
-    { field: 'emailConfirmed', headerName: 'Status' },
+    { field: 'PhoneNumber', headerName: 'Phone Number' },
+    { field: 'EmailConfirmed', headerName: 'Status' },
   ];
   trackByCompany: TrackByFunction<any> | any;
   trackByFn: TrackByFunction<any> | any;
@@ -59,6 +59,7 @@ export class AspNetUsersComponent implements OnInit {
   ngOnInit(): void {
     this.Roles();
     this.GetAspNetUsers();
+    this.GetAllCompanies();
   }
   PageChange(event: any) {
     this.pageIndex = Number(event);
@@ -84,7 +85,18 @@ export class AspNetUsersComponent implements OnInit {
 
 
   }
+  private GetAllCompanies() {
 
+    this.http.Get(`Company/GetAllCompanies`).subscribe(
+      (res: any) => {
+        this.CompanyList = res;
+      },
+      (err) => {
+        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+      }
+    );
+
+  }
   private Roles() {
 
     this.http.Get(`AspNetUsers/Roles`).subscribe(
@@ -100,12 +112,13 @@ export class AspNetUsersComponent implements OnInit {
 
   private GetAspNetUsers() {
 
+    this.oAspNetUsersFilterRequestDto.companyId = Number(this.oAspNetUsersFilterRequestDto.companyId);
     this.oAspNetUsersFilterRequestDto.isActive = CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.isActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/GetAspNetUsers?pageNumber=${this.pageIndex}`, this.oAspNetUsersFilterRequestDto).subscribe(
       (res: any) => {
-        console.log(res);
-        this.rowData = res.items;
+        debugger
+        this.rowData = res.Items;
         this.pageIndex = res.pageIndex;
         this.totalPages = res.totalPages;
         this.totalRecords = res.totalRecords;
@@ -149,6 +162,7 @@ export class AspNetUsersComponent implements OnInit {
     }
 
     let currentUser = CommonHelper.GetUser();
+    this.oAspNetUsersRequestDto.companyId = Number(0);
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/InsertAspNetUsers`, this.oAspNetUsersRequestDto).subscribe(
       (res: any) => {

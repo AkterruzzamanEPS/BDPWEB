@@ -1,13 +1,12 @@
 export class MenuPermissionFilterRequestDto {
 
     constructor() {
-        this.companyId = 0;
+        
         this.userID = '';
         this.isActive = true;
     }
 
 
-    public companyId: number;
     public userID: string;
     public isActive: boolean;
 }
@@ -17,7 +16,7 @@ export class MenuPermissionRequestDto {
     constructor() {
         this.userID = '';
         this.menuId = 0;
-        this.companyId = 0;
+       
         this.name = '';
         this.isActive = true;
         this.remarks = '';
@@ -27,7 +26,7 @@ export class MenuPermissionRequestDto {
     }
     public userID: string;
     public menuId: number;
-    public companyId: number;
+    
     public name: string;
     public remarks: string;
     public isActive: boolean;
@@ -38,7 +37,7 @@ export class MenuPerRequestDto {
 
     constructor() {
         this.userID = '';
-        this.companyId = 0;
+       
         this.isActive = true;
         this.remarks = '';
         this.iPAddress = '';
@@ -46,7 +45,6 @@ export class MenuPerRequestDto {
 
     }
     public userID: string;
-    public companyId: number;
     public remarks: string;
     public isActive: boolean;
     public iPAddress: string;

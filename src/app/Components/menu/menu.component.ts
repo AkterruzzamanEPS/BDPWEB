@@ -88,22 +88,22 @@ export class MenuComponent implements OnInit {
     this.GetAllUsers();
   }
 
-  private GetAllCompanies() {
+  // private GetAllCompanies() {
 
-    this.http.Get(`Company/GetAllCompanies`).subscribe(
-      (res: any) => {
-        this.CompanyList = res;
-      },
-      (err) => {
-        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-      }
-    );
+  //   this.http.Get(`Company/GetAllCompanies`).subscribe(
+  //     (res: any) => {
+  //       this.CompanyList = res;
+  //     },
+  //     (err) => {
+  //       this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+  //     }
+  //   );
 
-  }
+  // }
   private GetAllUsers() {
     debugger;
     this.userList = [];
-    this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPerRequestDto.companyId)).subscribe(
+    this.http.Get(`AspNetUsers/GetAllUsers/` + Number(this.oMenuPerRequestDto.userID)).subscribe(
       (res: any) => {
         this.userList = res;
       },
@@ -209,6 +209,7 @@ export class MenuComponent implements OnInit {
 
   }
   public DeleteMenu() {
+    debugger
     this.oMenuRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuRequestDto.isActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`Menu/DeleteMenu/${this.MenuId}`, this.oMenuRequestDto).subscribe(
@@ -230,7 +231,7 @@ export class MenuComponent implements OnInit {
   }
 
   menuPermission() {
-    this.GetAllCompanies();
+    this.GetAllUsers();
     CommonHelper.CommonButtonClick("openPerCommonModel");
     this.oMenuPerRequestDto = new MenuPerRequestDto();
     this.rowDataMenuPermission = [];
@@ -278,14 +279,10 @@ export class MenuComponent implements OnInit {
       this.toast.warning("Please select user", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oMenuPerRequestDto.companyId == 0) {
-      this.toast.warning("Please select company", "Warning!!", { progressBar: true });
-      return;
-    }
 
     this.oMenuPerRequestDto.menues = AGGridHelper.GetRows(this.MenuPermissionGridApi);
     this.oMenuPerRequestDto.userID = (this.oMenuPerRequestDto.userID);
-    this.oMenuPerRequestDto.companyId = Number(this.oMenuPerRequestDto.companyId);
+  
     this.oMenuPerRequestDto.isActive = CommonHelper.booleanConvert(this.oMenuPerRequestDto.isActive);
     this.oMenuPerRequestDto.remarks = (this.oMenuPerRequestDto.remarks);
 
