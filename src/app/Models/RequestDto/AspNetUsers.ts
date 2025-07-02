@@ -23,8 +23,8 @@ export class AspNetUsersRequestDto {
         this.CurrentPassword = '';
         this.UserType = 0;
         this.NIDNo = '';
-        this.Latitude = '';
-        this.Longitude = '';
+        this.Latitude = 0;
+        this.Longitude = 0;
         this.Designation = '';
         this.Address = '';
         this.FileId = 0;
@@ -39,8 +39,8 @@ export class AspNetUsersRequestDto {
     public CurrentPassword: string;
     public UserType: number;
     public NIDNo: string;
-    public Latitude: string;
-    public Longitude: string;
+    public Latitude: number;
+    public Longitude: number;
     public Designation: string;
     public Address: string;
     public FileId: number;
