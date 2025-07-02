@@ -19,10 +19,10 @@ import { ICellRendererParams } from 'ag-grid-community';
 @Component({
   selector: 'app-tourist-trip',
   standalone: true,
- imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent,NgxEditorModule],
+  imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent, NgxEditorModule],
   templateUrl: './tourist-trip.component.html',
   styleUrl: './tourist-trip.component.scss',
-  providers:[DatePipe]
+  providers: [DatePipe]
 })
 export class TouristTripComponent {
 
@@ -57,34 +57,35 @@ export class TouristTripComponent {
 
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
-   { field: 'FullName', headerName: 'User Name', width: 150 },
-  // { field: 'TouristPlace', headerName: 'Tourist Place', width: 150 },
- {
-  headerName: 'Tourist Places',
-  field: 'TouristPlaces',
-  cellRenderer: (params: ICellRendererParams) => {
-    if (Array.isArray(params.value)) {
-      return params.value.map((place: string) =>
-        `<button class="btn btn-success btn-sm m-1">${place}</button>`
-      ).join('');
+    { field: 'FullName', headerName: 'User Name', width: 150 },
+    {
+      headerName: 'Tourist Places',
+      field: 'TouristPlaces',
+      cellRenderer: (params: ICellRendererParams) => {
+        if (Array.isArray(params.value)) {
+          return params.value.map((place: string) =>
+            `<button class="btn btn-success btn-sm m-1">${place}</button>`
+          ).join('');
+        }
+        return '';
+      }
+      , width: 200
     }
-    return '';
-  }
-  ,width: 200
-}
+    , { field: 'HotelName', headerName: 'Hotel', width: 150 },
+    {
+      field: 'StartDate', width: 150, headerName: 'Start Date', filter: true,
+      valueGetter: (params: any) => this.datePipe.transform(params.data.StartDate, 'MMM d, y')
+    },
+    {
+      field: 'EndDate', width: 150, headerName: 'End Date', filter: true,
+      valueGetter: (params: any) => this.datePipe.transform(params.data.EndDate, 'MMM d, y')
+    },
+    { field: 'NoOfTourist', headerName: 'Number of Tourist', width: 120 },
+    {
+      field: 'CreatedDate', width: 150, headerName: 'Created At', filter: true,
+      valueGetter: (params: any) => this.datePipe.transform(params.data.CreatedDate, 'MMM d, y')
+    },
 
-,
-  {
-    field: 'StartDate', 
-    width: 150, 
-    headerName: 'Date', 
-    filter: true,
-    valueFormatter: this.dateFormatter.bind(this) // Proper binding
-  },
-  { field: 'NoOfTourist', headerName: 'Number of Tourist', width: 120 },
-  // { field: 'ServiceDetailId', headerName: 'Service Detail ID', width: 140 },
-  { field: 'Remarks', headerName: 'Remarks', width: 150 },
-  { field: 'HotelName', headerName: 'Hotel', width: 150 },
   ];
 
   trackByFn: TrackByFunction<any> | any;
@@ -104,26 +105,26 @@ export class TouristTripComponent {
     this.toDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
   }
 
-dateFormatter(params: ValueFormatterParams): string {
-  if (!params.value) return ''; // Handle null/undefined
-  
-  try {
-    // Convert to Date if it's a string
-    const dateValue = typeof params.value === 'string' 
-      ? new Date(params.value) 
-      : params.value;
-    
-    // Check if valid date
-    if (isNaN(dateValue.getTime())) return String(params.value); // Fallback
-    
-    // Format using DatePipe
-    return this.datePipe.transform(dateValue, 'MMM d, y, h:mm:ss a') || '';
-  } catch {
-    return String(params.value); // Fallback if any error occurs
-  }
-}
+  dateFormatter(params: ValueFormatterParams): string {
+    if (!params.value) return ''; // Handle null/undefined
 
- 
+    try {
+      // Convert to Date if it's a string
+      const dateValue = typeof params.value === 'string'
+        ? new Date(params.value)
+        : params.value;
+
+      // Check if valid date
+      if (isNaN(dateValue.getTime())) return String(params.value); // Fallback
+
+      // Format using DatePipe
+      return this.datePipe.transform(dateValue, 'MMM d, y, h:mm:ss a') || '';
+    } catch {
+      return String(params.value); // Fallback if any error occurs
+    }
+  }
+
+
 
   onGridReadyTransection(params: any) {
     this.TouristTripGridApi = params.api;
@@ -142,26 +143,26 @@ dateFormatter(params: ValueFormatterParams): string {
   Filter() {
     this.pageIndex = 1;
     this.GetTouristTrip();
-    
+
   }
- ngOnInit(): void {
+  ngOnInit(): void {
     this.GetDistricts();
     this.GetTouristTrip();
   }
   private GetTouristTrip() {
-     let currentUser = CommonHelper.GetUser();
-     const from = new Date(this.fromDate);
+    let currentUser = CommonHelper.GetUser();
+    const from = new Date(this.fromDate);
     from.setDate(from.getDate() - 15);
     this.oTouristTripFilterDto.StartDate = from;
-  
+
     const to = new Date(this.toDate);
     to.setDate(to.getDate() + 15);
     this.oTouristTripFilterDto.EndDate = to;
 
     this.oTouristTripFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristTripFilterDto.IsActive);
-    this.oTouristTripFilterDto.ServiceDetailId=Number(this.oTouristTripFilterDto.ServiceDetailId);
+    this.oTouristTripFilterDto.ServiceDetailId = Number(this.oTouristTripFilterDto.ServiceDetailId);
     this.oTouristTripFilterDto.UserId = CommonHelper.GetUser()?.UserId ?? '';
-    
+
 
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristTrip/GetTouristTrip?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oTouristTripFilterDto).subscribe(
@@ -239,7 +240,7 @@ dateFormatter(params: ValueFormatterParams): string {
     this.thanaFromList = [];
     this.GetThanasFrom();
   }
-   PageChange(event: any) {
+  PageChange(event: any) {
     this.pageIndex = Number(event);
     this.GetTouristTrip();
   }
