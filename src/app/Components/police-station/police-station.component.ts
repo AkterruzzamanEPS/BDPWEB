@@ -241,14 +241,14 @@ export class PoliceStationComponent {
 
 
   public onFileChange(event: any): void {
-    
+
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
 
       this.http.UploadFile(`UploadedFile/Upload`, file).subscribe(
         (res: any) => {
-          
+
           this.oTouristSpotRequestDto.FileId = Number(res.Id);
         },
         (err) => {
@@ -261,7 +261,7 @@ export class PoliceStationComponent {
 
 
   public InsertTouristSpot() {
-    
+
     if (this.oTouristSpotRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
@@ -358,6 +358,8 @@ export class PoliceStationComponent {
     this.oTouristSpotRequestDto.PhoneNo = getSelectedItem.PhoneNo;
     this.oTouristSpotRequestDto.TelePhone = getSelectedItem.TelePhone;
     this.oTouristSpotRequestDto.Description = getSelectedItem.Description;
+    this.oTouristSpotRequestDto.InchargeName = getSelectedItem.InchargeName;
+    this.oTouristSpotRequestDto.Address = getSelectedItem.Address;
     this.oTouristSpotRequestDto.Lat = getSelectedItem.Lat;
     this.oTouristSpotRequestDto.Long = getSelectedItem.Long;
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
