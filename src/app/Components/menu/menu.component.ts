@@ -11,12 +11,13 @@ import { Router } from '@angular/router';
 import { MenuFilterRequestDto, MenuRequestDto } from '../../Models/RequestDto/Menu';
 import { MenuPerRequestDto } from '../../Models/RequestDto/MenuPermission';
 import { AspNetUsersFilterRequestDto } from '../../Models/RequestDto/AspNetUsers';
+import { PaginationComponent } from "../../Shared/pagination/pagination.component";
 
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, FormsModule, AgGridAngular],
+  imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss',
   providers: [DatePipe],  
@@ -86,22 +87,6 @@ export class MenuComponent implements OnInit {
     this.rowDataMenuPermission = [];
   }
 
-  // public companyChange() {
-  //   this.GetAllUsers();
-  // }
-
-  // private GetAllCompanies() {
-
-  //   this.http.Get(`Company/GetAllCompanies`).subscribe(
-  //     (res: any) => {
-  //       this.CompanyList = res;
-  //     },
-  //     (err) => {
-  //       this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
-  //     }
-  //   );
-
-  // }
  private GetAllUsers() {
      this.oAspNetUsersFilterRequestDto.IsActive = CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.IsActive);
      this.userList = [];
@@ -142,11 +127,11 @@ export class MenuComponent implements OnInit {
       (res: any) => {
         console.log(res);
         this.rowData = res.Items;
-        this.pageIndex = res.pageIndex;
-        this.totalPages = res.totalPages;
-        this.totalRecords = res.totalRecords;
-        this.hasPreviousPage = res.hasPreviousPage;
-        this.hasNextPage = res.hasNextPage;
+        this.pageIndex = res.PageIndex;
+        this.totalPages = res.TotalPages;
+        this.totalRecords = res.TotalRecords;
+        this.hasPreviousPage = res.HasPreviousPage;
+        this.hasNextPage = res.HasNextPage;
         this.totalPageNumbers = CommonHelper.generateNumbers(this.pageIndex, this.totalPages)
         this.MenuGridApi.sizeColumnsToFit();
       },
@@ -155,6 +140,11 @@ export class MenuComponent implements OnInit {
       }
     );
 
+  }
+
+    PageChange(event: any) {
+    this.pageIndex = Number(event);
+    this.GetMenu();
   }
 
   public InsertMenu() {
