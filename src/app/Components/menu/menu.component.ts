@@ -171,7 +171,7 @@ export class MenuComponent implements OnInit {
     // After the hash is generated, proceed with the API call
     this.http.Post(`Menu/InsertMenu`, this.oMenuRequestDto).subscribe(
       (res: any) => {
-        if(res.statusCode!=200){
+        if(res.StatusCode!=200){
           this.toast.warning(res.message, "Warning!!", { progressBar: true });
         }
         else{
