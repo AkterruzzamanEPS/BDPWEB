@@ -41,8 +41,9 @@ export class AspNetUsersComponent implements OnInit {
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
     { field: 'FullName', width: 150, headerName: 'Full Name', filter: true },
     { field: 'UserName', headerName: 'User Name' },
-    { field: 'email', headerName: 'Email Address' },
+    { field: 'Email', headerName: 'Email Address' },
     { field: 'PhoneNumber', headerName: 'Phone Number' },
+    { field: 'RoleName', headerName: 'User Role' },
     { field: 'EmailConfirmed', headerName: 'Status' },
   ];
   trackByCompany: TrackByFunction<any> | any;
@@ -89,7 +90,7 @@ export class AspNetUsersComponent implements OnInit {
 
     this.http.Get(`AspNetUsers/Roles`).subscribe(
       (res: any) => {
-        this.roleList = res;
+        this.roleList = res.Data;
       },
       (err) => {
         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
@@ -103,7 +104,7 @@ export class AspNetUsersComponent implements OnInit {
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/GetAspNetUsers?pageNumber=${this.pageIndex}`, this.oAspNetUsersFilterRequestDto).subscribe(
       (res: any) => {
-        
+
         this.rowData = res.Items;
         this.pageIndex = res.pageIndex;
         this.totalPages = res.totalPages;
@@ -122,32 +123,41 @@ export class AspNetUsersComponent implements OnInit {
 
   public InsertAspNetUsers() {
 
-    if (this.oAspNetUsersRequestDto.fullName == "") {
+
+    if (this.oAspNetUsersRequestDto.RoleId == 0) {
+      this.toast.warning("Please enter confirm password", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oAspNetUsersRequestDto.FullName == "") {
       this.toast.warning("Please enter fullName", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oAspNetUsersRequestDto.email == "") {
+    if (this.oAspNetUsersRequestDto.Email == "") {
       this.toast.warning("Please enter email", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oAspNetUsersRequestDto.phoneNumber == "") {
+    if (this.oAspNetUsersRequestDto.PhoneNumber == "") {
       this.toast.warning("Please enter phone number", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oAspNetUsersRequestDto.password == "") {
+    if (this.oAspNetUsersRequestDto.Password == "") {
       this.toast.warning("Please enter password", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oAspNetUsersRequestDto.confirmPassword == "") {
+    if (this.oAspNetUsersRequestDto.ConfirmPassword == "") {
       this.toast.warning("Please enter confirm password", "Warning!!", { progressBar: true });
       return;
     }
 
-    let currentUser = CommonHelper.GetUser();
+
+    this.oAspNetUsersRequestDto.FileId = Number(this.oAspNetUsersRequestDto.FileId)
+    this.oAspNetUsersRequestDto.UserType = Number(this.oAspNetUsersRequestDto.UserType)
+    this.oAspNetUsersRequestDto.RoleId = Number(this.oAspNetUsersRequestDto.RoleId);
+    this.oAspNetUsersRequestDto.IsActive = CommonHelper.booleanConvert(this.oAspNetUsersRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/InsertAspNetUsers`, this.oAspNetUsersRequestDto).subscribe(
       (res: any) => {
@@ -164,31 +174,39 @@ export class AspNetUsersComponent implements OnInit {
 
   public UpdateAspNetUsers() {
 
-    if (this.oAspNetUsersRequestDto.fullName == "") {
+    if (this.oAspNetUsersRequestDto.RoleId == 0) {
+      this.toast.warning("Please enter confirm password", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oAspNetUsersRequestDto.FullName == "") {
       this.toast.warning("Please enter fullName", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oAspNetUsersRequestDto.email == "") {
+    if (this.oAspNetUsersRequestDto.Email == "") {
       this.toast.warning("Please enter email", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oAspNetUsersRequestDto.phoneNumber == "") {
+    if (this.oAspNetUsersRequestDto.PhoneNumber == "") {
       this.toast.warning("Please enter phone number", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oAspNetUsersRequestDto.password == "") {
+    if (this.oAspNetUsersRequestDto.Password == "") {
       this.toast.warning("Please enter password", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oAspNetUsersRequestDto.confirmPassword == "") {
+    if (this.oAspNetUsersRequestDto.ConfirmPassword == "") {
       this.toast.warning("Please enter confirm password", "Warning!!", { progressBar: true });
       return;
     }
 
+    this.oAspNetUsersRequestDto.FileId = Number(this.oAspNetUsersRequestDto.FileId)
+    this.oAspNetUsersRequestDto.UserType = Number(this.oAspNetUsersRequestDto.UserType)
+    this.oAspNetUsersRequestDto.RoleId = Number(this.oAspNetUsersRequestDto.RoleId);
+    this.oAspNetUsersRequestDto.IsActive = CommonHelper.booleanConvert(this.oAspNetUsersRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/UpdateAspNetUsers/${this.aspnetusersId}`, this.oAspNetUsersRequestDto).subscribe(
       (res: any) => {
@@ -227,17 +245,42 @@ export class AspNetUsersComponent implements OnInit {
     if (getSelectedItem == null) {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
     }
-    this.aspnetusersId = getSelectedItem.id;
+    this.aspnetusersId = getSelectedItem.Id;
     this.oAspNetUsersRequestDto = getSelectedItem;
+    this.oAspNetUsersRequestDto.FileId = Number(this.oAspNetUsersRequestDto.FileId)
+    this.oAspNetUsersRequestDto.UserType = Number(this.oAspNetUsersRequestDto.UserType)
+    this.oAspNetUsersRequestDto.RoleId = Number(this.oAspNetUsersRequestDto.RoleId);
+    this.oAspNetUsersRequestDto.IsActive = CommonHelper.booleanConvert(this.oAspNetUsersRequestDto.IsActive);
     CommonHelper.CommonButtonClick("openCommonModel");
   }
+
+
+  public onFileChange(event: any): void {
+    
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+
+      this.http.UploadFile(`UploadedFile/Upload`, file).subscribe(
+        (res: any) => {
+          
+          this.oAspNetUsersRequestDto.FileId = Number(res.Id);
+        },
+        (err) => {
+          console.log(err.ErrorMessage);
+        }
+      );
+    }
+
+  }
+
 
   delete() {
     let getSelectedItem = AGGridHelper.GetSelectedRow(this.aspnetusersGridApi);
     if (getSelectedItem == null) {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
     }
-    this.aspnetusersId = getSelectedItem.id;
+    this.aspnetusersId = getSelectedItem.Id;
     this.oAspNetUsersRequestDto = getSelectedItem;
     CommonHelper.CommonButtonClick("openCommonDelete");
 
