@@ -15,21 +15,36 @@ export class AspNetUsersFilterRequestDto {
 export class AspNetUsersRequestDto {
 
     constructor() {
-        this.fullName = "";
-        this.email = "";
-        this.phoneNumber = '';
-        this.password = '';
-        this.confirmPassword = '';
-        this.Type = 0;
-        this.ipAddress = "";
-        this.roleId = "";
+        this.FullName = '';
+        this.Email = '';
+        this.PhoneNumber = '';
+        this.Password = '';
+        this.ConfirmPassword = '';
+        this.CurrentPassword = '';
+        this.UserType = 0;
+        this.NIDNo = '';
+        this.Latitude = '';
+        this.Longitude = '';
+        this.Designation = '';
+        this.Address = '';
+        this.FileId = 0;
+        this.RoleId = 0;
+        this.IsActive = true;
     }
-    public fullName: string;
-    public email: string;
-    public phoneNumber: string;
-    public password: string;
-    public confirmPassword: string;
-    public Type: number;
-    public ipAddress: string;
-    public roleId: string
+    public FullName: string;
+    public Email: string;
+    public PhoneNumber: string;
+    public Password: string;
+    public ConfirmPassword: string;
+    public CurrentPassword: string;
+    public UserType: number;
+    public NIDNo: string;
+    public Latitude: string;
+    public Longitude: string;
+    public Designation: string;
+    public Address: string;
+    public FileId: number;
+    public RoleId: number;
+    public IsActive: boolean;
+
 }
