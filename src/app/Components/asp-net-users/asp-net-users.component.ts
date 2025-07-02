@@ -106,11 +106,11 @@ export class AspNetUsersComponent implements OnInit {
       (res: any) => {
 
         this.rowData = res.Items;
-        this.pageIndex = res.pageIndex;
-        this.totalPages = res.totalPages;
-        this.totalRecords = res.totalRecords;
-        this.hasPreviousPage = res.hasPreviousPage;
-        this.hasNextPage = res.hasNextPage;
+        this.pageIndex = res.PageIndex;
+        this.totalPages = res.TotalPages;
+        this.totalRecords = res.TotalRecords;
+        this.hasPreviousPage = res.HasPreviousPage;
+        this.hasNextPage = res.HasNextPage;
         this.totalPageNumbers = CommonHelper.generateNumbers(this.pageIndex, this.totalPages)
         this.aspnetusersGridApi.sizeColumnsToFit();
       },

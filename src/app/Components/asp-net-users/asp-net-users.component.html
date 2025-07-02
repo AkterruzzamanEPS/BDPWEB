@@ -69,11 +69,26 @@
                             <label for="RoleId" class="form-label">User Role</label>
                             <select class="form-select" [(ngModel)]="oAspNetUsersRequestDto.RoleId" name="RoleId"
                                 aria-label="Default select example">
-                                <option value="">-- select role --</option>
+                                <option value="0">-- select role --</option>
                                 <ng-template ngFor let-item [ngForOf]="roleList" let-i="index"
                                     [ngForTrackBy]="trackByFn">
                                     <option value="{{item.Id}}">{{item.Name}}</option>
                                 </ng-template>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-6 px-1">
+                        <div class="mb-2">
+                            <label for="UserType" class="form-label">User Type</label>
+                            <select class="form-select" [(ngModel)]="oAspNetUsersRequestDto.UserType" name="UserType"
+                                aria-label="Default select example">
+                                <option value="0"> -- select user type -- </option>
+                                <option value="5">Super Admin</option>
+                                <option value="4">Admin</option>
+                                <option value="1">Tourist</option>
+                                <option value="2">Police</option>
+                                <option value="3">Police</option>
+                               
                             </select>
                         </div>
                     </div>
