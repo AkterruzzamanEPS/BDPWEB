@@ -233,7 +233,7 @@ public DeleteMenu(): void {
 
 
   add() {
-    debugger
+    
     CommonHelper.CommonButtonClick("openCommonModel");
     this.oMenuRequestDto = new MenuRequestDto();
     this.MenuId = 0;
@@ -252,7 +252,7 @@ public DeleteMenu(): void {
   }
 
   edit() {
-    debugger
+    
     let getSelectedItem = AGGridHelper.GetSelectedRow(this.MenuGridApi);
     if (getSelectedItem == null) {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
@@ -268,7 +268,7 @@ public DeleteMenu(): void {
   }
 
   delete() {
-    debugger
+    
     let getSelectedItem = AGGridHelper.GetSelectedRow(this.MenuGridApi);
     if (getSelectedItem == null) {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
@@ -285,7 +285,7 @@ public DeleteMenu(): void {
 
 
   public InsertMenuPermission() {
-    debugger;
+    
     if (this.oMenuPerRequestDto.userID == "") {
       this.toast.warning("Please select user", "Warning!!", { progressBar: true });
       return;

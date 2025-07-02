@@ -160,7 +160,7 @@ export class MenuPermissionComponent implements OnInit {
     this.http.Post(`MenuPermission/GetMenuPermissions?pageNumber=${this.pageIndex}`, this.oMenuPermissionFilterRequestDto).subscribe(
       (res: any) => {
         console.log(res);
-        debugger
+        
         this.rowData = res.Items;
         this.pageIndex = res.pageIndex;
         this.totalPages = res.totalPages;

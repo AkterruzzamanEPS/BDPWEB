@@ -44,7 +44,7 @@ export class EditorComponent  implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    debugger
+    
     this.editor = new Editor();
   }
 

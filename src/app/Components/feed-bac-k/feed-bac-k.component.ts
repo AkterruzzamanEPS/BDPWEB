@@ -104,7 +104,7 @@ export class FeedBacKComponent implements OnInit {
   }
 
   public InsertFeedBacK() {
-    debugger
+    
     if (this.oFeedBacKRequestDto.Feedback == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;

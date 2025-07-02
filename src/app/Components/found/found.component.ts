@@ -138,7 +138,7 @@ export class FoundComponent {
   }
 
 private GetComplainCategories() {
-  debugger
+  
   this.http.Get(`Complain/GetComplaincategory`).subscribe(
     (res: any) => {
       this.complainCategories = res;
@@ -187,7 +187,7 @@ private GetComplainCategories() {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      debugger
+      
       //this.http.UploadFile(`FileManagement/FileUpload`, file).subscribe(
       this.http.UploadFile(`UploadedFile/Upload`, file).subscribe(
         (res: any) => {
@@ -255,7 +255,7 @@ private GetComplainCategories() {
     this.GetComplains();
   }
   private GetComplains() {
-    debugger;
+    
     let currentUser = CommonHelper.GetUser();
     const from = new Date(this.fromDate);
     from.setDate(from.getDate() - 15);
@@ -305,7 +305,7 @@ private GetComplainCategories() {
 
     this.oComplainRequestDto.IsActive = CommonHelper.booleanConvert(this.oComplainRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
-    debugger
+    
     this.http.Post(`Complain/InsertComplain`, this.oComplainRequestDto).subscribe(
       (res: any) => {
 
@@ -348,7 +348,7 @@ private GetComplainCategories() {
   }
 
   public DeleteService() {
-    debugger
+    
     this.http.Post(`Complain/DeleteComplain/${this.ComplainId}`, this.oComplainRequestDto).subscribe(
       (res: any) => {
         // Close modal manually
@@ -421,7 +421,7 @@ private GetComplainCategories() {
 
 
   delete() {
-    debugger
+    
     const selectedItem = AGGridHelper.GetSelectedRow(this.complainGridApi);
     if (!selectedItem) {
       this.toast.warning("Please select a complaint to delete.", "Warning!!", { progressBar: true });

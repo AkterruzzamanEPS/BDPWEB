@@ -103,7 +103,7 @@ export class AspNetUsersComponent implements OnInit {
     // After the hash is generated, proceed with the API call
     this.http.Post(`AspNetUsers/GetAspNetUsers?pageNumber=${this.pageIndex}`, this.oAspNetUsersFilterRequestDto).subscribe(
       (res: any) => {
-        debugger
+        
         this.rowData = res.Items;
         this.pageIndex = res.pageIndex;
         this.totalPages = res.totalPages;

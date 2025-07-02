@@ -189,14 +189,14 @@ export class NearbyRidesComponent implements OnInit {
 
 
   public onFileChange(event: any): void {
-    debugger
+    
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
 
       this.http.UploadFile(`UploadedFile/Upload`, file).subscribe(
         (res: any) => {
-          debugger
+          
           this.oServiceDetailRequestDto.FileId = Number(res.Id);
         },
         (err) => {
@@ -209,7 +209,7 @@ export class NearbyRidesComponent implements OnInit {
 
 
   public InsertServiceDetail() {
-    debugger
+    
     if (this.oServiceDetailRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;

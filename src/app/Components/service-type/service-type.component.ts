@@ -109,7 +109,7 @@ export class ServiceTypeComponent implements OnInit {
 
 
   public InsertServiceType() {
-    debugger
+    
     if (this.oServiceTypeRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;

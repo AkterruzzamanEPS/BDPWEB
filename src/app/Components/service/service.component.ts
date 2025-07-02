@@ -85,7 +85,7 @@ export class ServiceComponent implements OnInit {
   }
 
   private handleRowAction(event: any) {
-    debugger
+    
     const rowIndex = event.rowIndex;
     const api = event.api;
     const action = event.event.target.className;

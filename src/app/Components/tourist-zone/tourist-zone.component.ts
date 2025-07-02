@@ -180,14 +180,14 @@ export class TouristZoneComponent implements OnInit {
 
 
   public onFileChange(event: any): void {
-    debugger
+    
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
 
       this.http.UploadFile(`UploadedFile/Upload`, file).subscribe(
         (res: any) => {
-          debugger
+          
           this.oTouristZoneRequestDto.FileId = Number(res.Id);
         },
         (err) => {
@@ -200,7 +200,7 @@ export class TouristZoneComponent implements OnInit {
 
 
   public InsertTouristZone() {
-    debugger
+    
     if (this.oTouristZoneRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;

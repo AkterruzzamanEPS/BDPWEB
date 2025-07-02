@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit, AfterViewChecked {
     }
     this.http.Login("Auth/GetToken", payload).subscribe(
       (res: any) => {
-        debugger
+        
         if (res) {
           this.toast.success("Login Successfully!!", "Success!!", { progressBar: true });
           localStorage.setItem("Token", res.JwtToken)
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit, AfterViewChecked {
           localStorage.setItem("UserResponseDto", JSON.stringify(res))
           this.route.navigateByUrl("/dashboard");
         } else {
-                debugger
+                
           this.toast.error(res.message, "Error!!", { progressBar: true });
         }
 
