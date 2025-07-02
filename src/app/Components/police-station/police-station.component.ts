@@ -122,6 +122,7 @@ export class PoliceStationComponent {
 
 
   ngOnInit(): void {
+    this.GttTouristZones();
     this.GetDistricts();
     this.GetTouristSpot();
   }
