@@ -18,7 +18,7 @@ export class MenuRequestDto {
         this.RoutingPath = '';
         this.IsActive = true;
         this.Remarks = '';
-        this.IPAddress = '';
+       
         
       
     }
@@ -27,5 +27,5 @@ export class MenuRequestDto {
     public RoutingPath: string;
     public IsActive: boolean;
     public Remarks: string;
-    public IPAddress: string;
+    
 }
