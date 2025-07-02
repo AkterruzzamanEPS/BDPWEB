@@ -381,6 +381,8 @@ export class PoliceStationComponent {
     this.oTouristSpotRequestDto.PhoneNo = getSelectedItem.PhoneNo;
     this.oTouristSpotRequestDto.TelePhone = getSelectedItem.TelePhone;
     this.oTouristSpotRequestDto.Description = getSelectedItem.Description;
+    this.oTouristSpotRequestDto.InchargeName = getSelectedItem.InchargeName;
+    this.oTouristSpotRequestDto.Address = getSelectedItem.Address;
     this.oTouristSpotRequestDto.Lat = getSelectedItem.Lat;
     this.oTouristSpotRequestDto.Long = getSelectedItem.Long;
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
