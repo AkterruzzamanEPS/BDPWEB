@@ -6,6 +6,18 @@
                 placeholder="type here ...">
         </div>
     </div>
+    <div class="col-2 px-1">
+        <div class="mb-2">
+            <select class="form-select" [(ngModel)]="oServiceDetailFilterDto.TouristZoneId" name="TouristZoneId"
+                aria-label="Default select example">
+                <option value="0"> -- select tourist zone -- </option>
+                <ng-template ngFor let-item [ngForOf]="touristZoneList" let-i="index"
+                    [ngForTrackBy]="trackByTouristZone">
+                    <option value="{{item.Id}}">{{item.Name}}</option>
+                </ng-template>
+            </select>
+        </div>
+    </div>
 
     <div class="col-2 px-1">
         <div class="mb-2">
@@ -30,6 +42,7 @@
             </select>
         </div>
     </div>
+    
 
     <div class="col-2 px-1">
         <div class="mb-2">
@@ -130,6 +143,19 @@
                                 <label for="Long" class="form-label">Long</label>
                                 <input type="text" class="form-control" [(ngModel)]="oServiceDetailRequestDto.Long"
                                     name="Long" placeholder="Please enter long ">
+                            </div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="TouristZoneId" class="form-label">Tourist Zone</label>
+                                <select class="form-select" [(ngModel)]="oServiceDetailRequestDto.TouristZoneId"
+                                    name="TouristZoneId" aria-label="Default select example">
+                                    <option value="0"> -- select tourist zone -- </option>
+                                    <ng-template ngFor let-item [ngForOf]="touristZoneFromList" let-i="index"
+                                        [ngForTrackBy]="trackByTouristZoneFrom">
+                                        <option value="{{item.Id}}">{{item.Name}}</option>
+                                    </ng-template>
+                                </select>
                             </div>
                         </div>
 

@@ -16,8 +16,9 @@ export class ServiceDetailRequestDto {
         this.IsActive = true;
         this.UserID = "",
         this.Address="",
-        this.StartTime="",
-        this.EndTime=""
+        this.StartTime="00:00:00",
+        this.EndTime="00:00:00",
+        this.TouristZoneId=0
 
     }
     public Name: string;
@@ -36,6 +37,7 @@ export class ServiceDetailRequestDto {
     public Address : string;
     public StartTime: string;
     public EndTime: string;
+    public TouristZoneId: number;
 }
 
 export class ServiceDetailFilterDto {
@@ -48,6 +50,7 @@ export class ServiceDetailFilterDto {
         this.DistictId = 0;
         this.ThanaId = 0;
         this.IsActive = true;
+        this.TouristZoneId=0;
     }
     public Name: string;
     public Lat: string;
@@ -56,4 +59,5 @@ export class ServiceDetailFilterDto {
     public DistictId: number;
     public ThanaId: number;
     public IsActive: boolean;
+    public TouristZoneId: number;
 }

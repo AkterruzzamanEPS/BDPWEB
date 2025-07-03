@@ -13,6 +13,7 @@ import { AGGridHelper } from '../../Shared/Services/AGGridHelper';
 import { AuthService } from '../../Shared/Services/auth.service';
 import { CommonHelper } from '../../Shared/Services/CommonHelper';
 import { HttpHelperService } from '../../Shared/Services/http-helper.service';
+import { TouristZoneFilterDto } from '../../Models/RequestDto/TouristZone';
 
 @Component({
   selector: 'app-hotels',
@@ -33,9 +34,13 @@ export class HotelsComponent implements OnInit {
   public thanaList: any[] = [];
   public thanaFromList: any[] = [];
 
+  public touristZoneList: any[] = [];
+  public touristZoneFromList: any[] = [];
+
   public oThanaFilterDto = new ThanaFilterDto();
   public oThanaFilterDtoFrom = new ThanaFilterDto();
   public oDistrictFilterDto = new DistrictFilterDto();
+  public oTouristZoneFilterDto = new TouristZoneFilterDto();
 
   public oServiceDetailFilterDto = new ServiceDetailFilterDto();
   public oServiceDetailRequestDto = new ServiceDetailRequestDto();
@@ -68,6 +73,8 @@ export class HotelsComponent implements OnInit {
   trackByDistrictFrom: TrackByFunction<any> | any;
   trackByThana: TrackByFunction<any> | any;
   trackByThanaFrom: TrackByFunction<any> | any;
+  trackByTouristZone: TrackByFunction<any> | any;
+  trackByTouristZoneFrom: TrackByFunction<any> | any;
   constructor(
     public authService: AuthService,
     private toast: ToastrService,
@@ -86,6 +93,7 @@ export class HotelsComponent implements OnInit {
     }
     this.GetDistricts();
     this.GetServiceDetail();
+     this.GttTouristZones()
   }
 
   onGridReadyTransection(params: any) {
@@ -139,6 +147,19 @@ export class HotelsComponent implements OnInit {
       (res: any) => {
         this.districtList = res;
         this.districtFromList = res;
+      },
+      (err) => {
+        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+      }
+    );
+  }
+
+    private GttTouristZones() {
+    this.oTouristZoneFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristZoneFilterDto.IsActive);
+    this.http.Post(`TouristZone/GetAllTouristZones`, this.oTouristZoneFilterDto).subscribe(
+      (res: any) => {
+        this.touristZoneList = res;
+        this.touristZoneFromList = res;
       },
       (err) => {
         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
@@ -220,6 +241,7 @@ export class HotelsComponent implements OnInit {
     this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
+    this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
 
@@ -252,6 +274,7 @@ export class HotelsComponent implements OnInit {
     this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
+    this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
@@ -311,6 +334,7 @@ export class HotelsComponent implements OnInit {
     this.oServiceDetailRequestDto.Long = getSelectedItem.Long;
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
     this.oServiceDetailRequestDto.Remarks = getSelectedItem.Remarks;
+    this.oServiceDetailRequestDto.ThanaId = getSelectedItem.TouristZoneId;
     CommonHelper.CommonButtonClick("openCommonModel");
   }
 
