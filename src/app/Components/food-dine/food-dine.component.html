@@ -7,7 +7,7 @@
         </div>
     </div>
 
- <div class="col-2 px-1">
+    <div class="col-2 px-1">
         <div class="mb-2">
             <select class="form-select" [(ngModel)]="oServiceDetailFilterDto.TouristZoneId" name="TouristZoneId"
                 aria-label="Default select example">
@@ -19,11 +19,11 @@
             </select>
         </div>
     </div>
-	
+
     <div class="col-2 px-1">
         <div class="mb-2">
-            <select class="form-select" (change)="districtChange($event)" [(ngModel)]="oServiceDetailFilterDto.DistictId"
-                name="DistictId" aria-label="Default select example">
+            <select class="form-select" (change)="districtChange($event)"
+                [(ngModel)]="oServiceDetailFilterDto.DistictId" name="DistictId" aria-label="Default select example">
                 <option value="0"> -- select district -- </option>
                 <ng-template ngFor let-item [ngForOf]="districtFromList" let-i="index" [ngForTrackBy]="trackByDistrict">
                     <option value="{{item.Id}}">{{item.District}}</option>
@@ -133,6 +133,20 @@
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
+                                <label for="StartTime" class="form-label">Start Time</label>
+                                <input type="time" class="form-control" [(ngModel)]="oServiceDetailRequestDto.StartTime"
+                                    name="StartTime" placeholder="Please enter start time no">
+                            </div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="EndTime" class="form-label">End Time</label>
+                                <input type="time" class="form-control" [(ngModel)]="oServiceDetailRequestDto.EndTime"
+                                    name="EndTime" placeholder="Please enter end time no">
+                            </div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
                                 <label for="Lat" class="form-label">Lat</label>
                                 <input type="text" class="form-control" [(ngModel)]="oServiceDetailRequestDto.Lat"
                                     name="Lat" placeholder="Please enter Lat ">
@@ -172,19 +186,19 @@
                                 </select>
                             </div>
                         </div>
-<div class="col-4 px-1">
-		<div class="mb-2">
-			<label for="TouristZoneId" class="form-label">Tourist Zone</label>
-			<select class="form-select" [(ngModel)]="oServiceDetailRequestDto.TouristZoneId"
-				name="TouristZoneId" aria-label="Default select example">
-				<option value="0"> -- select tourist zone -- </option>
-				<ng-template ngFor let-item [ngForOf]="touristZoneFromList" let-i="index"
-					[ngForTrackBy]="trackByTouristZoneFrom">
-					<option value="{{item.Id}}">{{item.Name}}</option>
-				</ng-template>
-			</select>
-		</div>
-	</div>
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="TouristZoneId" class="form-label">Tourist Zone</label>
+                                <select class="form-select" [(ngModel)]="oServiceDetailRequestDto.TouristZoneId"
+                                    name="TouristZoneId" aria-label="Default select example">
+                                    <option value="0"> -- select tourist zone -- </option>
+                                    <ng-template ngFor let-item [ngForOf]="touristZoneFromList" let-i="index"
+                                        [ngForTrackBy]="trackByTouristZoneFrom">
+                                        <option value="{{item.Id}}">{{item.Name}}</option>
+                                    </ng-template>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="col-4 px-1">
                             <div class="mb-2">

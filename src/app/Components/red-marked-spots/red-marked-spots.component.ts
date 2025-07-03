@@ -34,13 +34,13 @@ export class RedMarkedSpotsComponent implements OnInit {
   public thanaList: any[] = [];
   public thanaFromList: any[] = [];
   public touristZoneList: any[] = [];
-public touristZoneFromList: any[] = [];
+  public touristZoneFromList: any[] = [];
 
   public oThanaFilterDto = new ThanaFilterDto();
   public oThanaFilterDtoFrom = new ThanaFilterDto();
   public oDistrictFilterDto = new DistrictFilterDto();
-  
- public oTouristZoneFilterDto = new TouristZoneFilterDto();
+
+  public oTouristZoneFilterDto = new TouristZoneFilterDto();
 
   public oServiceDetailFilterDto = new ServiceDetailFilterDto();
   public oServiceDetailRequestDto = new ServiceDetailRequestDto();
@@ -73,7 +73,7 @@ public touristZoneFromList: any[] = [];
   trackByDistrictFrom: TrackByFunction<any> | any;
   trackByThana: TrackByFunction<any> | any;
   trackByThanaFrom: TrackByFunction<any> | any;
-    trackByTouristZone: TrackByFunction<any> | any;
+  trackByTouristZone: TrackByFunction<any> | any;
   trackByTouristZoneFrom: TrackByFunction<any> | any;
   constructor(
     public authService: AuthService,
@@ -113,7 +113,7 @@ public touristZoneFromList: any[] = [];
   Filter() {
     this.GetServiceDetail();
   }
-private GttTouristZones() {
+  private GttTouristZones() {
     this.oTouristZoneFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristZoneFilterDto.IsActive);
     this.http.Post(`TouristZone/GetAllTouristZones`, this.oTouristZoneFilterDto).subscribe(
       (res: any) => {
@@ -125,8 +125,8 @@ private GttTouristZones() {
       }
     );
   }
-  
-  
+
+
   private GetServiceDetail() {
     this.oServiceDetailFilterDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailFilterDto.IsActive);
     this.oServiceDetailFilterDto.DistictId = Number(this.oServiceDetailFilterDto.DistictId);
@@ -241,11 +241,11 @@ private GttTouristZones() {
     this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
-    
-   this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
+
+    this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
-    this.oServiceDetailRequestDto.StartTime = "00:00:00";
-    this.oServiceDetailRequestDto.EndTime = "00:00:00";
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.EndTime);
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
 
     // After the hash is generated, proceed with the API call
@@ -277,11 +277,11 @@ private GttTouristZones() {
     this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
-    
-   this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
+
+    this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
-    this.oServiceDetailRequestDto.StartTime = "00:00:00";
-    this.oServiceDetailRequestDto.EndTime = "00:00:00";
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.EndTime);
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`ServiceDetail/UpdateServiceDetail/${this.servicedetailId}`, this.oServiceDetailRequestDto).subscribe(
@@ -336,11 +336,13 @@ private GttTouristZones() {
     this.oServiceDetailRequestDto.PhoneNo = getSelectedItem.PhoneNo;
     this.oServiceDetailRequestDto.TelePhone = getSelectedItem.TelePhone;
     this.oServiceDetailRequestDto.Description = getSelectedItem.Description;
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(getSelectedItem.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(getSelectedItem.EndTime);
     this.oServiceDetailRequestDto.Lat = getSelectedItem.Lat;
     this.oServiceDetailRequestDto.Long = getSelectedItem.Long;
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
     this.oServiceDetailRequestDto.Remarks = getSelectedItem.Remarks;
-     this.oServiceDetailRequestDto.ThanaId = getSelectedItem.TouristZoneId;
+    this.oServiceDetailRequestDto.ThanaId = getSelectedItem.TouristZoneId;
     CommonHelper.CommonButtonClick("openCommonModel");
   }
 

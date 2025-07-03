@@ -33,12 +33,12 @@ export class ATMLocationsComponent implements OnInit {
   public districtFromList: any[] = [];
   public thanaList: any[] = [];
   public thanaFromList: any[] = [];
-  	
-public touristZoneList: any[] = [];
-public touristZoneFromList: any[] = [];
 
- public oTouristZoneFilterDto = new TouristZoneFilterDto();
- 
+  public touristZoneList: any[] = [];
+  public touristZoneFromList: any[] = [];
+
+  public oTouristZoneFilterDto = new TouristZoneFilterDto();
+
 
   public oThanaFilterDto = new ThanaFilterDto();
   public oThanaFilterDtoFrom = new ThanaFilterDto();
@@ -75,7 +75,7 @@ public touristZoneFromList: any[] = [];
   trackByDistrictFrom: TrackByFunction<any> | any;
   trackByThana: TrackByFunction<any> | any;
   trackByThanaFrom: TrackByFunction<any> | any;
-   trackByTouristZone: TrackByFunction<any> | any;
+  trackByTouristZone: TrackByFunction<any> | any;
   trackByTouristZoneFrom: TrackByFunction<any> | any;
   constructor(
     public authService: AuthService,
@@ -95,7 +95,7 @@ public touristZoneFromList: any[] = [];
     }
     this.GetDistricts();
     this.GetServiceDetail();
-      this.GttTouristZones();
+    this.GttTouristZones();
   }
 
   onGridReadyTransection(params: any) {
@@ -117,7 +117,7 @@ public touristZoneFromList: any[] = [];
   }
 
 
-private GttTouristZones() {
+  private GttTouristZones() {
     this.oTouristZoneFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristZoneFilterDto.IsActive);
     this.http.Post(`TouristZone/GetAllTouristZones`, this.oTouristZoneFilterDto).subscribe(
       (res: any) => {
@@ -129,7 +129,7 @@ private GttTouristZones() {
       }
     );
   }
-  
+
 
   private GetServiceDetail() {
     this.oServiceDetailFilterDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailFilterDto.IsActive);
@@ -247,8 +247,8 @@ private GttTouristZones() {
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
     this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
-    this.oServiceDetailRequestDto.StartTime = "00:00:00";
-    this.oServiceDetailRequestDto.EndTime = "00:00:00";
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.EndTime);
 
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
 
@@ -283,8 +283,8 @@ private GttTouristZones() {
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
     this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
-    this.oServiceDetailRequestDto.StartTime = "00:00:00";
-    this.oServiceDetailRequestDto.EndTime = "00:00:00";
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.EndTime);
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`ServiceDetail/UpdateServiceDetail/${this.servicedetailId}`, this.oServiceDetailRequestDto).subscribe(
@@ -348,6 +348,8 @@ private GttTouristZones() {
     this.oServiceDetailRequestDto.PhoneNo = getSelectedItem.PhoneNo;
     this.oServiceDetailRequestDto.TelePhone = getSelectedItem.TelePhone;
     this.oServiceDetailRequestDto.Description = getSelectedItem.Description;
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(getSelectedItem.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(getSelectedItem.EndTime);
     this.oServiceDetailRequestDto.Lat = getSelectedItem.Lat;
     this.oServiceDetailRequestDto.Long = getSelectedItem.Long;
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);

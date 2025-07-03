@@ -112,6 +112,21 @@
                             </div>
                         </div>
 
+                             <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="StartTime" class="form-label">Start Time</label>
+                                <input type="time" class="form-control" [(ngModel)]="oServiceDetailRequestDto.StartTime"
+                                    name="StartTime" placeholder="Please enter start time no">
+                            </div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="EndTime" class="form-label">End Time</label>
+                                <input type="time" class="form-control" [(ngModel)]="oServiceDetailRequestDto.EndTime"
+                                    name="EndTime" placeholder="Please enter end time no">
+                            </div>
+                        </div>
+
                         <div class="col-4 px-1">
                             <label for="NID" class="form-label">File Upload</label>
                             <input type="file" class="form-control" id="NID" (change)="onFileChange($event)"

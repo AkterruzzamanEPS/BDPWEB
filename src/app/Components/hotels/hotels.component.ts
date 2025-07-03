@@ -243,8 +243,8 @@ export class HotelsComponent implements OnInit {
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
     this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
-    this.oServiceDetailRequestDto.StartTime = "00:00:00";
-    this.oServiceDetailRequestDto.EndTime = "00:00:00";
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.EndTime);
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
 
     // After the hash is generated, proceed with the API call
@@ -278,8 +278,8 @@ export class HotelsComponent implements OnInit {
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
     this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
-    this.oServiceDetailRequestDto.StartTime = "00:00:00";
-    this.oServiceDetailRequestDto.EndTime = "00:00:00";
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.EndTime);
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`ServiceDetail/UpdateServiceDetail/${this.servicedetailId}`, this.oServiceDetailRequestDto).subscribe(
@@ -334,6 +334,8 @@ export class HotelsComponent implements OnInit {
     this.oServiceDetailRequestDto.PhoneNo = getSelectedItem.PhoneNo;
     this.oServiceDetailRequestDto.TelePhone = getSelectedItem.TelePhone;
     this.oServiceDetailRequestDto.Description = getSelectedItem.Description;
+    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(getSelectedItem.StartTime);
+    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(getSelectedItem.EndTime);
     this.oServiceDetailRequestDto.Lat = getSelectedItem.Lat;
     this.oServiceDetailRequestDto.Long = getSelectedItem.Long;
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
