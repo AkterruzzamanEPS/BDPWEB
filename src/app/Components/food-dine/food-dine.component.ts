@@ -13,6 +13,7 @@ import { AGGridHelper } from '../../Shared/Services/AGGridHelper';
 import { AuthService } from '../../Shared/Services/auth.service';
 import { CommonHelper } from '../../Shared/Services/CommonHelper';
 import { HttpHelperService } from '../../Shared/Services/http-helper.service';
+import { TouristZoneFilterDto } from '../../Models/RequestDto/TouristZone';
 
 @Component({
   selector: 'app-food-dine',
@@ -32,6 +33,11 @@ export class FoodDineComponent implements OnInit {
   public districtFromList: any[] = [];
   public thanaList: any[] = [];
   public thanaFromList: any[] = [];
+  	
+public touristZoneList: any[] = [];
+public touristZoneFromList: any[] = [];
+
+ public oTouristZoneFilterDto = new TouristZoneFilterDto();
 
   public oThanaFilterDto = new ThanaFilterDto();
   public oThanaFilterDtoFrom = new ThanaFilterDto();
@@ -68,6 +74,8 @@ export class FoodDineComponent implements OnInit {
   trackByDistrictFrom: TrackByFunction<any> | any;
   trackByThana: TrackByFunction<any> | any;
   trackByThanaFrom: TrackByFunction<any> | any;
+  trackByTouristZone: TrackByFunction<any> | any;
+  trackByTouristZoneFrom: TrackByFunction<any> | any;
   constructor(
     public authService: AuthService,
     private toast: ToastrService,
@@ -86,6 +94,7 @@ export class FoodDineComponent implements OnInit {
     }
     this.GetDistricts();
     this.GetServiceDetail();
+      this.GttTouristZones();
   }
 
   onGridReadyTransection(params: any) {
@@ -105,7 +114,18 @@ export class FoodDineComponent implements OnInit {
   Filter() {
     this.GetServiceDetail();
   }
-
+private GttTouristZones() {
+    this.oTouristZoneFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristZoneFilterDto.IsActive);
+    this.http.Post(`TouristZone/GetAllTouristZones`, this.oTouristZoneFilterDto).subscribe(
+      (res: any) => {
+        this.touristZoneList = res;
+        this.touristZoneFromList = res;
+      },
+      (err) => {
+        this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+      }
+    );
+  }
   private GetServiceDetail() {
     this.oServiceDetailFilterDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailFilterDto.IsActive);
     this.oServiceDetailFilterDto.DistictId = Number(this.oServiceDetailFilterDto.DistictId);
@@ -220,6 +240,7 @@ export class FoodDineComponent implements OnInit {
     this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
+      this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
     this.oServiceDetailRequestDto.StartTime = "00:00:00";
     this.oServiceDetailRequestDto.EndTime = "00:00:00";
@@ -254,6 +275,7 @@ export class FoodDineComponent implements OnInit {
     this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
+      this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
     this.oServiceDetailRequestDto.StartTime = "00:00:00";
     this.oServiceDetailRequestDto.EndTime = "00:00:00";
@@ -315,6 +337,7 @@ export class FoodDineComponent implements OnInit {
     this.oServiceDetailRequestDto.Long = getSelectedItem.Long;
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
     this.oServiceDetailRequestDto.Remarks = getSelectedItem.Remarks;
+    	   this.oServiceDetailRequestDto.ThanaId = getSelectedItem.TouristZoneId;
     CommonHelper.CommonButtonClick("openCommonModel");
   }
 
