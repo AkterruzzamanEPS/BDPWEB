@@ -123,7 +123,7 @@ export class MenuComponent implements OnInit {
     const pageNumber = this.pageIndex ?? 1; // fallback to 1 if undefined
 
     // After the hash is generated, proceed with the API call
-    this.http.Post(`Menu/GetMenus?pageNumber=${pageNumber}`, this.oMenuFilterRequestDto).subscribe(
+    this.http.Post(`Menu/GetMenus?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oMenuFilterRequestDto).subscribe(
       (res: any) => {
         console.log(res);
         this.rowData = res.Items;
