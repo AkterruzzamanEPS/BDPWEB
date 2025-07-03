@@ -190,14 +190,14 @@ export class ServiceDetailComponent implements OnInit {
 
 
   public onFileChange(event: any): void {
-    
+
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
 
       this.http.UploadFile(`UploadedFile/Upload`, file).subscribe(
         (res: any) => {
-          
+
           this.oServiceDetailRequestDto.FileId = Number(res.Id);
         },
         (err) => {
@@ -210,7 +210,7 @@ export class ServiceDetailComponent implements OnInit {
 
 
   public InsertServiceDetail() {
-    
+
     if (this.oServiceDetailRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
@@ -221,6 +221,8 @@ export class ServiceDetailComponent implements OnInit {
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
+    this.oServiceDetailRequestDto.StartTime = "00:00:00";
+    this.oServiceDetailRequestDto.EndTime = "00:00:00";
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
 
     // After the hash is generated, proceed with the API call
@@ -253,6 +255,8 @@ export class ServiceDetailComponent implements OnInit {
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
+    this.oServiceDetailRequestDto.StartTime = "00:00:00";
+    this.oServiceDetailRequestDto.EndTime = "00:00:00";
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`ServiceDetail/UpdateServiceDetail/${this.servicedetailId}`, this.oServiceDetailRequestDto).subscribe(
