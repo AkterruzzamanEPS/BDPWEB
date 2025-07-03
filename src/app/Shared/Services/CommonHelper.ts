@@ -76,12 +76,24 @@ export class CommonHelper {
     return deg * (Math.PI / 180);
   }
 
-  public static formatTime(time: string | Date): string {
-    const d = new Date(time);
-    const hours = d.getHours().toString().padStart(2, '0');
-    const minutes = d.getMinutes().toString().padStart(2, '0');
-    const seconds = d.getSeconds().toString().padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
+  public static formatTime(time: string): any {
+    if (!time || time === '') {
+      return '00:00:00';
+    }
+
+
+    // Handle "HH:mm" format
+    const parts = time.split(':');
+    if (parts.length >= 2) {
+      const hours = parseInt(parts[0], 10);
+      const minutes = parseInt(parts[1], 10);
+      if (!isNaN(hours) && !isNaN(minutes)) {
+        return `${hours.toString().padStart(2, '0')}:${minutes
+          .toString()
+          .padStart(2, '0')}:00`;
+      }
+    }
+    return '00:00:00';
   }
 
 }
