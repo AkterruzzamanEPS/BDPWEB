@@ -221,6 +221,8 @@ export class RedMarkedSpotsComponent  implements OnInit {
     this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
     this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
     this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
+    this.oServiceDetailRequestDto.StartTime = "00:00:00";
+    this.oServiceDetailRequestDto.EndTime = "00:00:00";
     this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
 
     // After the hash is generated, proceed with the API call
