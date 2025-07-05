@@ -236,6 +236,33 @@ export class RedMarkedSpotsComponent implements OnInit {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
     }
+    if (this.oServiceDetailRequestDto.PhoneNo == "") {
+      this.toast.warning("Please enter Phone Number", "Warning!!", { progressBar: true });
+      return;
+    }
+
+    if (this.oServiceDetailRequestDto.StartTime == "") {
+      this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.EndTime == "") {
+      this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.Lat == "") {
+      this.toast.warning("Please enter lat", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.Long == "") {
+      this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
+      return;
+    }
+
+    if (!this.oServiceDetailRequestDto.TouristZoneId) {
+      this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
+      return;
+    }
+
     let currentUser = CommonHelper.GetUser();
     this.oServiceDetailRequestDto.ServiceId = Number(this.oServiceDetailFilterDto.ServiceId);
     this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
@@ -272,6 +299,33 @@ export class RedMarkedSpotsComponent implements OnInit {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
     }
+    if (this.oServiceDetailRequestDto.PhoneNo == "") {
+      this.toast.warning("Please enter Phone Number", "Warning!!", { progressBar: true });
+      return;
+    }
+
+    if (this.oServiceDetailRequestDto.StartTime == "") {
+      this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.EndTime == "") {
+      this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.Lat == "") {
+      this.toast.warning("Please enter lat", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.Long == "") {
+      this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
+      return;
+    }
+    
+    if (!this.oServiceDetailRequestDto.TouristZoneId) {
+      this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
+      return;
+    }
+
     let currentUser = CommonHelper.GetUser();
     this.oServiceDetailRequestDto.ServiceId = Number(this.oServiceDetailFilterDto.ServiceId);
     this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);

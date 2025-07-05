@@ -263,8 +263,26 @@ export class TouristSpotComponent implements OnInit {
 
   public InsertTouristSpot() {
     
-    if (this.oTouristSpotRequestDto.Name == "") {
+   if (this.oTouristSpotRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oTouristSpotRequestDto.PhoneNo == "") {
+      this.toast.warning("Please enter Phone Number", "Warning!!", { progressBar: true });
+      return;
+    }
+
+    if (this.oTouristSpotRequestDto.Lat == "") {
+      this.toast.warning("Please enter lat", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oTouristSpotRequestDto.Long == "") {
+      this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
+      return;
+    }
+    
+    if (!this.oTouristSpotRequestDto.TouristZoneId) {
+      this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
       return;
     }
     let currentUser = CommonHelper.GetUser();
@@ -297,6 +315,24 @@ export class TouristSpotComponent implements OnInit {
 
     if (this.oTouristSpotRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oTouristSpotRequestDto.PhoneNo == "") {
+      this.toast.warning("Please enter Phone Number", "Warning!!", { progressBar: true });
+      return;
+    }
+
+    if (this.oTouristSpotRequestDto.Lat == "") {
+      this.toast.warning("Please enter lat", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oTouristSpotRequestDto.Long == "") {
+      this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
+      return;
+    }
+    
+    if (!this.oTouristSpotRequestDto.TouristZoneId) {
+      this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
       return;
     }
     let currentUser = CommonHelper.GetUser();

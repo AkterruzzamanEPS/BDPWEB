@@ -1,32 +1,32 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit, TrackByFunction, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AgGridAngular } from 'ag-grid-angular';
-import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
-import { PaginationComponent } from '../../Shared/pagination/pagination.component';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NgxEditorModule, Editor, Toolbar } from 'ngx-editor';
 import { ToastrService } from 'ngx-toastr';
 import { DistrictFilterDto } from '../../Models/RequestDto/District';
-import { ServiceDetailFilterDto, ServiceDetailRequestDto } from '../../Models/RequestDto/ServiceDetail';
 import { ThanaFilterDto } from '../../Models/RequestDto/Thana';
+import { TouristZoneFilterDto } from '../../Models/RequestDto/TouristZone';
+import { PaginationComponent } from '../../Shared/pagination/pagination.component';
 import { AGGridHelper } from '../../Shared/Services/AGGridHelper';
 import { AuthService } from '../../Shared/Services/auth.service';
 import { CommonHelper } from '../../Shared/Services/CommonHelper';
 import { HttpHelperService } from '../../Shared/Services/http-helper.service';
-import { TouristZoneFilterDto } from '../../Models/RequestDto/TouristZone';
+import { TransportFilterDto, TransportRequestDto } from '../../Models/RequestDto/Transport';
 
 @Component({
-  selector: 'app-mobile-internet',
+  selector: 'app-transport',
   standalone: true,
   imports: [CommonModule, FormsModule, AgGridAngular, RouterModule, PaginationComponent, NgxEditorModule, FormsModule],
-  templateUrl: './mobile-internet.component.html',
-  styleUrl: './mobile-internet.component.scss',
+  templateUrl: './transport.component.html',
+  styleUrl: './transport.component.scss',
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
 })
-export class MobileInternetComponent implements OnInit {
+export class TransportComponent implements OnInit {
 
-  private servicedetailGridApi!: any;
+  private transportGridApi!: any;
   public DeafultCol = AGGridHelper.DeafultCol;
   public rowData!: any[];
   public districtList: any[] = [];
@@ -39,12 +39,13 @@ export class MobileInternetComponent implements OnInit {
   public oThanaFilterDto = new ThanaFilterDto();
   public oThanaFilterDtoFrom = new ThanaFilterDto();
   public oDistrictFilterDto = new DistrictFilterDto();
+
   public oTouristZoneFilterDto = new TouristZoneFilterDto();
 
-  public oServiceDetailFilterDto = new ServiceDetailFilterDto();
-  public oServiceDetailRequestDto = new ServiceDetailRequestDto();
+  public oTransportFilterDto = new TransportFilterDto();
+  public oTransportRequestDto = new TransportRequestDto();
 
-  public servicedetailId = 0;
+  public transportId = 0;
   public editor: Editor = new Editor();
   public toolbar: Toolbar;
   // pagination setup
@@ -57,12 +58,11 @@ export class MobileInternetComponent implements OnInit {
 
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
-    { field: 'Name', width: 150, headerName: 'ServiceDetail Name', filter: true },
+    { field: 'Name', width: 150, headerName: 'Transport Name', filter: true },
     { field: 'PhoneNo', width: 150, headerName: 'PhoneNo', filter: true },
-    { field: 'TelePhone', width: 150, headerName: 'TelePhone', filter: true },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
-    { field: 'Lat', width: 150, headerName: 'Lat', filter: true },
-    { field: 'Long', width: 150, headerName: 'Long', filter: true },
+    { field: 'Latitude', width: 150, headerName: 'Latitude', filter: true },
+    { field: 'Longitude', width: 150, headerName: 'Longitude', filter: true },
     { field: 'Remarks', headerName: 'Remarks' },
     { field: 'IsActive', headerName: 'Status' },
   ];
@@ -88,15 +88,15 @@ export class MobileInternetComponent implements OnInit {
   ngOnInit(): void {
     var serviceId = this.activeRouter.snapshot.paramMap.get('id');
     if (serviceId != null) {
-      this.oServiceDetailFilterDto.ServiceId = Number(serviceId);
+      this.oTransportFilterDto.ServiceId = Number(serviceId);
     }
     this.GetDistricts();
-    this.GetServiceDetail();
+    this.GetTransport();
     this.GttTouristZones();
   }
 
   onGridReadyTransection(params: any) {
-    this.servicedetailGridApi = params.api;
+    this.transportGridApi = params.api;
     this.rowData = [];
   }
 
@@ -110,7 +110,7 @@ export class MobileInternetComponent implements OnInit {
   }
 
   Filter() {
-    this.GetServiceDetail();
+    this.GetTransport();
   }
   private GttTouristZones() {
     this.oTouristZoneFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristZoneFilterDto.IsActive);
@@ -125,13 +125,12 @@ export class MobileInternetComponent implements OnInit {
     );
   }
 
-  private GetServiceDetail() {
-    this.oServiceDetailFilterDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailFilterDto.IsActive);
-    this.oServiceDetailFilterDto.DistictId = Number(this.oServiceDetailFilterDto.DistictId);
-    this.oServiceDetailFilterDto.ThanaId = Number(this.oServiceDetailFilterDto.ThanaId);
-    this.oServiceDetailFilterDto.ServiceId = Number(this.oServiceDetailFilterDto.ServiceId);
+
+  private GetTransport() {
+    this.oTransportFilterDto.IsActive = CommonHelper.booleanConvert(this.oTransportFilterDto.IsActive);
+    this.oTransportFilterDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`ServiceDetail/GetServiceDetail?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oServiceDetailFilterDto).subscribe(
+    this.http.Post(`Transport/GetTransport?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oTransportFilterDto).subscribe(
       (res: any) => {
         console.log(res);
         this.rowData = res.Items;
@@ -217,7 +216,7 @@ export class MobileInternetComponent implements OnInit {
       this.http.UploadFile(`UploadedFile/Upload`, file).subscribe(
         (res: any) => {
 
-          this.oServiceDetailRequestDto.FileId = Number(res.Id);
+          this.oTransportRequestDto.FileId = Number(res.Id);
         },
         (err) => {
           console.log(err.ErrorMessage);
@@ -228,57 +227,49 @@ export class MobileInternetComponent implements OnInit {
   }
 
 
-  public InsertServiceDetail() {
+  public InsertTransport() {
 
-     if (this.oServiceDetailRequestDto.Name == "") {
+    if (this.oTransportRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oServiceDetailRequestDto.PhoneNo == "") {
+    if (this.oTransportRequestDto.PhoneNo == "") {
       this.toast.warning("Please enter Phone Number", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oServiceDetailRequestDto.StartTime == "") {
+    if (this.oTransportRequestDto.StartTime == "") {
       this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oServiceDetailRequestDto.EndTime == "") {
+    if (this.oTransportRequestDto.EndTime == "") {
       this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oServiceDetailRequestDto.Lat == "") {
+    if (this.oTransportRequestDto.Latitude == "") {
       this.toast.warning("Please enter lat", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oServiceDetailRequestDto.Long == "") {
+    if (this.oTransportRequestDto.Longitude == "") {
       this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
       return;
     }
-    
-    if (!this.oServiceDetailRequestDto.TouristZoneId) {
-      this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
-      return;
-    }
+
     let currentUser = CommonHelper.GetUser();
-    this.oServiceDetailRequestDto.ServiceId = Number(this.oServiceDetailFilterDto.ServiceId);
-    this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
-    this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
-    this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
-    this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
-    this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
-    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.StartTime);
-    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.EndTime);
-    this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
+    this.oTransportRequestDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
+    this.oTransportRequestDto.FileId = Number(this.oTransportRequestDto.FileId);
+    this.oTransportRequestDto.StartTime = CommonHelper.formatTime(this.oTransportRequestDto.StartTime);
+    this.oTransportRequestDto.EndTime = CommonHelper.formatTime(this.oTransportRequestDto.EndTime);
+    this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(this.oTransportRequestDto.IsActive);
 
     // After the hash is generated, proceed with the API call
-    this.http.Post(`ServiceDetail/InsertServiceDetail`, this.oServiceDetailRequestDto).subscribe(
+    this.http.Post(`Transport/InsertTransport`, this.oTransportRequestDto).subscribe(
       (res: any) => {
         if (res.StatusCode != 200) {
           this.toast.warning(res.message, "Warning!!", { progressBar: true });
         } else {
           CommonHelper.CommonButtonClick("closeCommonModel");
-          this.GetServiceDetail();
+          this.GetTransport();
           this.toast.success("Data Save Successfully!!", "Success!!", { progressBar: true });
         }
       },
@@ -289,57 +280,49 @@ export class MobileInternetComponent implements OnInit {
 
   }
 
-  public UpdateServiceDetail() {
+  public UpdateTransport() {
 
-    if (this.oServiceDetailRequestDto.Name == "") {
+    if (this.oTransportRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oServiceDetailRequestDto.PhoneNo == "") {
+    if (this.oTransportRequestDto.PhoneNo == "") {
       this.toast.warning("Please enter Phone Number", "Warning!!", { progressBar: true });
       return;
     }
 
-    if (this.oServiceDetailRequestDto.StartTime == "") {
+    if (this.oTransportRequestDto.StartTime == "") {
       this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oServiceDetailRequestDto.EndTime == "") {
+    if (this.oTransportRequestDto.EndTime == "") {
       this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oServiceDetailRequestDto.Lat == "") {
+    if (this.oTransportRequestDto.Latitude == "") {
       this.toast.warning("Please enter lat", "Warning!!", { progressBar: true });
       return;
     }
-    if (this.oServiceDetailRequestDto.Long == "") {
+    if (this.oTransportRequestDto.Longitude == "") {
       this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
       return;
     }
     
-    if (!this.oServiceDetailRequestDto.TouristZoneId) {
-      this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
-      return;
-    }
     let currentUser = CommonHelper.GetUser();
-    this.oServiceDetailRequestDto.ServiceId = Number(this.oServiceDetailFilterDto.ServiceId);
-    this.oServiceDetailRequestDto.FileId = Number(this.oServiceDetailRequestDto.FileId);
-    this.oServiceDetailRequestDto.DistictId = Number(this.oServiceDetailRequestDto.DistictId);
-    this.oServiceDetailRequestDto.ThanaId = Number(this.oServiceDetailRequestDto.ThanaId);
-    this.oServiceDetailRequestDto.TouristZoneId = Number(this.oServiceDetailRequestDto.TouristZoneId);
-    this.oServiceDetailRequestDto.UserID = currentUser?.UserId ? currentUser?.UserId : "";
-    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.StartTime);
-    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(this.oServiceDetailRequestDto.EndTime);
-    this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
+    this.oTransportRequestDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
+    this.oTransportRequestDto.FileId = Number(this.oTransportRequestDto.FileId);
+    this.oTransportRequestDto.StartTime = CommonHelper.formatTime(this.oTransportRequestDto.StartTime);
+    this.oTransportRequestDto.EndTime = CommonHelper.formatTime(this.oTransportRequestDto.EndTime);
+    this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(this.oTransportRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`ServiceDetail/UpdateServiceDetail/${this.servicedetailId}`, this.oServiceDetailRequestDto).subscribe(
+    this.http.Post(`Transport/UpdateTransport/${this.transportId}`, this.oTransportRequestDto).subscribe(
       (res: any) => {
         if (res.StatusCode != 200) {
           this.toast.warning(res.message, "Warning!!", { progressBar: true });
         }
         else {
           CommonHelper.CommonButtonClick("closeCommonModel");
-          this.GetServiceDetail();
+          this.GetTransport();
           this.toast.success("Data Update Successfully!!", "Success!!", { progressBar: true });
         }
       },
@@ -349,13 +332,13 @@ export class MobileInternetComponent implements OnInit {
     );
 
   }
-  public DeleteServiceDetail() {
-    this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(this.oServiceDetailRequestDto.IsActive);
+  public DeleteTransport() {
+    this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(this.oTransportRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`ServiceDetail/DeleteServiceDetail/${this.servicedetailId}`, this.oServiceDetailRequestDto).subscribe(
+    this.http.Post(`Transport/DeleteTransport/${this.transportId}`, this.oTransportRequestDto).subscribe(
       (res: any) => {
         CommonHelper.CommonButtonClick("closeCommonDelete");
-        this.GetServiceDetail();
+        this.GetTransport();
         this.toast.success("Data Delete Successfully!!", "Success!!", { progressBar: true });
       },
       (err) => {
@@ -366,62 +349,58 @@ export class MobileInternetComponent implements OnInit {
   }
   add() {
     CommonHelper.CommonButtonClick("openCommonModel");
-    this.oServiceDetailRequestDto = new ServiceDetailRequestDto();
-    this.servicedetailId = 0;
+    this.oTransportRequestDto = new TransportRequestDto();
+    this.transportId = 0;
   }
 
   edit() {
-    let getSelectedItem = AGGridHelper.GetSelectedRow(this.servicedetailGridApi);
+    let getSelectedItem = AGGridHelper.GetSelectedRow(this.transportGridApi);
     if (getSelectedItem == null) {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
     }
-    this.servicedetailId = Number(getSelectedItem.Id);
-    this.oServiceDetailRequestDto.Name = getSelectedItem.Name;
-    this.oServiceDetailRequestDto.ServiceId = Number(getSelectedItem.ServiceId);
-    this.oServiceDetailRequestDto.FileId = Number(getSelectedItem.FileId);
-    this.oServiceDetailRequestDto.DistictId = Number(getSelectedItem.DistictId);
-    this.oServiceDetailRequestDto.ThanaId = Number(getSelectedItem.ThanaId);
-    this.oServiceDetailRequestDto.PhoneNo = getSelectedItem.PhoneNo;
-    this.oServiceDetailRequestDto.TelePhone = getSelectedItem.TelePhone;
-    this.oServiceDetailRequestDto.Description = getSelectedItem.Description;
-    this.oServiceDetailRequestDto.StartTime = CommonHelper.formatTime(getSelectedItem.StartTime);
-    this.oServiceDetailRequestDto.EndTime = CommonHelper.formatTime(getSelectedItem.EndTime);
-    this.oServiceDetailRequestDto.Lat = getSelectedItem.Lat;
-    this.oServiceDetailRequestDto.Long = getSelectedItem.Long;
-    this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
-    this.oServiceDetailRequestDto.Remarks = getSelectedItem.Remarks;
-    this.oServiceDetailRequestDto.ThanaId = getSelectedItem.TouristZoneId;
+    this.transportId = Number(getSelectedItem.Id);
+    this.oTransportRequestDto.Name = getSelectedItem.Name;
+    this.oTransportRequestDto.ServiceId = Number(getSelectedItem.ServiceId);
+    this.oTransportRequestDto.FileId = Number(getSelectedItem.FileId);
+    this.oTransportRequestDto.PhoneNo = getSelectedItem.PhoneNo;
+    this.oTransportRequestDto.Description = getSelectedItem.Description;
+    this.oTransportRequestDto.StartTime = CommonHelper.formatTime(getSelectedItem.StartTime);
+    this.oTransportRequestDto.EndTime = CommonHelper.formatTime(getSelectedItem.EndTime);
+    this.oTransportRequestDto.Latitude = getSelectedItem.Latitude;
+    this.oTransportRequestDto.Longitude = getSelectedItem.Longitude;
+    this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
+    this.oTransportRequestDto.Remarks = getSelectedItem.Remarks;
     CommonHelper.CommonButtonClick("openCommonModel");
   }
 
   delete() {
-    let getSelectedItem = AGGridHelper.GetSelectedRow(this.servicedetailGridApi);
+    let getSelectedItem = AGGridHelper.GetSelectedRow(this.transportGridApi);
     if (getSelectedItem == null) {
       this.toast.warning("Please select an item", "Warning!!", { progressBar: true })
     }
 
-    this.servicedetailId = Number(getSelectedItem.Id);
-    this.oServiceDetailRequestDto.Name = getSelectedItem.Name;
-    this.oServiceDetailRequestDto.ServiceId = Number(getSelectedItem.ServiceId);
-    this.oServiceDetailRequestDto.FileId = Number(getSelectedItem.FileId);
-    this.oServiceDetailRequestDto.DistictId = Number(getSelectedItem.DistictId);
-    this.oServiceDetailRequestDto.ThanaId = Number(getSelectedItem.ThanaId);
-    this.oServiceDetailRequestDto.PhoneNo = getSelectedItem.PhoneNo;
-    this.oServiceDetailRequestDto.TelePhone = getSelectedItem.TelePhone;
-    this.oServiceDetailRequestDto.Description = getSelectedItem.Description;
-    this.oServiceDetailRequestDto.Lat = getSelectedItem.Lat;
-    this.oServiceDetailRequestDto.Long = getSelectedItem.Long;
-    this.oServiceDetailRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
-    this.oServiceDetailRequestDto.Remarks = getSelectedItem.Remarks;
+       this.transportId = Number(getSelectedItem.Id);
+    this.oTransportRequestDto.Name = getSelectedItem.Name;
+    this.oTransportRequestDto.ServiceId = Number(getSelectedItem.ServiceId);
+    this.oTransportRequestDto.FileId = Number(getSelectedItem.FileId);
+    this.oTransportRequestDto.PhoneNo = getSelectedItem.PhoneNo;
+    this.oTransportRequestDto.Description = getSelectedItem.Description;
+    this.oTransportRequestDto.StartTime = CommonHelper.formatTime(getSelectedItem.StartTime);
+    this.oTransportRequestDto.EndTime = CommonHelper.formatTime(getSelectedItem.EndTime);
+    this.oTransportRequestDto.Latitude = getSelectedItem.Latitude;
+    this.oTransportRequestDto.Longitude = getSelectedItem.Longitude;
+    this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
+    this.oTransportRequestDto.Remarks = getSelectedItem.Remarks;
     CommonHelper.CommonButtonClick("openCommonDelete");
 
   }
 
   PageChange(event: any) {
     this.pageIndex = Number(event);
-    this.GetServiceDetail();
+    this.GetTransport();
   }
 
 
 
 }
+
