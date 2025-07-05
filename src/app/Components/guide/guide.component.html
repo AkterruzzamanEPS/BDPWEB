@@ -225,12 +225,14 @@
 
                     </div>
                     <div class="col-12 px-1">
-                        <div class="mb-2">
+                        <!-- <div class="mb-2">
                             <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
                             </ngx-editor-menu>
                         </div>
                         <ngx-editor [editor]="editor" [(ngModel)]="oTouristSpotRequestDto.Description">
-                        </ngx-editor>
+                        </ngx-editor> -->
+
+                        <textarea class="form-control" rows="4" [(ngModel)]="oTouristSpotRequestDto.Description" placeholder="Enter description"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
