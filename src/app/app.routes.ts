@@ -36,6 +36,7 @@ import { ReligiousCommunityComponent } from './Components/religious-community/re
 import { MobileInternetComponent } from './Components/mobile-internet/mobile-internet.component';
 import { RedMarkedSpotsComponent } from './Components/red-marked-spots/red-marked-spots.component';
 import { TouristZoneComponent } from './Components/tourist-zone/tourist-zone.component';
+import { TransportComponent } from './Components/transport/transport.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent, title: "Log in- BDP User Panel" },
@@ -75,7 +76,7 @@ export const routes: Routes = [
     { path: "atm-locations/:id", component: ATMLocationsComponent, canActivate: [AuthGuard], title: "ATM Locations | BDP " },
     { path: "food-dine/:id", component: FoodDineComponent, canActivate: [AuthGuard], title: "FoodDine | BDP " },
     { path: "nearby-rides/:id", component: NearbyRidesComponent, canActivate: [AuthGuard], title: "Nearby Rides | BDP " },
-  
+    { path: "transport/:id", component: TransportComponent, canActivate: [AuthGuard], title: " Transport | BDP " },
     { path: "editor", component: EditorComponent, title: "Editor | BDP " },
     // Lazy loading the standalone component for transaction details
     { path: 'access-denied', component: AccessDeniedComponent, title: 'Access Denied' },
