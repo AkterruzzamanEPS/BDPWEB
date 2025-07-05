@@ -18,7 +18,7 @@ import { TransportFilterDto, TransportRequestDto } from '../../Models/RequestDto
 @Component({
   selector: 'app-transport',
   standalone: true,
-  imports: [CommonModule, FormsModule, AgGridAngular, RouterModule, PaginationComponent, NgxEditorModule, FormsModule],
+  imports: [CommonModule, FormsModule, AgGridAngular, RouterModule, PaginationComponent, NgxEditorModule ],
   templateUrl: './transport.component.html',
   styleUrl: './transport.component.scss',
   providers: [DatePipe],
@@ -57,14 +57,16 @@ export class TransportComponent implements OnInit {
   public totalPageNumbers: number[] = [];
 
   public colDefsTransection: any[] = [
-    { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
-    { field: 'Name', width: 150, headerName: 'Transport Name', filter: true },
-    { field: 'PhoneNo', width: 150, headerName: 'PhoneNo', filter: true },
-    { field: 'Description', width: 150, headerName: 'Description', filter: true },
-    { field: 'Latitude', width: 150, headerName: 'Latitude', filter: true },
-    { field: 'Longitude', width: 150, headerName: 'Longitude', filter: true },
-    { field: 'Remarks', headerName: 'Remarks' },
-    { field: 'IsActive', headerName: 'Status' },
+   { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 70, editable: false },
+   { field: 'Name', width: 150, headerName: 'Transport Name', filter: true },
+   { field: 'PhoneNo', width: 120, headerName: 'Phone No', filter: true },
+   { field: 'Description', width: 180, headerName: 'Description', filter: true },
+   { field: 'Latitude', width: 120, headerName: 'Latitude', filter: true },
+   { field: 'Longitude', width: 120, headerName: 'Longitude', filter: true },
+   { field: 'StartingPoint', width: 150, headerName: 'Starting Point', filter: true },
+   { field: 'EndingPoint', width: 150, headerName: 'Ending Point', filter: true },
+   { field: 'IsActive', width: 100, headerName: 'Status', filter: true },
+   { field: 'Remarks', width: 200, headerName: 'Remarks', filter: true }
   ];
 
   trackByFn: TrackByFunction<any> | any;
@@ -130,7 +132,7 @@ export class TransportComponent implements OnInit {
     this.oTransportFilterDto.IsActive = CommonHelper.booleanConvert(this.oTransportFilterDto.IsActive);
     this.oTransportFilterDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
     // After the hash is generated, proceed with the API call
-    this.http.Post(`Transport/GetTransport?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oTransportFilterDto).subscribe(
+    this.http.Post(`Transport/GetTransports?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oTransportFilterDto).subscribe(
       (res: any) => {
         console.log(res);
         this.rowData = res.Items;
@@ -254,14 +256,14 @@ export class TransportComponent implements OnInit {
       this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
       return;
     }
-
+    debugger
     let currentUser = CommonHelper.GetUser();
     this.oTransportRequestDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
     this.oTransportRequestDto.FileId = Number(this.oTransportRequestDto.FileId);
     this.oTransportRequestDto.StartTime = CommonHelper.formatTime(this.oTransportRequestDto.StartTime);
     this.oTransportRequestDto.EndTime = CommonHelper.formatTime(this.oTransportRequestDto.EndTime);
     this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(this.oTransportRequestDto.IsActive);
-
+   
     // After the hash is generated, proceed with the API call
     this.http.Post(`Transport/InsertTransport`, this.oTransportRequestDto).subscribe(
       (res: any) => {
