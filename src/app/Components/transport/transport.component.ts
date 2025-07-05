@@ -60,10 +60,9 @@ export class TransportComponent implements OnInit {
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
     { field: 'Name', width: 150, headerName: 'Transport Name', filter: true },
     { field: 'PhoneNo', width: 150, headerName: 'PhoneNo', filter: true },
-    { field: 'TelePhone', width: 150, headerName: 'TelePhone', filter: true },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
-    { field: 'Lat', width: 150, headerName: 'Lat', filter: true },
-    { field: 'Long', width: 150, headerName: 'Long', filter: true },
+    { field: 'Latitude', width: 150, headerName: 'Latitude', filter: true },
+    { field: 'Longitude', width: 150, headerName: 'Longitude', filter: true },
     { field: 'Remarks', headerName: 'Remarks' },
     { field: 'IsActive', headerName: 'Status' },
   ];

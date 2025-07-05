@@ -37,7 +37,7 @@
     </div>
 
 
-    <app-pagination [pageSize]="20" [currentPage]="pageIndex" [totalItems]="totalRecords"
+    <app-pagination [pageSize]="10" [currentPage]="pageIndex" [totalItems]="totalRecords"
         (pageChange)="PageChange($event)"></app-pagination>
 </div>
 
@@ -56,7 +56,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Red Mark Detail
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Transport Detail
                         @if (transportId==0){Create} @if (transportId>0){Update}
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeCommonModel"
