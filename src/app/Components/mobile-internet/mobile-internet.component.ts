@@ -230,8 +230,34 @@ export class MobileInternetComponent implements OnInit {
 
   public InsertServiceDetail() {
 
-    if (this.oServiceDetailRequestDto.Name == "") {
+     if (this.oServiceDetailRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.PhoneNo == "") {
+      this.toast.warning("Please enter Phone Number", "Warning!!", { progressBar: true });
+      return;
+    }
+
+    if (this.oServiceDetailRequestDto.StartTime == "") {
+      this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.EndTime == "") {
+      this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.Lat == "") {
+      this.toast.warning("Please enter lat", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.Long == "") {
+      this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
+      return;
+    }
+    
+    if (!this.oServiceDetailRequestDto.TouristZoneId) {
+      this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
       return;
     }
     let currentUser = CommonHelper.GetUser();
@@ -267,6 +293,32 @@ export class MobileInternetComponent implements OnInit {
 
     if (this.oServiceDetailRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.PhoneNo == "") {
+      this.toast.warning("Please enter Phone Number", "Warning!!", { progressBar: true });
+      return;
+    }
+
+    if (this.oServiceDetailRequestDto.StartTime == "") {
+      this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.EndTime == "") {
+      this.toast.warning("Please Select Time", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.Lat == "") {
+      this.toast.warning("Please enter lat", "Warning!!", { progressBar: true });
+      return;
+    }
+    if (this.oServiceDetailRequestDto.Long == "") {
+      this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
+      return;
+    }
+    
+    if (!this.oServiceDetailRequestDto.TouristZoneId) {
+      this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
       return;
     }
     let currentUser = CommonHelper.GetUser();
