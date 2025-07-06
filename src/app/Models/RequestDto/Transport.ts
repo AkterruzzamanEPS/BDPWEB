@@ -5,11 +5,11 @@ export class TransportRequestDto {
         this.ServiceId = 0;
         this.Name = "";
         this.Description = "";
-        this.Type = 0;
+        this.Type = "0";
         this.Latitude = "";
         this.Longitude = "";
-        this.StartTime = "";
-        this.EndTime = "";
+        this.StartTime = "00.00.00";
+        this.EndTime = "00.00.00";
         this.seat = 0;
         this.StartingPoint = "";
         this.EndingPoint = "";
@@ -28,7 +28,7 @@ export class TransportRequestDto {
     public ServiceId : number;
     public Name : string;
     public Description : string;
-    public Type:  number;
+    public Type:  string;
     public Latitude: string;
     public Longitude: string;
     public StartTime : string;
@@ -52,7 +52,7 @@ export class TransportFilterDto {
     constructor() {
         this.ServiceId = 0;
         this.Name = "";
-        this.Type = 0;
+        this.Type = "0";
         this.Longitude = "";
         this.Latitude = "";
         this.StartingPoint = "";
@@ -61,7 +61,7 @@ export class TransportFilterDto {
     }
     public ServiceId: number;
     public Name: string;
-    public Type: number;
+    public Type: string;
     public Longitude: string;
     public Latitude: string;
     public StartingPoint: string;
