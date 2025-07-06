@@ -146,18 +146,18 @@
                         </div>
 
                              <div class="col-4 px-1">
-                            <div class="mb-2">
-                                <label for="TouristZoneId" class="form-label">Tourist Zone</label>
-                                <select class="form-select" [(ngModel)]="oTouristSpotRequestDto.TouristZoneId"
-                                    name="TouristZoneId" aria-label="Default select example">
-                                    <option value="0"> -- select tourist zone -- </option>
-                                    <ng-template ngFor let-item [ngForOf]="touristZoneFromList" let-i="index"
-                                        [ngForTrackBy]="trackByTouristZoneFrom">
-                                        <option value="{{item.Id}}">{{item.Name}}</option>
-                                    </ng-template>
-                                </select>
+                                <div class="mb-2">
+                                    <label for="TouristZoneId" class="form-label">Tourist Zone</label>
+                                    <select class="form-select" (change)="onTouristZoneChange($event)" [(ngModel)]="oTouristSpotRequestDto.TouristZoneId"
+                                        name="TouristZoneId" aria-label="Default select example">
+                                        <option value="0"> -- select tourist zone -- </option>
+                                        <ng-template ngFor let-item [ngForOf]="touristZoneFromList" let-i="index"
+                                            [ngForTrackBy]="trackByTouristZoneFrom">
+                                            <option value="{{item.Id}}">{{item.Name}}</option>
+                                        </ng-template>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
@@ -185,6 +185,79 @@
                                 </select>
                             </div>
                         </div>
+                        <!-- for tourist spots. -->
+                        <!-- <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="ThanaId" class="form-label">Select Tourist Spots</label>
+                                <select class="form-select" [(ngModel)]="oTouristSpotRequestDto.ThanaId" name="ThanaId"
+                                    aria-label="Default select example">
+                                    <ng-template ngFor let-item [ngForOf]="thanaFromList" let-i="index"
+                                        [ngForTrackBy]="trackByThanaFrom">
+                                        <option value="{{item.Id}}">{{item.Thana}}</option>
+                                    </ng-template>
+                                </select>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="TouristSpotId" class="form-label">Select Tourist Spot</label>
+                                <select class="form-select" [(ngModel)]="oTouristSpotRequestDto.TouristSpotId" name="TouristSpotId"
+                                    aria-label="Default select example">
+                                    <option value="0"> -- select tourist spot -- </option>
+                                    <ng-template ngFor let-item [ngForOf]="touristSpotList" let-i="index"
+                                        [ngForTrackBy]="trackByTouristSpot">
+                                        <option value="{{item.Id}}">{{item.Name}}</option>
+                                    </ng-template>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-2 d-flex flex-wrap gap-2">
+                            <ng-template ngFor let-item [ngForOf]="selectedTouristSpots" let-i="index"
+                                [ngForTrackBy]="trackByTouristSpot">
+                                <span class="btn btn-primary btn-sm d-flex align-items-center">
+                                    {{item.Name}}
+                                    <i class="bi bi-x ms-2" style="cursor: pointer;" (click)="removeTouristSpot(item.Id)"></i>
+                                </span>
+                            </ng-template>
+                        </div> -->
+
+
+                       
+                         <!-- for tourist spots. -->
+                          <!-- Dropdown Section (Single-Select) -->
+                            <div class="col-12 px-1 mt-3">
+                                <div class="mb-2">
+                                    <label for="TouristSpotIds" class="form-label">Select Tourist Spots</label>
+                                    <select class="form-select h-150px" [(ngModel)]="currentTouristSpotId" name="TouristSpotIds"
+                                        aria-label="Select tourist spot" (change)="addTouristSpot()">
+                                        <option value="0"> -- select tourist spot -- </option>
+                                        <ng-template ngFor let-item [ngForOf]="touristSpotList" let-i="index"
+                                            [ngForTrackBy]="trackByTouristSpot">
+                                            <option value="{{item.Id}}">{{item.Name}}</option>
+                                        </ng-template>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Selected Values Section -->
+                            <div class="col-12 px-1 mt-2">
+                                <div class="mb-2">
+                                    <label class="form-label">Selected Tourist Spots</label>
+                                    <div class="border rounded p-2 bg-light" style="min-height: 60px;">
+                                        <div class="d-flex flex-wrap gap-2" *ngIf="selectedTouristSpots.length > 0; else noSpots">
+                                            <ng-template ngFor let-item [ngForOf]="selectedTouristSpots" let-i="index" [ngForTrackBy]="trackByTouristSpot">
+                                                <span class="btn btn-primary btn-sm d-flex align-items-center">
+                                                    {{item.Name}}
+                                                    <i class="bi bi-x ms-2" style="cursor: pointer;" (click)="removeTouristSpot(item.Id)"></i>
+                                                </span>
+                                            </ng-template>
+                                        </div>
+                                        <ng-template #noSpots>
+                                            <p class="text-muted small">No tourist spots selected</p>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                            </div>
 
 
                         <div class="col-4 px-1">
