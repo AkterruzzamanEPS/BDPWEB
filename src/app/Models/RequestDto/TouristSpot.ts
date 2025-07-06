@@ -15,6 +15,8 @@ export class TouristSpotRequestDto {
     this.IsActive = true;
     this.InchargeName= '';
     this.Address= '';
+    this.TouristSpotId= 0;
+    this.TouristSpotIds = '';
   }
 
   public Name: string;
@@ -32,6 +34,8 @@ export class TouristSpotRequestDto {
   public IsActive: boolean;
   public InchargeName : string;
   public Address : string;
+  public TouristSpotId: number;
+  public TouristSpotIds: string;
 }
 
 

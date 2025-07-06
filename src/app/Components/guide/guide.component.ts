@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, TrackByFunction, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, TrackByFunction, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ToastrService } from 'ngx-toastr';
@@ -35,6 +35,11 @@ export class GuideComponent {
   public thanaFromList: any[] = [];
   public touristZoneList: any[] = [];
   public touristZoneFromList: any[] = [];
+  // newly added by shagor
+  public touristSpotList: any[] = [];
+  public selectedTouristSpotIds: number[] = [];
+public selectedTouristSpots: any[] = [];
+
 
   public oThanaFilterDto = new ThanaFilterDto();
   public oThanaFilterDtoFrom = new ThanaFilterDto();
@@ -54,6 +59,7 @@ export class GuideComponent {
   public hasPreviousPage: boolean = false;
   public hasNextPage: boolean = false;
   public totalPageNumbers: number[] = [];
+  public currentTouristSpotId: number = 0;
 
   public colDefsTransection: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, editable: false, checkboxSelection: false },
@@ -110,13 +116,15 @@ export class GuideComponent {
   trackByThanaFrom: TrackByFunction<any> | any;
   trackByTouristZone: TrackByFunction<any> | any;
   trackByTouristZoneFrom: TrackByFunction<any> | any;
+  trackByTouristSpot: TrackByFunction<any> = (index: number, item: any) => item.Id;
   constructor(
     public authService: AuthService,
     private toast: ToastrService,
     private http: HttpHelperService,
     private router: Router,
     private activeRouter: ActivatedRoute,
-    private datePipe: DatePipe) {
+    private datePipe: DatePipe,
+    private cdr: ChangeDetectorRef) {
     this.toolbar = CommonHelper.GetToolBar();
   }
 
@@ -125,6 +133,7 @@ export class GuideComponent {
     this.GttTouristZones();
     this.GetDistricts();
     this.GetTouristSpot();
+    this.GetTouristSpotsByZone();
   }
 
   onGridReadyTransection(params: any) {
@@ -143,6 +152,7 @@ export class GuideComponent {
 
   Filter() {
     this.GetTouristSpot();
+    
   }
 
   private GetTouristSpot() {
@@ -182,6 +192,7 @@ export class GuideComponent {
       }
     );
   }
+
 
   private GetDistricts() {
     this.oDistrictFilterDto.IsActive = CommonHelper.booleanConvert(this.oDistrictFilterDto.IsActive);
@@ -229,6 +240,62 @@ export class GuideComponent {
     );
   }
 
+ private GetTouristSpotsByZone() {
+  debugger
+  this.oTouristSpotRequestDto.TouristZoneId=Number(this.oTouristSpotRequestDto.TouristZoneId);
+  this.oTouristSpotRequestDto.Type=1;
+  this.http.Post(`TouristSpot/GetAllTouristSpotsFilter`, this.oTouristSpotRequestDto).subscribe(
+    (res: any) => {
+      this.touristSpotList = res;
+    },
+    (err) => {
+      this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+      this.touristSpotList = [];
+    }
+  );
+}
+public onTouristZoneChange(event: any) {
+  debugger
+  this.oTouristSpotRequestDto.TouristZoneId = Number(event.target.value);
+  this.touristSpotList = [];
+  this.selectedTouristSpotIds = [];
+  this.selectedTouristSpots = [];
+  this.oTouristSpotRequestDto.TouristSpotIds = '';
+  this.currentTouristSpotId = 0;
+  this.GetTouristSpotsByZone();
+  
+}
+public addTouristSpot() {
+  debugger
+    if (this.currentTouristSpotId && this.currentTouristSpotId !== 0) {
+        console.log('Selected ID:', this.currentTouristSpotId); // Debug
+        console.log('Tourist List:', this.touristSpotList); // Debug
+        const selectedSpot = this.touristSpotList.find(item => item.Id == this.currentTouristSpotId);
+        console.log('Found Spot:', selectedSpot); // Debug
+        if (selectedSpot) {
+            if (!this.selectedTouristSpotIds.includes(selectedSpot.Id)) {
+                this.selectedTouristSpotIds.push(selectedSpot.Id);
+                this.selectedTouristSpots.push(selectedSpot);
+                this.oTouristSpotRequestDto.TouristSpotIds = this.selectedTouristSpots.map(item => item.Name).join(',');
+                console.log('Updated Spots:', this.selectedTouristSpots); // Debug
+            } else {
+                this.toast.warning(`${selectedSpot.Name} is already selected!`, "Warning!!", { progressBar: true });
+            }
+        } else {
+            this.toast.warning('Selected tourist spot not found!', "Error!!", { progressBar: true });
+        }
+        this.currentTouristSpotId = 0; // Reset dropdown
+        this.cdr.detectChanges(); // Force UI update
+        // Fallback: Force re-render if still not visible
+        setTimeout(() => this.cdr.detectChanges(), 0);
+    }
+}
+
+public removeTouristSpot(id: number) {
+  this.selectedTouristSpotIds = this.selectedTouristSpotIds.filter(itemId => itemId !== id);
+  this.selectedTouristSpots = this.touristSpotList.filter(item => this.selectedTouristSpotIds.includes(Number(item.Id)));
+  this.oTouristSpotRequestDto.TouristSpotIds = this.selectedTouristSpots.map(item => item.Name).join(',');
+}
   public districtChange(event: any) {
     this.oThanaFilterDto.DistinctId = Number(event.target.value);
     this.thanaList = [];
@@ -262,7 +329,7 @@ export class GuideComponent {
 
 
   public InsertTouristSpot() {
-
+debugger
     if (this.oTouristSpotRequestDto.Name == "") {
       this.toast.warning("Please enter name", "Warning!!", { progressBar: true });
       return;
@@ -365,7 +432,23 @@ export class GuideComponent {
     this.oTouristSpotRequestDto.Long = getSelectedItem.Long;
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
     this.oTouristSpotRequestDto.Remarks = getSelectedItem.Remarks;
+
+    this.selectedTouristSpotIds = this.oTouristSpotRequestDto.TouristSpotIds
+        ? this.touristSpotList
+            .filter(item => this.oTouristSpotRequestDto.TouristSpotIds.split(',').includes(item.Name))
+            .map(item => Number(item.Id))
+        : [];
+    this.selectedTouristSpots = this.touristSpotList.filter(item => this.selectedTouristSpotIds.includes(Number(item.Id)));
+
+
+
+
     this.GetThanasFrom();
+
+    if (this.oTouristSpotRequestDto.TouristZoneId > 0) {
+        this.GetTouristSpotsByZone();
+    }
+    this.cdr.detectChanges();
     CommonHelper.CommonButtonClick("openCommonModel");
   }
 
@@ -388,6 +471,16 @@ export class GuideComponent {
     this.oTouristSpotRequestDto.Long = getSelectedItem.Long;
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
     this.oTouristSpotRequestDto.Remarks = getSelectedItem.Remarks;
+    this.selectedTouristSpotIds = this.oTouristSpotRequestDto.TouristSpotIds
+        ? this.touristSpotList
+            .filter(item => this.oTouristSpotRequestDto.TouristSpotIds.split(',').includes(item.Name))
+            .map(item => Number(item.Id))
+        : [];
+    this.selectedTouristSpots = this.touristSpotList.filter(item => this.selectedTouristSpotIds.includes(Number(item.Id)));
+    if (this.oTouristSpotRequestDto.TouristZoneId > 0) {
+        this.GetTouristSpotsByZone();
+    }
+    this.cdr.detectChanges();
     CommonHelper.CommonButtonClick("openCommonDelete");
 
   }
