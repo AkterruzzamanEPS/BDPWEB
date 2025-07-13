@@ -280,7 +280,7 @@ export class PoliceStationComponent {
       this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
       return;
     }
-    
+
     if (!this.oTouristSpotRequestDto.TouristZoneId) {
       this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
       return;
@@ -290,6 +290,7 @@ export class PoliceStationComponent {
     this.oTouristSpotRequestDto.TouristZoneId = Number(this.oTouristSpotRequestDto.TouristZoneId);
     this.oTouristSpotRequestDto.DistictId = Number(this.oTouristSpotRequestDto.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(this.oTouristSpotRequestDto.ThanaId);
+    this.oTouristSpotRequestDto.Remarks = this.oTouristSpotRequestDto.Address;
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotRequestDto.IsActive);
     this.oTouristSpotRequestDto.Type = 2;
 
@@ -330,7 +331,7 @@ export class PoliceStationComponent {
       this.toast.warning("Please enter long", "Warning!!", { progressBar: true });
       return;
     }
-    
+
     if (!this.oTouristSpotRequestDto.TouristZoneId) {
       this.toast.warning("Please select tourist zone", "Warning!!", { progressBar: true });
       return;
@@ -340,6 +341,7 @@ export class PoliceStationComponent {
     this.oTouristSpotRequestDto.TouristZoneId = Number(this.oTouristSpotRequestDto.TouristZoneId);
     this.oTouristSpotRequestDto.DistictId = Number(this.oTouristSpotRequestDto.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(this.oTouristSpotRequestDto.ThanaId);
+    this.oTouristSpotRequestDto.Remarks = this.oTouristSpotRequestDto.Address;
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotRequestDto.IsActive);
     this.oTouristSpotRequestDto.Type = 2;
     // After the hash is generated, proceed with the API call
