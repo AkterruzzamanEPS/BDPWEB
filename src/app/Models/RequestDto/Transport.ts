@@ -10,7 +10,7 @@ export class TransportRequestDto {
         this.Longitude = "";
         this.StartTime = "00.00.00";
         this.EndTime = "00.00.00";
-        this.seat = 0;
+        this.seat = 0; 
         this.StartingPoint = "";
         this.EndingPoint = "";
         this.FileId = 0 ;
