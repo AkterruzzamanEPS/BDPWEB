@@ -93,9 +93,10 @@
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
-                                <label for="IsActive" class="form-label">Type</label>
-                                <select class="form-select" [(ngModel)]="oTransportRequestDto.IsActive" name="IsActive"
+                                <label for="Type" class="form-label">Type</label>
+                                <select class="form-select" [(ngModel)]="oTransportRequestDto.Type" name="Type"
                                     aria-label="Default select example">
+                                    <option value="0">-- select type ---</option>
                                     @if (oTransportFilterDto.ServiceId==11) {
                                     <option value="1">Bus</option>
                                     <option value="2">Train</option>
@@ -141,7 +142,7 @@
                         <div class="col-4 px-1">
                             <div class="mb-2">
                                 <label for="StartTime" class="form-label">Start Time</label>
-                                <input type="time" class="form-control" [(ngModel)]="oTransportRequestDto.StartTime"
+                                <input type="datetime-local" class="form-control" [(ngModel)]="StartTime"
                                     name="StartTime" placeholder="Please enter start time no">
                             </div>
                         </div>
@@ -149,8 +150,8 @@
                         <div class="col-4 px-1">
                             <div class="mb-2">
                                 <label for="EndTime" class="form-label">End Time</label>
-                                <input type="time" class="form-control" [(ngModel)]="oTransportRequestDto.EndTime"
-                                    name="EndTime" placeholder="Please enter end time no">
+                                <input type="datetime-local" class="form-control" [(ngModel)]="EndTime" name="EndTime"
+                                    placeholder="Please enter end time no">
                             </div>
                         </div>
 
@@ -161,6 +162,7 @@
                                     name="Seat">
                             </div>
                         </div>
+                        @if (oTransportFilterDto.ServiceId!=12) {
                         <div class="col-4 px-1">
                             <div class="mb-2">
                                 <label for="Model" class="form-label">Model</label>
@@ -175,13 +177,6 @@
                                     name="Cost">
                             </div>
                         </div>
-                        <div class="col-4 px-1">
-                            <div class="mb-2">
-                                <label for="Address" class="form-label">Address</label>
-                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Address"
-                                    name="Address">
-                            </div>
-                        </div>
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
@@ -190,6 +185,19 @@
                                     name="Driver" placeholder="Please enter end no">
                             </div>
                         </div>
+
+                        }
+
+
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="Address" class="form-label">Address</label>
+                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Address"
+                                    name="Address">
+                            </div>
+                        </div>
+
+
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
@@ -211,6 +219,7 @@
                                 <label for="StartingPoint" class="form-label">StartingPoint</label>
                                 <select class="form-select" [(ngModel)]="oTransportRequestDto.StartingPoint"
                                     name="StartingPoint" aria-label="Default select example">
+                                    <option value="">-- select starting point ---</option>
                                     <ng-template ngFor let-item [ngForOf]="startingpointFromList" let-i="index"
                                         [ngForTrackBy]="trackByStartingPointFrom">
                                         <option value="{{item.Id}}">{{item.StartingPoint}}</option>
@@ -224,6 +233,7 @@
                                 <label for="EndingPoint" class="form-label">EndingPoint</label>
                                 <select class="form-select" [(ngModel)]="oTransportRequestDto.EndingPoint"
                                     name="EndingPoint" aria-label="Default select example">
+                                    <option value="">-- select ending point ---</option>
                                     <ng-template ngFor let-item [ngForOf]="endingpointFromList" let-i="index"
                                         [ngForTrackBy]="trackByEndingPointFrom">
                                         <option value="{{item.Id}}">{{item.EndingPoint}}</option>

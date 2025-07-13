@@ -15,13 +15,13 @@ import { EndingPointFilterDto, StartingPointFilterDto, TransportFilterDto, Trans
 @Component({
   selector: 'app-transport',
   standalone: true,
-  imports: [CommonModule, FormsModule, AgGridAngular, RouterModule, PaginationComponent, NgxEditorModule ],
+  imports: [CommonModule, FormsModule, AgGridAngular, RouterModule, PaginationComponent, NgxEditorModule],
   templateUrl: './transport.component.html',
   styleUrl: './transport.component.scss',
   providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
 })
-export class TransportComponent  implements OnInit {
+export class TransportComponent implements OnInit {
 
   private transportGridApi!: any;
   public DeafultCol = AGGridHelper.DeafultCol;
@@ -38,6 +38,8 @@ export class TransportComponent  implements OnInit {
   public transportId = 0;
   public editor: Editor = new Editor();
   public toolbar: Toolbar;
+  public StartTime: any;
+  public EndTime: any;
   // pagination setup
   public pageIndex: number = 1;
   public totalRecords: number = 0;
@@ -78,6 +80,10 @@ export class TransportComponent  implements OnInit {
     private activeRouter: ActivatedRoute,
     private datePipe: DatePipe) {
     this.toolbar = CommonHelper.GetToolBar();
+
+    const currentDate = new Date();
+    this.StartTime = this.datePipe.transform(currentDate, 'yyyy-MM-ddTHH:mm');
+    this.EndTime = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
   }
 
 
@@ -193,8 +199,9 @@ export class TransportComponent  implements OnInit {
     let currentUser = CommonHelper.GetUser();
     this.oTransportRequestDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
     this.oTransportRequestDto.FileId = Number(this.oTransportRequestDto.FileId);
-    this.oTransportRequestDto.StartTime = CommonHelper.formatTime(this.oTransportRequestDto.StartTime);
-    this.oTransportRequestDto.EndTime = CommonHelper.formatTime(this.oTransportRequestDto.EndTime);
+    this.oTransportRequestDto.Type = Number(this.oTransportRequestDto.Type);
+    this.oTransportRequestDto.StartTime = new Date(this.StartTime);
+    this.oTransportRequestDto.EndTime = new Date(this.EndTime);
     this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(this.oTransportRequestDto.IsActive);
 
     // After the hash is generated, proceed with the API call
@@ -224,8 +231,9 @@ export class TransportComponent  implements OnInit {
     let currentUser = CommonHelper.GetUser();
     this.oTransportRequestDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
     this.oTransportRequestDto.FileId = Number(this.oTransportRequestDto.FileId);
-    this.oTransportRequestDto.StartTime = CommonHelper.formatTime(this.oTransportRequestDto.StartTime);
-    this.oTransportRequestDto.EndTime = CommonHelper.formatTime(this.oTransportRequestDto.EndTime);
+    this.oTransportRequestDto.Type = Number(this.oTransportRequestDto.Type);
+    this.oTransportRequestDto.StartTime = new Date(this.StartTime);
+    this.oTransportRequestDto.EndTime = new Date(this.EndTime);
     this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(this.oTransportRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`Transport/UpdateTransport/${this.transportId}`, this.oTransportRequestDto).subscribe(
@@ -281,14 +289,16 @@ export class TransportComponent  implements OnInit {
     this.oTransportRequestDto.Model = getSelectedItem.Model;
     this.oTransportRequestDto.Cost = getSelectedItem.Cost;
     this.oTransportRequestDto.Address = getSelectedItem.Address;
-    this.oTransportRequestDto.StartTime = CommonHelper.formatTime(getSelectedItem.StartTime);
-    this.oTransportRequestDto.EndTime = CommonHelper.formatTime(getSelectedItem.EndTime);
+    this.StartTime = this.datePipe.transform(new Date(getSelectedItem.StartTime), 'yyyy-MM-ddTHH:mm');
+    this.EndTime = this.datePipe.transform(new Date(getSelectedItem.EndTime), 'yyyy-MM-ddTHH:mm');
     this.oTransportRequestDto.Latitude = getSelectedItem.Latitude;
     this.oTransportRequestDto.Longitude = getSelectedItem.Longitude;
     this.oTransportRequestDto.StartingPoint = getSelectedItem.StartingPoint;
     this.oTransportRequestDto.EndingPoint = getSelectedItem.EndingPoint;
     this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
     this.oTransportRequestDto.Remarks = getSelectedItem.Remarks;
+
+
     CommonHelper.CommonButtonClick("openCommonModel");
   }
 
@@ -299,7 +309,7 @@ export class TransportComponent  implements OnInit {
     }
 
     this.transportId = Number(getSelectedItem.Id);
-   this.oTransportRequestDto.Name = getSelectedItem.Name;
+    this.oTransportRequestDto.Name = getSelectedItem.Name;
     this.oTransportRequestDto.ServiceId = Number(getSelectedItem.ServiceId);
     this.oTransportRequestDto.FileId = Number(getSelectedItem.FileId);
     this.oTransportRequestDto.PhoneNo = getSelectedItem.PhoneNo;
