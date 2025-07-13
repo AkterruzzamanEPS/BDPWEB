@@ -10,7 +10,7 @@ export class TransportRequestDto {
         this.Longitude = "";
         this.StartTime = "00.00.00";
         this.EndTime = "00.00.00";
-        this.seat = 0; 
+        this.Seat = 0;
         this.StartingPoint = "";
         this.EndingPoint = "";
         this.FileId = 0 ;
@@ -24,6 +24,7 @@ export class TransportRequestDto {
         this.IsActive = true;
 
     }
+
     public Id : number;
     public ServiceId : number;
     public Name : string;
@@ -33,7 +34,7 @@ export class TransportRequestDto {
     public Longitude: string;
     public StartTime : string;
     public EndTime :string;
-    public seat : number;
+    public Seat : number;
     public StartingPoint : string;
     public EndingPoint : string;
     public FileId : number;
@@ -67,4 +68,20 @@ export class TransportFilterDto {
     public StartingPoint: string;
     public EndingPoint: string;
     public IsActive: boolean;
+}
+export class EndingPointFilterDto {
+    constructor() {
+        this.ServiceId = 0;
+        this.Name = "";
+    }
+    public ServiceId: number;
+    public Name: string;
+}
+export class StartingPointFilterDto {
+    constructor() {
+        this.ServiceId = 0;
+        this.Name = "";
+    }
+    public ServiceId: number;
+    public Name: string;
 }

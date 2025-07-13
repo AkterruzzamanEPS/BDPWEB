@@ -6,7 +6,33 @@
                 placeholder="type here ...">
         </div>
     </div>
-    
+
+    <div class="col-2 px-1">
+        <div class="mb-2">
+            <select class="form-select" [(ngModel)]="oTransportFilterDto.StartingPoint" name="StartingPoint"
+                aria-label="Default select example">
+                <option value="0"> -- select startingpoint -- </option>
+                <ng-template ngFor let-item [ngForOf]="startingpointFromList" let-i="index"
+                    [ngForTrackBy]="trackByStartingPoint">
+                    <option value="{{item.Id}}">{{item.StartingPoint}}</option>
+                </ng-template>
+            </select>
+        </div>
+    </div>
+
+    <div class="col-2 px-1">
+        <div class="mb-2">
+            <select class="form-select" [(ngModel)]="oTransportFilterDto.EndingPoint" name="EndingPoint"
+                aria-label="Default select example">
+                <option value="0"> -- select endingpoint -- </option>
+                <ng-template ngFor let-item [ngForOf]="endingpointList" let-i="index"
+                    [ngForTrackBy]="trackByEndingPoint">
+                    <option value="{{item.Id}}">{{item.EndingPoint}}</option>
+                </ng-template>
+            </select>
+        </div>
+    </div>
+
     <div class="col-2 px-1">
         <div class="mb-2">
             <select class="form-select" [(ngModel)]="oTransportFilterDto.IsActive" name="IsActive"
@@ -16,16 +42,6 @@
             </select>
         </div>
     </div>
-
-     <div class="col-2 px-1">
-    <div class="mb-2">
-      <select class="form-select" [(ngModel)]="oTransportFilterDto.Type" name="Type">
-        <option [ngValue]="null">All</option>
-        <option [ngValue]="1">Driver</option>
-        <option [ngValue]="2">Helper</option>
-      </select>
-    </div>
-  </div>
 
     <div class="col-2 px-1">
         <div class="mb-2">
@@ -47,7 +63,7 @@
     </div>
 
 
-    <app-pagination [pageSize]="10" [currentPage]="pageIndex" [totalItems]="totalRecords"
+    <app-pagination [pageSize]="20" [currentPage]="pageIndex" [totalItems]="totalRecords"
         (pageChange)="PageChange($event)"></app-pagination>
 </div>
 
@@ -66,7 +82,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Transport Detail
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Transport
                         @if (transportId==0){Create} @if (transportId>0){Update}
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeCommonModel"
@@ -77,20 +93,45 @@
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
-                                <label for="Name" class="form-label">Name</label>
-                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Name"
-                                    name="Name" placeholder="Please enter name">
+                                <label for="IsActive" class="form-label">Type</label>
+                                <select class="form-select" [(ngModel)]="oTransportRequestDto.IsActive" name="IsActive"
+                                    aria-label="Default select example">
+                                    @if (oTransportFilterDto.ServiceId==11) {
+                                    <option value="1">Bus</option>
+                                    <option value="2">Train</option>
+                                    <option value="3">Flight</option>
+                                    <option value="4">Ship</option>
+                                    }@else if (oTransportFilterDto.ServiceId==12) {
+
+                                    <option value="5">Temple</option>
+                                    <option value="6">Mosque</option>
+                                    <option value="7">Church</option>
+                                    <option value="8">Pagoda </option>
+                                    }@else if (oTransportFilterDto.ServiceId==19) {
+                                    <option value="10">Rides</option>
+                                    }@else {
+
+                                    }
+
+                                </select>
                             </div>
                         </div>
 
                         <div class="col-4 px-1">
                             <div class="mb-2">
-                                <label for="PhoneNo" class="form-label">PhoneNo</label>
-                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.PhoneNo"
-                                    name="PhoneNo" placeholder="Please enter phone no">
+                                <label for="Name" class="form-label">Name</label>
+                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Name"
+                                    name="Name" placeholder="Please enter name">
                             </div>
                         </div>
-                       
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="PhoneNo" class="form-label">PhoneNo</label>
+                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.PhoneNo"
+                                    name="PhoneNo" placeholder="Please enter PhoneNo no">
+                            </div>
+                        </div>
+
                         <div class="col-4 px-1">
                             <label for="NID" class="form-label">File Upload</label>
                             <input type="file" class="form-control" id="NID" (change)="onFileChange($event)"
@@ -104,11 +145,49 @@
                                     name="StartTime" placeholder="Please enter start time no">
                             </div>
                         </div>
+
                         <div class="col-4 px-1">
                             <div class="mb-2">
                                 <label for="EndTime" class="form-label">End Time</label>
                                 <input type="time" class="form-control" [(ngModel)]="oTransportRequestDto.EndTime"
                                     name="EndTime" placeholder="Please enter end time no">
+                            </div>
+                        </div>
+
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="Seat" class="form-label">Seat</label>
+                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Seat"
+                                    name="Seat">
+                            </div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="Model" class="form-label">Model</label>
+                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Model"
+                                    name="Model">
+                            </div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="Cost" class="form-label">Cost</label>
+                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Cost"
+                                    name="Cost">
+                            </div>
+                        </div>
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="Address" class="form-label">Address</label>
+                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Address"
+                                    name="Address">
+                            </div>
+                        </div>
+
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="Driver" class="form-label">Driver</label>
+                                <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Driver"
+                                    name="Driver" placeholder="Please enter end no">
                             </div>
                         </div>
 
@@ -123,7 +202,33 @@
                             <div class="mb-2">
                                 <label for="Longitude" class="form-label">Longitude</label>
                                 <input type="text" class="form-control" [(ngModel)]="oTransportRequestDto.Longitude"
-                                    name="Longitude" placeholder="Please enter Longitude ">
+                                    name="Longitude" placeholder="Please enter longitude ">
+                            </div>
+                        </div>
+
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="StartingPoint" class="form-label">StartingPoint</label>
+                                <select class="form-select" [(ngModel)]="oTransportRequestDto.StartingPoint"
+                                    name="StartingPoint" aria-label="Default select example">
+                                    <ng-template ngFor let-item [ngForOf]="startingpointFromList" let-i="index"
+                                        [ngForTrackBy]="trackByStartingPointFrom">
+                                        <option value="{{item.Id}}">{{item.StartingPoint}}</option>
+                                    </ng-template>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-4 px-1">
+                            <div class="mb-2">
+                                <label for="EndingPoint" class="form-label">EndingPoint</label>
+                                <select class="form-select" [(ngModel)]="oTransportRequestDto.EndingPoint"
+                                    name="EndingPoint" aria-label="Default select example">
+                                    <ng-template ngFor let-item [ngForOf]="endingpointFromList" let-i="index"
+                                        [ngForTrackBy]="trackByEndingPointFrom">
+                                        <option value="{{item.Id}}">{{item.EndingPoint}}</option>
+                                    </ng-template>
+                                </select>
                             </div>
                         </div>
 
@@ -131,8 +236,8 @@
                         <div class="col-4 px-1">
                             <div class="mb-2">
                                 <label for="IsActive" class="form-label">Status</label>
-                                <select class="form-select" [(ngModel)]="oTransportRequestDto.IsActive"
-                                    name="IsActive" aria-label="Default select example">
+                                <select class="form-select" [(ngModel)]="oTransportRequestDto.IsActive" name="IsActive"
+                                    aria-label="Default select example">
                                     <option value="true">Active</option>
                                     <option value="false">Inactive</option>
                                 </select>
