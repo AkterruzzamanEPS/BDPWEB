@@ -5,7 +5,7 @@ export class TransportRequestDto {
         this.ServiceId = 0;
         this.Name = "";
         this.Description = "";
-        this.Type = 0;
+        this.Type = "0";
         this.Latitude = "";
         this.Longitude = "";
         this.StartTime = new Date();
@@ -20,7 +20,7 @@ export class TransportRequestDto {
         this.Address = "";
         this.Driver = "";
         this.Remarks = "";
-        this.UserId = 0;
+        this.UserId = "";
         this.IsActive = true;
 
     }
@@ -29,7 +29,7 @@ export class TransportRequestDto {
     public ServiceId : number;
     public Name : string;
     public Description : string;
-    public Type:  number;
+    public Type:  string;
     public Latitude: string;
     public Longitude: string;
     public StartTime : Date;
@@ -44,7 +44,7 @@ export class TransportRequestDto {
     public Address : string;
     public Driver : string;
     public Remarks : string;
-    public UserId : number;
+    public UserId : string;
     public IsActive : boolean;
 }
 

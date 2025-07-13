@@ -199,9 +199,10 @@ export class TransportComponent implements OnInit {
     let currentUser = CommonHelper.GetUser();
     this.oTransportRequestDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
     this.oTransportRequestDto.FileId = Number(this.oTransportRequestDto.FileId);
-    this.oTransportRequestDto.Type = Number(this.oTransportRequestDto.Type);
+    this.oTransportRequestDto.Type = this.oTransportRequestDto.Type.toString();
     this.oTransportRequestDto.StartTime = new Date(this.StartTime);
     this.oTransportRequestDto.EndTime = new Date(this.EndTime);
+    this.oTransportRequestDto.UserId = currentUser?.UserId ? currentUser?.UserId : "";
     this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(this.oTransportRequestDto.IsActive);
 
     // After the hash is generated, proceed with the API call
@@ -231,9 +232,10 @@ export class TransportComponent implements OnInit {
     let currentUser = CommonHelper.GetUser();
     this.oTransportRequestDto.ServiceId = Number(this.oTransportFilterDto.ServiceId);
     this.oTransportRequestDto.FileId = Number(this.oTransportRequestDto.FileId);
-    this.oTransportRequestDto.Type = Number(this.oTransportRequestDto.Type);
+    this.oTransportRequestDto.Type = this.oTransportRequestDto.Type.toString();
     this.oTransportRequestDto.StartTime = new Date(this.StartTime);
     this.oTransportRequestDto.EndTime = new Date(this.EndTime);
+    this.oTransportRequestDto.UserId = currentUser?.UserId ? currentUser?.UserId : "";
     this.oTransportRequestDto.IsActive = CommonHelper.booleanConvert(this.oTransportRequestDto.IsActive);
     // After the hash is generated, proceed with the API call
     this.http.Post(`Transport/UpdateTransport/${this.transportId}`, this.oTransportRequestDto).subscribe(
