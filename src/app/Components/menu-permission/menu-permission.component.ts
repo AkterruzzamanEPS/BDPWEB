@@ -11,11 +11,12 @@ import { Router } from '@angular/router';
 import { MenuPermissionFilterRequestDto, MenuPermissionRequestDto } from '../../Models/RequestDto/MenuPermission';
 import { AspNetUsersFilterRequestDto } from '../../Models/RequestDto/AspNetUsers';
 import { DropdownMenu } from '../../Models/RequestDto/DropdownMenu';
+import { PaginationComponent } from "../../Shared/pagination/pagination.component";
 
 @Component({
   selector: 'app-menu-permission',
   standalone: true,
-  imports: [CommonModule, FormsModule, AgGridAngular],
+  imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent],
   templateUrl: './menu-permission.component.html',
   styleUrl: './menu-permission.component.scss',
   providers: [DatePipe]
@@ -314,6 +315,10 @@ export class MenuPermissionComponent implements OnInit {
       this.pageIndex++;
       this.GetMenuPermission();
     }
+  }
+   PageChange(event: any) {
+    this.pageIndex = Number(event);
+    this.GetAllMenues();
   }
 
 }

@@ -62,7 +62,8 @@
         </ag-grid-angular>
     </div>
 
-
+        <app-pagination [pageSize]="10" [currentPage]="pageIndex" [totalItems]="totalRecords"
+        (pageChange)="PageChange($event)"></app-pagination>
 
     <!-- <div class="col-md-6 mt-1">
         <div class="input-group mb-3">
