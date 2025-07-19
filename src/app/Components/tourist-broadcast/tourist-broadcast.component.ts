@@ -2,29 +2,28 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component, OnInit, TrackByFunction, ViewEncapsulation } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AgGridAngular } from 'ag-grid-angular';
-import { ToastrService } from 'ngx-toastr';
+import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { PaginationComponent } from '../../Shared/pagination/pagination.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { DistrictFilterDto } from '../../Models/RequestDto/District';
+import { ThanaFilterDto } from '../../Models/RequestDto/Thana';
+import { TouristSpotFilterDto, TouristSpotRequestDto } from '../../Models/RequestDto/TouristSpot';
 import { AGGridHelper } from '../../Shared/Services/AGGridHelper';
 import { AuthService } from '../../Shared/Services/auth.service';
 import { CommonHelper } from '../../Shared/Services/CommonHelper';
 import { HttpHelperService } from '../../Shared/Services/http-helper.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ServiceFilterDto, ServiceRequestDto } from '../../Models/RequestDto/Service';
-import { ComplainFilterDto, ComplainRequestDto } from '../../Models/RequestDto/Complain';
-import { ThanaFilterDto } from '../../Models/RequestDto/Thana';
-import { DistrictFilterDto } from '../../Models/RequestDto/District';
-import { TouristSpotFilterDto, TouristSpotRequestDto } from '../../Models/RequestDto/TouristSpot';
-import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
+
 @Component({
-  selector: 'app-news',
+  selector: 'app-tourist-broadcast',
   standalone: true,
-   imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent, NgxEditorModule],
-  templateUrl: './news.component.html',
-  styleUrl: './news.component.scss',
-    providers: [DatePipe],
+  imports: [CommonModule, FormsModule, AgGridAngular, PaginationComponent, NgxEditorModule],
+  templateUrl: './tourist-broadcast.component.html',
+  styleUrl: './tourist-broadcast.component.scss',
+  providers: [DatePipe],
   encapsulation: ViewEncapsulation.None,
 })
-export class NewsComponent implements OnInit {
+export class TouristBroadcastComponent   implements OnInit {
 
   
   private touristspotGridApi!: any;
@@ -81,6 +80,14 @@ export class NewsComponent implements OnInit {
             label = 'News';
             colorClass = 'badge bg-info';
             break;
+          case 5:
+            label = 'Tourist Broadcast';
+            colorClass = 'badge bg-info';
+            break;
+          case 6:
+            label = 'Police Broadcast';
+            colorClass = 'badge bg-info';
+            break;
           default:
             label = 'Unknown';
             colorClass = 'badge bg-secondary';
@@ -91,14 +98,8 @@ export class NewsComponent implements OnInit {
       }
     },
     { field: 'Name', width: 150, headerName: 'News Title', filter: true },
-    // { field: 'PhoneNo', width: 150, headerName: 'PhoneNo', filter: true },
-    // { field: 'TelePhone', width: 150, headerName: 'TelePhone', filter: true },
     { field: 'Description', width: 150, headerName: 'Description', filter: true },
-    { field: 'Division', width: 150, headerName: 'Division', filter: true },
-    { field: 'District', width: 150, headerName: 'District', filter: true },
-    { field: 'Thana', width: 150, headerName: 'Thana', filter: true },
-    // { field: 'Lat', width: 150, headerName: 'Lat', filter: true },
-    // { field: 'Long', width: 150, headerName: 'Long', filter: true },
+    { field: 'Address', width: 150, headerName: 'Address', filter: true },
     { field: 'Remarks', headerName: 'Remarks' },
     { field: 'IsActive', headerName: 'Status' },
   ];
@@ -146,7 +147,7 @@ export class NewsComponent implements OnInit {
     this.oTouristSpotFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotFilterDto.IsActive);
     this.oTouristSpotFilterDto.DistictId = Number(this.oTouristSpotFilterDto.DistictId);
     this.oTouristSpotFilterDto.ThanaId = Number(this.oTouristSpotFilterDto.ThanaId);
-    this.oTouristSpotFilterDto.Type=4;
+    this.oTouristSpotFilterDto.Type=5;
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristSpot/GetTouristSpot?pageNumber=${this.pageIndex ? this.pageIndex : 1}`, this.oTouristSpotFilterDto).subscribe(
       (res: any) => {
@@ -256,7 +257,7 @@ export class NewsComponent implements OnInit {
     this.oTouristSpotRequestDto.DistictId = Number(this.oTouristSpotRequestDto.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(this.oTouristSpotRequestDto.ThanaId);
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotRequestDto.IsActive);
-    this.oTouristSpotRequestDto.Type=4;
+    this.oTouristSpotRequestDto.Type=5;
 
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristSpot/InsertTouristSpot`, this.oTouristSpotRequestDto).subscribe(
@@ -287,7 +288,7 @@ export class NewsComponent implements OnInit {
     this.oTouristSpotRequestDto.DistictId = Number(this.oTouristSpotRequestDto.DistictId);
     this.oTouristSpotRequestDto.ThanaId = Number(this.oTouristSpotRequestDto.ThanaId);
     this.oTouristSpotRequestDto.IsActive = CommonHelper.booleanConvert(this.oTouristSpotRequestDto.IsActive);
-    this.oTouristSpotRequestDto.Type=4;
+    this.oTouristSpotRequestDto.Type=5;
     // After the hash is generated, proceed with the API call
     this.http.Post(`TouristSpot/UpdateTouristSpot/${this.touristspotId}`, this.oTouristSpotRequestDto).subscribe(
       (res: any) => {
@@ -377,3 +378,5 @@ export class NewsComponent implements OnInit {
 
 
 }
+
+

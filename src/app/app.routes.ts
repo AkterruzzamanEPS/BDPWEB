@@ -37,6 +37,8 @@ import { MobileInternetComponent } from './Components/mobile-internet/mobile-int
 import { RedMarkedSpotsComponent } from './Components/red-marked-spots/red-marked-spots.component';
 import { TouristZoneComponent } from './Components/tourist-zone/tourist-zone.component';
 import { TransportComponent } from './Components/transport/transport.component';
+import { TouristBroadcastComponent } from './Components/tourist-broadcast/tourist-broadcast.component';
+import { PoliceBroadcastComponent } from './Components/police-broadcast/police-broadcast.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent, title: "Log in- BDP User Panel" },
@@ -47,6 +49,8 @@ export const routes: Routes = [
     
     { path: "complain", component: ComplainComponent, canActivate: [AuthGuard], title: "Complain List| BDP" },
     { path: "news", component: NewsComponent, canActivate: [AuthGuard], title: "News & Alert | BDP" },
+    { path: "tourist-broadcasts", component: TouristBroadcastComponent, canActivate: [AuthGuard], title: "Tourist Broadcast | BDP" },
+    { path: "police-broadcasts", component: PoliceBroadcastComponent, canActivate: [AuthGuard], title: "Police Broadcast | BDP" },
     
     //for the complan details and feedback
     { path: "complain/:id", component: FeedBacKComponent, canActivate: [AuthGuard], title: "Feed Back | BDP" },
