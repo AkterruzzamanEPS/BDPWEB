@@ -8,8 +8,8 @@ import { CurrentUseerResponseDto } from '../../Models/ResponseDto/CurrentUseerRe
 })
 export class HttpHelperService {
 
- appUrl = "https://localhost:5001/v1/";
-    // appUrl = "http://103.192.159.61:8021/v1/";
+  //  appUrl = "https://localhost:5001/v1/";
+  appUrl = "http://103.192.159.61:8021/v1/";
 
   constructor(private http: HttpClient) { }
 
@@ -69,9 +69,9 @@ export class HttpHelperService {
 
   // Helper Service
   // Convert text to ArrayBuffer
-  private toArrayBuffer(text: string): Promise<ArrayBuffer> {
+  private toArrayBuffer(text: string): ArrayBuffer {
     const encoder = new TextEncoder();
-    return Promise.resolve(encoder.encode(text));
+    return encoder.encode(text).buffer;
   }
 
   public GetCurrentUser() {
