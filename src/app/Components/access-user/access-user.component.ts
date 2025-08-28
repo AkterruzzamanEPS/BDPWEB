@@ -30,8 +30,10 @@ import { TouristZoneFilterDto } from '../../Models/RequestDto/TouristZone';
 export class AccessUserComponent {
 
   private AccessUserGridApi!: any;
+  private AccessGridApi!: any;
   public DeafultCol = AGGridHelper.DeafultCol;
   public rowData!: any[];
+  public rowData1!: any[];
   public oAccessUserFilterDto = new AccessUserFilterDto();
   public oAccessUserRequestDto = new AccessUserRequestDto();
   public oTouristZoneFilterDto = new TouristZoneFilterDto();
@@ -43,7 +45,7 @@ export class AccessUserComponent {
   public districtFromList: any[] = [];
   public thanaList: any[] = [];
   public thanaFromList: any[] = [];
-  public registeredUserList:any[] = [];
+  public registeredUserList: any[] = [];
   public touristZoneList: any[] = [];
   public selectedAccessIds: number[] = [];
 
@@ -67,22 +69,32 @@ export class AccessUserComponent {
 
   public fromDate: any;
   public toDate: any;
-  
- public colDefsTransection: any[] = [
-   { field: 'UserId', headerName: 'User ID', width: 120 },
-  { field: 'Type', headerName: 'Type', width: 100 },
-  { field: 'TypeId', headerName: 'Type ID', width: 120 },
-  { field: 'Remarks', headerName: 'Remarks', flex: 1 }, // flexible width
-  { field: 'IsActive', headerName: 'Active Status', width: 140, 
-    cellRenderer: (params: any) => params.value ? 'Active' : 'Inactive' },
-  { field: 'CreatedBy', headerName: 'Created By', width: 120 },
-  { field: 'CreatedDate', headerName: 'Created Date', width: 180, 
-    valueFormatter: (params: any) => params.value ? new Date(params.value).toLocaleString() : '' },
 
+  public colDefsTransection: any[] = [
+    { field: 'UserId', headerName: 'User ID', width: 120 },
+    { field: 'Type', headerName: 'Type', width: 100 },
+    { field: 'TypeId', headerName: 'Type ID', width: 120 },
+    { field: 'Remarks', headerName: 'Remarks', flex: 1 }, // flexible width
+    {
+      field: 'IsActive', headerName: 'Active Status', width: 140,
+      cellRenderer: (params: any) => params.value ? 'Active' : 'Inactive'
+    },
+    { field: 'CreatedBy', headerName: 'Created By', width: 120 },
+    {
+      field: 'CreatedDate', headerName: 'Created Date', width: 180,
+      valueFormatter: (params: any) => params.value ? new Date(params.value).toLocaleString() : ''
+    },
+
+  ];
+  public colDefsAccess: any[] = [
+    { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, checkboxSelection: true, headerCheckboxSelection: true },
+    { field: 'Name', headerName: 'User ID', width: 120 },
+    { field: 'TypeName', headerName: 'Type', width: 100 },
+    { field: 'TypeIdName', headerName: 'Type ID', width: 120 }
   ];
   trackByCompany: TrackByFunction<any> | any;
   trackByFn: TrackByFunction<any> | any;
-  
+
   trackByDistrict: TrackByFunction<any> | any;
   trackByDistrictFrom: TrackByFunction<any> | any;
   trackByThana: TrackByFunction<any> | any;
@@ -101,9 +113,9 @@ export class AccessUserComponent {
 
 
   ngOnInit(): void {
-   this.GetAccessUser();
-   this.GetDistinctUser();
-   this.GttTouristZones();
+    this.GetAccessUser();
+    this.GetDistinctUser();
+    this.GttTouristZones();
 
   }
   PageChange(event: any) {
@@ -115,6 +127,10 @@ export class AccessUserComponent {
     this.AccessUserGridApi = params.api;
     this.rowData = [];
   }
+  onGridReadyAccess(params: any) {
+    this.AccessGridApi = params.api;
+    this.rowData1 = [];
+  }
 
   Filter() {
     this.GetAccessUser();
@@ -122,15 +138,15 @@ export class AccessUserComponent {
 
   }
   private GetDistinctUser() {
-    this.oAspNetUsersFilterRequestDto.IsActive= CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.IsActive);
+    this.oAspNetUsersFilterRequestDto.IsActive = CommonHelper.booleanConvert(this.oAspNetUsersFilterRequestDto.IsActive);
     this.oAspNetUsersFilterRequestDto.UserType = 2;
 
-   debugger;
+    debugger;
     this.http.Post(`AspNetUsers/GetAllAspNetUsers`, this.oAspNetUsersFilterRequestDto).subscribe(
       (res: any) => {
         debugger;
-        this.registeredUserList=res;
-       
+        this.registeredUserList = res;
+
       },
       (err) => {
         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
@@ -138,25 +154,26 @@ export class AccessUserComponent {
     );
 
   }
-   private GttTouristZones() {
+  private GttTouristZones() {
     this.oTouristZoneFilterDto.IsActive = CommonHelper.booleanConvert(this.oTouristZoneFilterDto.IsActive);
     this.http.Post(`TouristZone/GetAllTouristZones`, this.oTouristZoneFilterDto).subscribe(
       (res: any) => {
         this.touristZoneList = res;
-       
+        this.rowData1 = res;
+
       },
       (err) => {
         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
       }
     );
   }
-  
+
 
 
   private GetAccessUser() {
     this.oAccessUserFilterDto.IsActive = true;
-    this.oAccessUserFilterDto.Type =0;
-    this.oAccessUserFilterDto.TypeId =0;
+    this.oAccessUserFilterDto.Type = 0;
+    this.oAccessUserFilterDto.TypeId = 0;
     // this.oAccessUserFilterDto.UserId = ;
 
     //this.oAccessUserFilterDto.UserId = String(this.oAccessUserFilterDto.UserId);
@@ -164,10 +181,10 @@ export class AccessUserComponent {
     // this.oAccessUserFilterDto.Type = Number(this.oAccessUserFilterDto.Type);
     // this.oAccessUserFilterDto.TypeId = Number(this.oAccessUserFilterDto.TypeId);
     // this.oAccessUserFilterDto.UserId = String(this.oAccessUserFilterDto.UserId);
-   debugger;
+    debugger;
     this.http.Post(`AccessUser/GetAccessUsers?pageNumber=${this.pageIndex}`, this.oAccessUserFilterDto).subscribe(
       (res: any) => {
-  debugger;
+        debugger;
         this.rowData = res.Items;
         this.pageIndex = res.PageIndex;
         this.totalPages = res.TotalPages;
@@ -184,48 +201,48 @@ export class AccessUserComponent {
 
   }
 
-    add() {
+  add() {
     CommonHelper.CommonButtonClick("openCommonModel");
     this.oAccessUserRequestDto = new AccessUserRequestDto();
     this.AccessUserId = 0;
   }
-public InsertAccessUsers() {
-  debugger;
+  public InsertAccessUsers() {
+    debugger;
 
-  // Validation
-  if (!this.oAccessUserRequestDto.UserId || this.oAccessUserRequestDto.UserId == "0") {
-    this.toast.warning("Please select a Police User", "Warning!!", { progressBar: true });
-    return;
-  }
-  if (this.oAccessUserRequestDto.Type == 0) {
-    this.toast.warning("Please select a User Type", "Warning!!", { progressBar: true });
-    return;
-  }
-
-  // Set default values
-  let currentUser = CommonHelper.GetUser();
-  this.oAccessUserRequestDto.IsActive = CommonHelper.booleanConvert(this.oAccessUserRequestDto.IsActive);
-
- 
-  this.oAccessUserRequestDto.AccessList = this.selectedAccessIds ; 
-  // API Call
-  this.http.Post(`AccessUser/InsertUpdateAccessUserBulk`, this.oAccessUserRequestDto).subscribe(
-    (res: any) => {
-      if (res.StatusCode != 200) {
-        this.toast.warning(res.message, "Warning!!", { progressBar: true });
-      } else {
-        CommonHelper.CommonButtonClick("closeCommonModel");
-        this.GetAccessUser();
-        this.toast.success("Data Saved Successfully!!", "Success!!", { progressBar: true });
-      }
-    },
-    (err) => {
-      this.toast.error(err.message, "Error!!", { progressBar: true });
+    // Validation
+    if (!this.oAccessUserRequestDto.UserId || this.oAccessUserRequestDto.UserId == "0") {
+      this.toast.warning("Please select a Police User", "Warning!!", { progressBar: true });
+      return;
     }
-  );
-}
+    if (this.oAccessUserRequestDto.Type == 0) {
+      this.toast.warning("Please select a User Type", "Warning!!", { progressBar: true });
+      return;
+    }
 
-  public UpdateAccessUsers(){
+    // Set default values
+    let currentUser = CommonHelper.GetUser();
+    this.oAccessUserRequestDto.IsActive = CommonHelper.booleanConvert(this.oAccessUserRequestDto.IsActive);
+
+
+    this.oAccessUserRequestDto.AccessList = this.selectedAccessIds;
+    // API Call
+    this.http.Post(`AccessUser/InsertUpdateAccessUserBulk`, this.oAccessUserRequestDto).subscribe(
+      (res: any) => {
+        if (res.StatusCode != 200) {
+          this.toast.warning(res.message, "Warning!!", { progressBar: true });
+        } else {
+          CommonHelper.CommonButtonClick("closeCommonModel");
+          this.GetAccessUser();
+          this.toast.success("Data Saved Successfully!!", "Success!!", { progressBar: true });
+        }
+      },
+      (err) => {
+        this.toast.error(err.message, "Error!!", { progressBar: true });
+      }
+    );
+  }
+
+  public UpdateAccessUsers() {
 
   }
 
