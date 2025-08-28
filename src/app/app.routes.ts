@@ -39,6 +39,7 @@ import { TouristZoneComponent } from './Components/tourist-zone/tourist-zone.com
 import { TransportComponent } from './Components/transport/transport.component';
 import { TouristBroadcastComponent } from './Components/tourist-broadcast/tourist-broadcast.component';
 import { PoliceBroadcastComponent } from './Components/police-broadcast/police-broadcast.component';
+import { AccessUserComponent } from './Components/access-user/access-user.component';
 
 export const routes: Routes = [
     { path: "", component: LoginComponent, title: "Log in- BDP User Panel" },
@@ -69,6 +70,8 @@ export const routes: Routes = [
     { path: "menu", component: MenuComponent, canActivate: [AuthGuard], title: "Menu | BDP " },
     { path: "menuPermission", component: MenuPermissionComponent, canActivate: [AuthGuard], title: "MenuPermission | BDP " },
     { path: "users", component: AspNetUsersComponent, canActivate: [AuthGuard], title: "Users | BDP " },
+
+    { path: "accessuser", component: AccessUserComponent, canActivate: [AuthGuard], title: "User Access Level  | BDP " },
    
     { path: "red-marked-spots/:id", component: RedMarkedSpotsComponent, canActivate: [AuthGuard], title: "Red Marked Spot | BDP " },
     { path: "find-transport/:id", component: FindTransportComponent, canActivate: [AuthGuard], title: "Find Transport | BDP " },
