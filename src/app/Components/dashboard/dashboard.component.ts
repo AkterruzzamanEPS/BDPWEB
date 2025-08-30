@@ -9,7 +9,7 @@ import { CurrentUseerResponseDto } from '../../Models/ResponseDto/CurrentUseerRe
 import { MerchantInfo } from '../../Models/ResponseDto/MerchantInfo';
 import { CommonHelper } from '../../Shared/Services/CommonHelper';
 import { CategoryFilterRequestDto } from '../../Models/RequestDto/CategoryFilterRequestDto';
-import { DashboardFilterRequestDto } from '../../Models/RequestDto/Dashboard';
+import { DashboardFilterDto, DashboardFilterRequestDto } from '../../Models/RequestDto/Dashboard';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
   public failure: number = 0;
 
   dashboardDataList: any[] = [];
+  dataList: any[] = [];
   optionsPaymentTypeList: any[] = [];
   optionsClassWiseList: any[] = [];
   optionsPaymentCategoryList: any[] = [];
@@ -43,11 +44,12 @@ export class DashboardComponent implements OnInit {
   subCategoryList: any[] = [];
   public oCurrentUseerResponseDto = new CurrentUseerResponseDto();
   public oDashboardFilterRequestDto = new DashboardFilterRequestDto();
+  public oDashboardFilterDto = new DashboardFilterDto();
 
   public oMerchantInfo = new MerchantInfo();
 
   trackByFn: TrackByFunction<any> | any;
-  
+
   // ====== REMINDER PROPERTIES ADDED HERE ======
   intervalId: any = null;
   timeoutId: any = null;
@@ -55,8 +57,8 @@ export class DashboardComponent implements OnInit {
   intervalMinutes: number = 0;       // for interval reminder input (in minutes)
   fixedTime: string = '14:00';       // for fixed time reminder input (format HH:mm)
   reminderLogs: string[] = [];
-  reminderCount: number = 0; 
-  
+  reminderCount: number = 0;
+
   // =============================================
   constructor(public authService: AuthService,
     private toast: ToastrService,
@@ -190,21 +192,21 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     let currentUser = CommonHelper.GetUser();
     var daata = this.authService.isTokenExpired(currentUser?.JwtToken);
-    // this.GetAllCategories();
-    
+    this.GetAllDashboards();
+
     CommonHelper.GetUser();
 
-  const savedMinutes = localStorage.getItem('intervalReminderMinutes');
-  if (savedMinutes) {
-    this.intervalMinutes = +savedMinutes;
-    this.toast.info(`Resuming reminder of every ${this.intervalMinutes} minute(s).`);
+    const savedMinutes = localStorage.getItem('intervalReminderMinutes');
+    if (savedMinutes) {
+      this.intervalMinutes = +savedMinutes;
+      this.toast.info(`Resuming reminder of every ${this.intervalMinutes} minute(s).`);
 
-    this.intervalId = setInterval(() => {
-      const time = new Date().toLocaleTimeString();
-      this.reminderLogs.push(`Reminder triggered at ${time}`);
-      this.cdr.detectChanges();
-    }, this.intervalMinutes * 60 * 1000);
-  }
+      this.intervalId = setInterval(() => {
+        const time = new Date().toLocaleTimeString();
+        this.reminderLogs.push(`Reminder triggered at ${time}`);
+        this.cdr.detectChanges();
+      }, this.intervalMinutes * 60 * 1000);
+    }
 
   }
 
@@ -224,7 +226,7 @@ export class DashboardComponent implements OnInit {
     ];
   }
 
-  
+
 
   private GetDashboardGraph() {
 
@@ -263,14 +265,14 @@ export class DashboardComponent implements OnInit {
             data: this.dashboardDataList
           };
 
-          
+
           this.optionsPaymentTypeList = res.paymentType;
 
           const filteredPaymentTypeList = this.optionsPaymentTypeList.filter(
             item => item.FinancialEntity && item.FinancialEntity.trim() !== ''
           );
 
-  
+
           this.optionspaymenttype = {
             ...this.optionspaymenttype,
             data: filteredPaymentTypeList
@@ -312,13 +314,13 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  private GetAllCategories() {
+  private GetAllDashboards() {
     let currentUser = CommonHelper.GetUser();
-    this.http.Get(`Category/GetAllCategories/${0}`).subscribe(
+    this.oDashboardFilterDto.Type = Number(this.oDashboardFilterDto.Type);
+    this.oDashboardFilterDto.UserId = currentUser?.UserId;
+    this.http.Post(`Dashboard/GetAllDashboards`, this.oDashboardFilterDto).subscribe(
       (res: any) => {
-        this.categoryList = res;
-        this.oDashboardFilterRequestDto.categoryId = 0;
-        this.GetAllSubCategories(this.oDashboardFilterRequestDto.categoryId);
+        this.dataList = res;
       },
       (err) => {
         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
@@ -346,36 +348,36 @@ export class DashboardComponent implements OnInit {
 
   }
   //  // ========== REMINDER METHODS ===========
- startIntervalReminder(): void {
-  if (this.intervalId) clearInterval(this.intervalId);
+  startIntervalReminder(): void {
+    if (this.intervalId) clearInterval(this.intervalId);
 
-  if (this.intervalMinutes > 0) {
-    // Save interval state to localStorage
-    localStorage.setItem('intervalReminderMinutes', this.intervalMinutes.toString());
-    localStorage.setItem('intervalReminderStartTime', new Date().toISOString());
+    if (this.intervalMinutes > 0) {
+      // Save interval state to localStorage
+      localStorage.setItem('intervalReminderMinutes', this.intervalMinutes.toString());
+      localStorage.setItem('intervalReminderStartTime', new Date().toISOString());
 
-    this.toast.success(`Reminder set for every ${this.intervalMinutes} minute(s).`);
-    this.intervalId = setInterval(() => {
-      const time = new Date().toLocaleTimeString();
-      this.reminderLogs.push(`Reminder triggered at ${time}`);
-      this.toast.info(`Reminder triggered at ${time}`);
-      this.cdr.detectChanges();
-    }, this.intervalMinutes * 60 * 1000);
+      this.toast.success(`Reminder set for every ${this.intervalMinutes} minute(s).`);
+      this.intervalId = setInterval(() => {
+        const time = new Date().toLocaleTimeString();
+        this.reminderLogs.push(`Reminder triggered at ${time}`);
+        this.toast.info(`Reminder triggered at ${time}`);
+        this.cdr.detectChanges();
+      }, this.intervalMinutes * 60 * 1000);
+    }
   }
-}
 
 
- stopIntervalReminder(): void {
-   if (this.intervalId) {
-     clearInterval(this.intervalId);
-     this.intervalId = null;
+  stopIntervalReminder(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
 
-     localStorage.removeItem('intervalReminderMinutes');
-     localStorage.removeItem('intervalReminderStartTime');
+      localStorage.removeItem('intervalReminderMinutes');
+      localStorage.removeItem('intervalReminderStartTime');
 
-     this.toast.info('Interval reminder stopped.');
-   }
- }
+      this.toast.info('Interval reminder stopped.');
+    }
+  }
 
 }
 
