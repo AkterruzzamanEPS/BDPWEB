@@ -79,7 +79,7 @@
                     </div>
                     <div class="col-6 px-1">
                         <div class="mb-2">
-                            <label for="UserType" class="form-label">User Type</label>
+                            <!-- <label for="UserType" class="form-label">User Type</label>
                             <select class="form-select" [(ngModel)]="oAccessUserRequestDto.Type" name="Type"
                                 aria-label="Default select example">
                                 <option value="0"> -- select user type -- </option>
@@ -87,48 +87,41 @@
                                 <option value="4">Admin</option>
                                 <option value="1">Tourist</option>
                                 <option value="2">Police</option>
-                                <!-- <option value="3">Police</option> -->
+                                <option value="3">Police</option> 
 
+                            </select> -->
+
+                            <label for="UserType" class="form-label">User Type</label>
+                            <select class="form-select" [(ngModel)]="oAccessUserRequestDto.Type" 
+                                    name="Type"
+                                    aria-label="Default select example"
+                                    (change)="onUserTypeChange($event)">
+                                <option value="0"> -- select user type -- </option>
+                                <option value="1">Super Admin</option>
+                                <option value="1">Admin</option>
+                                <option value="2">District Police</option>
+                                <option value="3">Thana Police</option>
                             </select>
                         </div>
                     </div>
                     <!-- <div class="col-6 px-1">
-                        <div class="mb-2">
-                            <label for="RoleId" class="form-label">Touris Zone</label>
-                            <select class="form-select" [(ngModel)]="oAccessUserRequestDto.TypeId" name="RoleId"
-                                aria-label="Default select example">
-                                <option value="0">-- select Police --</option>
-                                <ng-template ngFor let-item [ngForOf]="touristZoneList" let-i="index"
-                                    [ngForTrackBy]="trackByFn">
-                                    <option value="{{item.Id}}">{{item.Name}}</option>
-                                </ng-template>
-                            </select>
-                        </div>
-                    </div> -->
-                    <div class="col-6 px-1">
                         <div class="mb-2">
                             <label for="AccessList" class="form-label">Access List</label>
                             <select class="form-select" multiple [(ngModel)]="selectedAccessIds" name="AccessList"
                                 aria-label="Select Access List">
                                 <ng-template ngFor let-item [ngForOf]="touristZoneList" let-i="index"
                                     [ngForTrackBy]="trackByFn">
-                                    <option [value]="item.Id">{{item.Name}}</option>
+                                    <option [value]="item.Id">{{ item.Name || item.District || item.Thana }}</option>
                                 </ng-template>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-12">
                         <ag-grid-angular class="ag-theme-alpine" style="height: 40vh;width: 100%;"
                             [columnDefs]="colDefsAccess" [rowData]="rowData1" [rowSelection]="'multiple'"
                             (gridReady)="onGridReadyAccess($event)" [defaultColDef]="DeafultCol">
                         </ag-grid-angular>
                     </div>
-
-
-
-
-
-
                 </div>
             </div>
             <div class="modal-footer">
