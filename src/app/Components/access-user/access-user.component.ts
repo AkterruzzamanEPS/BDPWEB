@@ -88,9 +88,14 @@ export class AccessUserComponent {
   ];
   public colDefsAccess: any[] = [
     { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, checkboxSelection: true, headerCheckboxSelection: true },
-    { field: 'Name', headerName: 'User ID', width: 120 },
-    { field: 'TypeName', headerName: 'Type', width: 100 },
-    { field: 'TypeIdName', headerName: 'Type ID', width: 120 }
+    // {field: 'Name', headerName: 'Name/District/Thana', flex: 1 },
+    // { field: 'TypeName', headerName: 'Type', width: 100 },
+    // { field: 'TypeIdName', headerName: 'Type ID', width: 120 }
+    { 
+       valueGetter: (params: any) => {
+      return params.data?.Name || params.data?.District || params.data?.Thana || '';
+    }, headerName: 'Assigned Area', flex: 1
+  }
   ];
   trackByCompany: TrackByFunction<any> | any;
   trackByFn: TrackByFunction<any> | any;
@@ -109,9 +114,6 @@ export class AccessUserComponent {
     private router: Router,
     private datePipe: DatePipe) {
   }
-
-
-
   ngOnInit(): void {
     this.GetAccessUser();
     this.GetDistinctUser();
@@ -131,7 +133,6 @@ export class AccessUserComponent {
     this.AccessGridApi = params.api;
     this.rowData1 = [];
   }
-
   Filter() {
     this.GetAccessUser();
 
@@ -167,9 +168,6 @@ export class AccessUserComponent {
       }
     );
   }
-
-
-
   private GetAccessUser() {
     this.oAccessUserFilterDto.IsActive = true;
     this.oAccessUserFilterDto.Type = 0;
@@ -200,6 +198,54 @@ export class AccessUserComponent {
     );
 
   }
+// onUserTypeChange(event: any) {
+//   debugger;
+//   const selectedType = this.oAccessUserRequestDto.Type; // already bound via ngModel
+
+//   if (selectedType > 0) {
+//     this.http.Get(`AccessUser/GetAccessUserAssignArea/${selectedType}`).subscribe(
+//       (res: any) => {
+//         this.rowData1 = res;       // Bind to ag-grid
+//         this.touristZoneList = res; // Bind to AccessList dropdown
+//       },
+//       (err) => {
+//         this.toast.error("Failed to load access list", "Error!!", { progressBar: true });
+//       }
+//     );
+//   } else {
+//     this.rowData1 = [];
+//     this.touristZoneList = [];
+//   }
+// }
+onUserTypeChange(event: any) {
+  const selectedType = this.oAccessUserRequestDto.Type;
+
+  if (selectedType > 0) {
+    this.http.Get(`AccessUser/GetAccessUserAssignArea/${selectedType}`).subscribe(
+      (res: any) => {
+        this.rowData1 = res;
+
+        if (selectedType === 1) {
+          this.colDefsAccess = [
+            { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, checkboxSelection: true, headerCheckboxSelection: true },
+            { field: 'Name', headerName: 'Tourist Zone', flex: 1 }
+          ];
+        } else if (selectedType === 2) {
+          this.colDefsAccess = [
+            { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, checkboxSelection: true, headerCheckboxSelection: true },
+            { field: 'District', headerName: 'District', flex: 1 }
+          ];
+        } else if (selectedType === 3) {
+          this.colDefsAccess = [
+            { valueGetter: "node.rowIndex + 1", headerName: 'SL', width: 90, checkboxSelection: true, headerCheckboxSelection: true },
+            { field: 'Thana', headerName: 'Thana', flex: 1 }
+          ];
+        }
+      }
+    );
+  }
+}
+
 
   add() {
     CommonHelper.CommonButtonClick("openCommonModel");
