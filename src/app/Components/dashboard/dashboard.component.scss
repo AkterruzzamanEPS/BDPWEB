@@ -1,0 +1,115 @@
+.custom-btn {
+    border: 1px solid #006A4E;
+    background-color: white;
+    color: #006A4E;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+.custom-btn:hover {
+    background-color: #e6f0ff;
+    color: #006A4E;
+}
+
+.active-btn {
+    background-color: #006A4E !important;
+    color: white !important;
+}
+
+
+// custom-floating
+
+.custom-floating .form-control {
+    background-color: #d9f1f0;
+    /* light teal background */
+    border: 1.5px solid #2e6e7f;
+    /* teal border */
+    border-radius: 6px;
+    font-weight: 600;
+    /* bold text */
+    padding-left: 12px;
+    color: #222;
+    /* text color */
+    height: 44px;
+}
+
+.custom-floating .form-control:focus {
+    background-color: #d9f1f0;
+    border-color: #1f4b54;
+    box-shadow: none;
+    /* remove default blue shadow */
+}
+
+.custom-floating label {
+    color: #6c757d;
+    font-weight: 400;
+    font-size: 0.95rem;
+    padding-left: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Label moves up and shrinks when input is focused or has value */
+.custom-floating .form-control:focus~label,
+.custom-floating .form-control:not(:placeholder-shown)~label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #2e6e7f;
+    transform: translateY(-25px);
+    padding-left: 6px;
+}
+
+
+
+
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 18px;
+    margin-bottom: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.stat-info {
+    text-align: left;
+    flex-grow: 1;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 5px 0;
+}
+
+.stat-change {
+    font-size: 13px;
+    font-weight: 600;
+    margin-left: 6px;
+}
+
+.stat-icon {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6fddc0, #D4F6E8);
+    color: #222;
+    font-weight: bold;
+    font-size: unset !important;
+}
