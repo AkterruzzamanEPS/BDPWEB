@@ -72,6 +72,7 @@ export class AccessUserComponent {
 
   public colDefsTransection: any[] = [
     { field: 'UserId', headerName: 'User ID', width: 120 },
+    { field: 'FullName', headerName: 'User Name', width: 120 },
     { field: 'Type', headerName: 'Type', width: 100 },
     { field: 'TypeId', headerName: 'Type ID', width: 120 },
     { field: 'Remarks', headerName: 'Remarks', flex: 1 }, // flexible width
