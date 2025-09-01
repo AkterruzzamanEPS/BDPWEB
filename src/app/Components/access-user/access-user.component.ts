@@ -19,6 +19,7 @@ import { AspNetUsersFilterRequestDto } from '../../Models/RequestDto/AspNetUsers
 import { TouristSpotFilterDto, TouristSpotRequestDto } from '../../Models/RequestDto/TouristSpot';
 import { TouristZoneFilterDto } from '../../Models/RequestDto/TouristZone';
 
+
 @Component({
   selector: 'app-access-user',
   standalone: true,
@@ -71,20 +72,29 @@ export class AccessUserComponent {
   public toDate: any;
 
   public colDefsTransection: any[] = [
-    { field: 'UserId', headerName: 'User ID', width: 120 },
+    // { field: 'UserId', headerName: 'User ID', width: 120 },
     { field: 'FullName', headerName: 'User Name', width: 120 },
-    { field: 'Type', headerName: 'Type', width: 100 },
-    { field: 'TypeId', headerName: 'Type ID', width: 120 },
-    { field: 'Remarks', headerName: 'Remarks', flex: 1 }, // flexible width
+    // { field: 'Type', headerName: 'Type', width: 100 },
+    { 
+    field: 'Type', headerName: 'Access Level', width: 150,valueFormatter: (params: ValueFormatterParams) =>
+      params.value == 1 ? 'Super Admin' :
+      params.value == 1? 'Admin' :
+      params.value == 2 ? 'District Police' :
+      params.value == 3 ? 'Thana Police' :
+      'Unknown'
+  },
+    // { field: 'TypeId', headerName: 'Type ID', width: 120 },
+    { field: 'AreaName', headerName: 'Assigned Areas', width: 150 },
+    // { field: 'Remarks', headerName: 'Remarks', flex: 1 }, // flexible width
     {
       field: 'IsActive', headerName: 'Active Status', width: 140,
       cellRenderer: (params: any) => params.value ? 'Active' : 'Inactive'
     },
-    { field: 'CreatedBy', headerName: 'Created By', width: 120 },
-    {
-      field: 'CreatedDate', headerName: 'Created Date', width: 180,
-      valueFormatter: (params: any) => params.value ? new Date(params.value).toLocaleString() : ''
-    },
+    // { field: 'CreatedBy', headerName: 'Created By', width: 120 },
+    // {
+    //   field: 'CreatedDate', headerName: 'Created Date', width: 180,
+    //   valueFormatter: (params: any) => params.value ? new Date(params.value).toLocaleString() : ''
+    // },
 
   ];
   public colDefsAccess: any[] = [
@@ -134,6 +144,12 @@ export class AccessUserComponent {
     this.AccessGridApi = params.api;
     this.rowData1 = [];
   }
+  onSelectionChanged(event: any) {
+  const selectedRows = this.AccessGridApi.getSelectedRows();
+  // Assuming your rows have `Id` property
+  this.selectedAccessIds = selectedRows.map((row: any) => row.Id);
+  console.log("Selected IDs:", this.selectedAccessIds);
+}
   Filter() {
     this.GetAccessUser();
 

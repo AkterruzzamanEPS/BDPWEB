@@ -119,7 +119,7 @@
                     <div class="col-12">
                         <ag-grid-angular class="ag-theme-alpine" style="height: 40vh;width: 100%;"
                             [columnDefs]="colDefsAccess" [rowData]="rowData1" [rowSelection]="'multiple'"
-                            (gridReady)="onGridReadyAccess($event)" [defaultColDef]="DeafultCol">
+                            (gridReady)="onGridReadyAccess($event)" (selectionChanged)="onSelectionChanged($event)" [defaultColDef]="DeafultCol">
                         </ag-grid-angular>
                     </div>
                 </div>
