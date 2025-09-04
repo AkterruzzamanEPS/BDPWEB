@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
   public success: number = 0;
   public cancel: number = 0;
   public failure: number = 0;
+  public AccessUserZoneId: number=0;
 
   dashboardDataList: any[] = [];
   dataList: any[] = [];
@@ -192,9 +193,13 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     let currentUser = CommonHelper.GetUser();
     var daata = this.authService.isTokenExpired(currentUser?.JwtToken);
+    //this.GetAccessUserAreaId();
+    
     this.GetAllDashboards();
+    
 
     CommonHelper.GetUser();
+   
 
     const savedMinutes = localStorage.getItem('intervalReminderMinutes');
     if (savedMinutes) {
@@ -313,11 +318,35 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  // private GetAccessUserAreaId(){
+  //   let currentUser = CommonHelper.GetUser();
+  //   this.http.Get(`AccessUser/GetAccessUserAreaId` ).subscribe(
+  //       (res: any) => {
+  //         debugger;
+  //         console.log(res);
+  //         this.AccessUserZoneId = res?.TypeId ?? 0;
 
-  private GetAllDashboards() {
+          
+  //       },
+  //       (err) => {
+  //         this.toast.error(err.ErrorMessage, "Error!!", { progressBar: true });
+  //       }
+  //     );
+  //     this.GetAllDashboards();
+      
+  // }
+
+
+  private  GetAllDashboards() {
     let currentUser = CommonHelper.GetUser();
+
+
     this.oDashboardFilterDto.Type = Number(this.oDashboardFilterDto.Type);
     this.oDashboardFilterDto.UserId = currentUser?.UserId;
+    this.oDashboardFilterDto.Type= currentUser?.UserType;
+    this.oDashboardFilterDto.TypeId= this.AccessUserZoneId || 0;
+    debugger;
+   
     this.http.Post(`Dashboard/GetAllDashboards`, this.oDashboardFilterDto).subscribe(
       (res: any) => {
         this.dataList = res;

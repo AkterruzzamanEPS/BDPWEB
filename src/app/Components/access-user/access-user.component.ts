@@ -162,7 +162,7 @@ export class AccessUserComponent {
     debugger;
     this.http.Post(`AspNetUsers/GetAllAspNetUsers`, this.oAspNetUsersFilterRequestDto).subscribe(
       (res: any) => {
-        debugger;
+   
         this.registeredUserList = res;
 
       },
@@ -196,7 +196,7 @@ export class AccessUserComponent {
     // this.oAccessUserFilterDto.Type = Number(this.oAccessUserFilterDto.Type);
     // this.oAccessUserFilterDto.TypeId = Number(this.oAccessUserFilterDto.TypeId);
     // this.oAccessUserFilterDto.UserId = String(this.oAccessUserFilterDto.UserId);
-    debugger;
+    
     this.http.Post(`AccessUser/GetAccessUsers?pageNumber=${this.pageIndex}`, this.oAccessUserFilterDto).subscribe(
       (res: any) => {
         debugger;
