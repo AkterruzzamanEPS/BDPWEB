@@ -305,9 +305,92 @@ onUserTypeChange(event: any) {
     );
   }
 
-  public UpdateAccessUsers() {
-
+  update() {
+  let getSelectedItem = AGGridHelper.GetSelectedRow(this.AccessUserGridApi);
+  if (!getSelectedItem) {
+    this.toast.warning("Please select a user first", "Warning!!", { progressBar: true });
+    return;
   }
 
+  this.AccessUserId = Number(getSelectedItem.Id);
+
+  // Prepare DTO based on selected row
+  this.oAccessUserRequestDto = new AccessUserRequestDto();
+  this.oAccessUserRequestDto.ID = this.AccessUserId;
+  this.oAccessUserRequestDto.Remarks = getSelectedItem.Remarks || "";
+  this.oAccessUserRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
+  this.oAccessUserRequestDto.Type = getSelectedItem.Type;
+  this.oAccessUserRequestDto.TypeId = getSelectedItem.TypeId;
+  this.oAccessUserRequestDto.UserId = getSelectedItem.UserId;
+
+  // IMPORTANT: Fill AccessList with multiple ids (you can manage it from UI selection)
+  this.oAccessUserRequestDto.AccessList = getSelectedItem.AccessList ?? [];
+
+  CommonHelper.CommonButtonClick("openCommonUpdate"); // open confirmation modal
+}
+
+public UpdateAccess() {
+  if (this.AccessUserId <= 0) {
+    this.toast.warning("No user selected to update", "Warning!!", { progressBar: true });
+    return;
+  }
+
+  this.http
+    .Post(`AccessUser/UpdateAccessUser/${this.AccessUserId}`, this.oAccessUserRequestDto)
+    .subscribe(
+      (res: any) => {
+        if (res.StatusCode !== 200) {
+          this.toast.warning(res.Message || "Update failed", "Warning!!", { progressBar: true });
+        } else {
+          CommonHelper.CommonButtonClick("closeCommonUpdate"); // close modal
+          this.GetAccessUser(); // reload grid
+          this.toast.success("User updated successfully!", "Success!!", { progressBar: true });
+        }
+      },
+      (err) => {
+        this.toast.error(err.error?.Message || "Error updating user", "Error!!", { progressBar: true });
+      }
+    );
+}
+  delete() {
+  let getSelectedItem = AGGridHelper.GetSelectedRow(this.AccessUserGridApi); // <-- fixed, should use AccessUserGridApi
+  if (!getSelectedItem) {
+    this.toast.warning("Please select a user first", "Warning!!", { progressBar: true });
+    return;
+  }
+
+  this.AccessUserId = Number(getSelectedItem.Id);
+
+  // Fill request DTO for backend
+  this.oAccessUserRequestDto = new AccessUserRequestDto();
+  this.oAccessUserRequestDto.ID = this.AccessUserId;
+  this.oAccessUserRequestDto.IsActive = CommonHelper.booleanConvert(getSelectedItem.IsActive);
+  this.oAccessUserRequestDto.Type = getSelectedItem.Type;
+  this.oAccessUserRequestDto.TypeId = getSelectedItem.TypeId;
+  this.oAccessUserRequestDto.UserId = getSelectedItem.UserId;
+
+  CommonHelper.CommonButtonClick("openCommonDelete"); // open confirmation modal
+}
+  public DeleteAccess() {
+  if (this.AccessUserId <= 0) {
+    this.toast.warning("No user selected to delete", "Warning!!", { progressBar: true });
+    return;
+  }
+
+  this.http.Post(`AccessUser/DeleteServiceDetail/${this.AccessUserId}`, this.oAccessUserRequestDto).subscribe(
+    (res: any) => {
+      if (res.StatusCode !== 200) {
+        this.toast.warning(res.Message || "Delete failed", "Warning!!", { progressBar: true });
+      } else {
+        CommonHelper.CommonButtonClick("closeCommonDelete"); // close modal
+        this.GetAccessUser(); // refresh grid
+        this.toast.success("User deleted successfully!", "Success!!", { progressBar: true });
+      }
+    },
+    (err) => {
+      this.toast.error(err.error?.Message || "Error deleting user", "Error!!", { progressBar: true });
+    }
+  );
+}
 
 }
